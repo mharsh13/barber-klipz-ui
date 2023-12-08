@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               child: child!,
             );
           },
-          title: 'Influish ',
+          title: 'Barber Klipz',
           theme: CustomTheme.buildThemeData(),
           home: const SplashScreen(),
           debugShowCheckedModeBanner: false,
