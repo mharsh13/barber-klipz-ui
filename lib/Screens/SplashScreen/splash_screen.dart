@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
@@ -21,7 +20,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   execute() {
-    Future.delayed(const Duration(seconds: 2)).then(
+    Future.delayed(const Duration(seconds: 3)).then(
       (value) => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const OnboardingScreen(),
@@ -33,9 +32,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimary,
+      backgroundColor: kBlack,
       body: Center(
-        child: SvgPicture.asset(ImageConst.appLogo),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: Image.asset(ImageConst.appLogo),
+          ),
+        ),
       ),
     );
   }

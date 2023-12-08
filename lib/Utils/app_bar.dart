@@ -39,18 +39,7 @@ class AppBarUtil {
             )
           : Container(),
       flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerRight,
-            end: Alignment.centerLeft,
-            colors: [
-              PrimaryGradientColor.kPrimary,
-              PrimaryGradientColor.kSecondary,
-              PrimaryGradientColor.ktertiary,
-              PrimaryGradientColor.kquaternary,
-            ],
-          ),
-        ),
+        decoration: BoxDecoration(color: kPrimary),
       ),
     );
   }
