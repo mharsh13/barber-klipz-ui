@@ -13,11 +13,27 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   final ScreenUtil _screenUtil = ScreenUtil();
   int _currentValue = 0;
   bool _privacyPolicy = false;
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _mobileNumber = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _loginUsername = TextEditingController();
+  final TextEditingController _loginPassword = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   int get currentValue => _currentValue;
   bool get privacyPolicy => _privacyPolicy;
+  TextEditingController get username => _username;
+  TextEditingController get mobileNumber => _mobileNumber;
+  TextEditingController get email => _email;
+  TextEditingController get password => _password;
+  TextEditingController get loginUsername => _loginUsername;
+  TextEditingController get loginPassword => _loginPassword;
+  GlobalKey<FormState> get formKey => _formKey;
+  GlobalKey<FormState> get loginFormKey => _loginFormKey;
 
   //functions
 

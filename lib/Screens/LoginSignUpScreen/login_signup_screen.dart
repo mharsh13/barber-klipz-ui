@@ -1,5 +1,5 @@
 import 'package:barber_klipz_ui/Resources/color_const.dart';
-import 'package:barber_klipz_ui/Resources/image_const.dart';
+import 'package:barber_klipz_ui/Utils/gradient_background.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -30,63 +30,71 @@ class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       backgroundColor: kSecondaryInactive,
-      body: SingleChildScrollView(
+      body: gradientBackground(
+        screenUtil: screenUtil,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: screenUtil.setHeight(45),
+            vertical: screenUtil.setHeight(65),
             horizontal: screenUtil.setWidth(20),
           ),
-          child: Column(children: [
-            Center(
-              child: Container(
-                height: screenUtil.setHeight(100),
-                width: screenUtil.setHeight(100),
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(55),
-                  child: Image.asset(ImageConst.appLogo),
-                ),
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Center(
+                child: TextUtil.secondaryText(
+                    text: "Barber Klipz",
+                    color: kWhite,
+                    size: 25,
+                    fontWeight: FontWeight.bold),
+                // child: Container(
+                //   height: screenUtil.setHeight(100),
+                //   width: screenUtil.setHeight(100),
+                //   decoration: const BoxDecoration(shape: BoxShape.circle),
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(55),
+                //     child: Image.asset(ImageConst.appLogo),
+                //   ),
+                // ),
               ),
-            ),
-            SizedBox(
-              height: screenUtil.setHeight(30),
-            ),
-            TabBar(
-              onTap: (int value) {
-                baseModel.setValue(value);
-              },
-              padding: EdgeInsets.only(bottom: screenUtil.setHeight(1)),
-              indicatorColor: kSecondary,
-              controller: _tabController,
-              tabs: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: screenUtil.setHeight(10),
+              SizedBox(
+                height: screenUtil.setHeight(30),
+              ),
+              TabBar(
+                onTap: (int value) {
+                  baseModel.setValue(value);
+                },
+                padding: EdgeInsets.only(bottom: screenUtil.setHeight(1)),
+                indicatorColor: kSecondary,
+                controller: _tabController,
+                tabs: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: screenUtil.setHeight(10),
+                    ),
+                    child: TextUtil.secondaryText(
+                      text: 'Sign up',
+                      color: kWhite,
+                      size: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  child: TextUtil.secondaryText(
-                    text: 'Sign up',
-                    color: kWhite,
-                    size: 15,
-                    fontWeight: FontWeight.w600,
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: screenUtil.setHeight(10),
+                    ),
+                    child: TextUtil.secondaryText(
+                      text: 'Log in',
+                      color: kWhite,
+                      size: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: screenUtil.setHeight(10),
-                  ),
-                  child: TextUtil.secondaryText(
-                    text: 'Log in',
-                    color: kWhite,
-                    size: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            baseModel.currentValue == 0
-                ? signUpComponent(baseModel)
-                : loginComponent(baseModel)
-          ]),
+                ],
+              ),
+              baseModel.currentValue == 0
+                  ? signUpComponent(context, baseModel)
+                  : loginComponent(context, baseModel)
+            ]),
+          ),
         ),
       ),
     );

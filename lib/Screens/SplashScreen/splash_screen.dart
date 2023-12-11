@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
-import '../../Resources/image_const.dart';
+import '../../Utils/text_util.dart';
 import '../LoginSignUpScreen/login_signup_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -34,14 +34,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     return Scaffold(
       backgroundColor: kBlack,
       body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Image.asset(ImageConst.appLogo),
-          ),
+        child: TextUtil.primaryText(
+          text: "Barber Klipz",
+          color: kWhite,
+          size: 20,
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.italic,
         ),
       ),
     );

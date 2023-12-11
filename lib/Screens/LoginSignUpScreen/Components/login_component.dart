@@ -1,12 +1,16 @@
 import 'package:barber_klipz_ui/Utils/text_util.dart';
+import 'package:barber_klipz_ui/Utils/validator_util.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Resources/color_const.dart';
 import '../../../Utils/button_util.dart';
+import '../../../Utils/navigator_util.dart';
+import '../../OnboardingScreen/onboarding_screen.dart';
 import '../Backend/Provider/login_signup_base_model.dart';
 
-Form loginComponent(LoginSignUpBaseModel baseModel) {
+Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
   return Form(
+    key: baseModel.loginFormKey,
     child: Padding(
       padding: EdgeInsets.symmetric(
         vertical: baseModel.screenUtil.setHeight(22),
@@ -16,20 +20,45 @@ Form loginComponent(LoginSignUpBaseModel baseModel) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            controller: baseModel.loginUsername,
+            validator: ValidatorUtil.validateText,
             cursorColor: kWhite,
             decoration: const InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: kBackgroundCard),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: kBackgroundCard),
+              ),
               hintText: "Username or Email",
-              prefixIcon: Icon(Icons.person),
+              hintStyle: TextStyle(color: kBackgroundCard),
+              prefixIcon: Icon(
+                Icons.person,
+                color: kBackgroundCard,
+              ),
             ),
           ),
           SizedBox(
             height: baseModel.screenUtil.setHeight(20),
           ),
           TextFormField(
-            cursorColor: kWhite,
+            validator: ValidatorUtil.validateText,
+            cursorColor: kBackgroundCard,
+            controller: baseModel.loginPassword,
+            obscureText: true,
             decoration: const InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: kBackgroundCard),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: kBackgroundCard),
+              ),
               hintText: "Password",
-              prefixIcon: Icon(Icons.lock),
+              hintStyle: TextStyle(color: kBackgroundCard),
+              prefixIcon: Icon(
+                Icons.lock,
+                color: kBackgroundCard,
+              ),
             ),
           ),
           SizedBox(
@@ -41,11 +70,15 @@ Form loginComponent(LoginSignUpBaseModel baseModel) {
             size: 12,
           ),
           SizedBox(
-            height: baseModel.screenUtil.setHeight(190),
+            height: baseModel.screenUtil.setHeight(200),
           ),
           ButtonUtil.primaryButton(
             text: "Log In",
-            onPressed: () {},
+            onPressed: () {
+              if (baseModel.loginFormKey.currentState!.validate()) {
+                NavigatorUtil.push(context, screen: const OnboardingScreen());
+              }
+            },
             screenUtil: baseModel.screenUtil,
           ),
           SizedBox(
@@ -56,14 +89,14 @@ Form loginComponent(LoginSignUpBaseModel baseModel) {
               text: TextSpan(
                 text: 'Not a member yet? ',
                 style: TextStyle(
-                  color: kBlack,
+                  color: kWhite,
                   fontSize: baseModel.screenUtil.setSp(15),
                 ),
                 children: [
                   TextSpan(
                     text: 'Sign Up',
                     style: TextStyle(
-                      color: kWhite,
+                      color: kSecondaryInactive,
                       fontSize: baseModel.screenUtil.setSp(15),
                       decoration: TextDecoration.underline,
                     ),
