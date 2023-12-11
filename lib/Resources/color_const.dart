@@ -19,6 +19,7 @@ const kHintText = Color(0xFF807E80);
 const kButtonText = Color(0xFFA75DE6);
 const kTextTitle = Color(0xFF1A1A1A);
 const kTextBody = Color(0xFF353535);
+const kCategoryText = Color(0xFF4C7EF1);
 
 //black and white
 const kBlack = Color(0xFF000000);

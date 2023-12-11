@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
 import '../../Resources/image_const.dart';
-import '../OnboardingScreen/onboarding_screen.dart';
+import '../LoginSignUpScreen/login_signup_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     Future.delayed(const Duration(seconds: 3)).then(
       (value) => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const OnboardingScreen(),
+          builder: (context) => const LoginSignupScreen(),
         ),
       ),
     );
