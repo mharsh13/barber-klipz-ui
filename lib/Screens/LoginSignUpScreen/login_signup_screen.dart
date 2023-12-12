@@ -8,9 +8,10 @@ import 'Backend/Provider/login_signup_base_model.dart';
 import 'Components/login_component.dart';
 import 'Components/sign_up_component.dart';
 
+// ignore: must_be_immutable
 class LoginSignupScreen extends ConsumerStatefulWidget {
-  const LoginSignupScreen({super.key});
-
+  LoginSignupScreen({super.key, required this.selectedPage});
+  int selectedPage;
   @override
   ConsumerState<LoginSignupScreen> createState() => _LoginSignupScreenState();
 }
@@ -18,9 +19,14 @@ class LoginSignupScreen extends ConsumerStatefulWidget {
 class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
+
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.selectedPage,
+    );
     super.initState();
   }
 
@@ -42,7 +48,7 @@ class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
               Center(
                 child: TextUtil.secondaryText(
                     text: "Barber Klipz",
-                    color: kWhite,
+                    color: kGold,
                     size: 25,
                     fontWeight: FontWeight.bold),
                 // child: Container(
@@ -63,7 +69,7 @@ class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
                   baseModel.setValue(value);
                 },
                 padding: EdgeInsets.only(bottom: screenUtil.setHeight(1)),
-                indicatorColor: kSecondary,
+                indicatorColor: kBackground,
                 controller: _tabController,
                 tabs: [
                   Padding(
@@ -72,7 +78,7 @@ class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
                     ),
                     child: TextUtil.secondaryText(
                       text: 'Sign up',
-                      color: kWhite,
+                      color: kGold,
                       size: 15,
                       fontWeight: FontWeight.w600,
                     ),
@@ -83,7 +89,7 @@ class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
                     ),
                     child: TextUtil.secondaryText(
                       text: 'Log in',
-                      color: kWhite,
+                      color: kGold,
                       size: 15,
                       fontWeight: FontWeight.w600,
                     ),

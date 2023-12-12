@@ -1,9 +1,9 @@
+import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
 import '../../Utils/text_util.dart';
-import '../LoginSignUpScreen/login_signup_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     Future.delayed(const Duration(seconds: 3)).then(
       (value) => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const LoginSignupScreen(),
+          builder: (context) => const OnboardingScreen(),
         ),
       ),
     );

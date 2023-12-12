@@ -20,22 +20,23 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
       child: Column(
         children: [
           TextFormField(
-            cursorColor: kBackgroundCard,
+            cursorColor: kGold,
             controller: baseModel.username,
             keyboardType: TextInputType.text,
+            style: TextStyle(color: kGold),
             validator: ValidatorUtil.validateText,
             decoration: const InputDecoration(
               hintText: "Username",
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
-              hintStyle: TextStyle(color: kBackgroundCard),
+              hintStyle: TextStyle(color: kGold),
               prefixIcon: Icon(
                 Icons.person,
-                color: kBackgroundCard,
+                color: kGold,
               ),
             ),
           ),
@@ -49,35 +50,43 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(10),
             ],
+            style: const TextStyle(color: kGold),
             keyboardType: TextInputType.phone,
-            cursorColor: kBackgroundCard,
+            cursorColor: kGold,
             decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(top: 15),
               enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
-              hintStyle: const TextStyle(color: kBackgroundCard),
-              hintText: "Mobile Number",
-              prefixIcon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.call,
-                    color: kBackgroundCard,
-                  ),
-                  CountryCodePicker(
-                    onChanged: (CountryCode code) {},
-                    initialSelection: 'IN',
-                    favorite: const ['+91'],
-                    showFlag: true,
-                    showCountryOnly: false,
-                    alignLeft: false,
-                    textStyle:
-                        const TextStyle(fontSize: 16.0, color: kBackgroundCard),
-                  ),
-                ],
+              hintStyle: const TextStyle(
+                color: kGold,
+              ),
+              hintText: "Mobile No.",
+              prefixIcon: Padding(
+                padding:
+                    EdgeInsets.only(left: baseModel.screenUtil.setWidth(10)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.call,
+                      color: kGold,
+                    ),
+                    CountryCodePicker(
+                      // showDropDownButton: true,
+                      onChanged: (CountryCode code) {},
+                      initialSelection: 'ZA',
+                      favorite: const ['+27'],
+                      showFlag: true,
+                      showCountryOnly: false,
+                      alignLeft: false,
+                      textStyle: const TextStyle(fontSize: 16.0, color: kGold),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -85,22 +94,23 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             height: baseModel.screenUtil.setHeight(20),
           ),
           TextFormField(
+            style: const TextStyle(color: kGold),
             validator: ValidatorUtil.validateText,
             controller: baseModel.email,
-            cursorColor: kBackgroundCard,
+            cursorColor: kGold,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
-              hintStyle: TextStyle(color: kBackgroundCard),
+              hintStyle: TextStyle(color: kGold),
               hintText: "Email",
               prefixIcon: Icon(
                 Icons.email,
-                color: kBackgroundCard,
+                color: kGold,
               ),
             ),
           ),
@@ -108,23 +118,24 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             height: baseModel.screenUtil.setHeight(20),
           ),
           TextFormField(
+            style: const TextStyle(color: kGold),
             validator: ValidatorUtil.validateText,
             keyboardType: TextInputType.text,
             obscureText: true,
             controller: baseModel.password,
-            cursorColor: kBackgroundCard,
+            cursorColor: kGold,
             decoration: const InputDecoration(
               hintText: "Password",
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
-              hintStyle: TextStyle(color: kBackgroundCard),
+              hintStyle: TextStyle(color: kGold),
               prefixIcon: Icon(
                 Icons.lock,
-                color: kBackgroundCard,
+                color: kGold,
               ),
             ),
           ),
@@ -139,7 +150,7 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
                 height: baseModel.screenUtil.setHeight(20),
                 width: baseModel.screenUtil.setWidth(20),
                 child: Checkbox(
-                  activeColor: kSecondaryInactive,
+                  activeColor: kGold,
                   side: const BorderSide(
                     color: kWhite,
                     width: 2,
@@ -166,7 +177,7 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
                       text:
                           'License and Term of Use\nAgreement and Privacy Policy',
                       style: TextStyle(
-                        color: kSecondaryInactive,
+                        color: kGold,
                         fontSize: baseModel.screenUtil.setSp(12),
                         decoration: TextDecoration.underline,
                       ),
@@ -202,7 +213,7 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
                 TextSpan(
                   text: 'Log In',
                   style: TextStyle(
-                    color: kSecondaryInactive,
+                    color: kGold,
                     fontSize: baseModel.screenUtil.setSp(15),
                     decoration: TextDecoration.underline,
                   ),

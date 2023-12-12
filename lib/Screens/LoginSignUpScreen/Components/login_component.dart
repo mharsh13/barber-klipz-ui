@@ -20,21 +20,22 @@ Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            style: const TextStyle(color: kGold),
             controller: baseModel.loginUsername,
             validator: ValidatorUtil.validateText,
-            cursorColor: kWhite,
+            cursorColor: kGold,
             decoration: const InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               hintText: "Username or Email",
-              hintStyle: TextStyle(color: kBackgroundCard),
+              hintStyle: TextStyle(color: kGold),
               prefixIcon: Icon(
                 Icons.person,
-                color: kBackgroundCard,
+                color: kGold,
               ),
             ),
           ),
@@ -42,22 +43,23 @@ Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             height: baseModel.screenUtil.setHeight(20),
           ),
           TextFormField(
+            style: const TextStyle(color: kGold),
             validator: ValidatorUtil.validateText,
-            cursorColor: kBackgroundCard,
+            cursorColor: kGold,
             controller: baseModel.loginPassword,
             obscureText: true,
             decoration: const InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kBackgroundCard),
+                borderSide: BorderSide(color: kGold),
               ),
               hintText: "Password",
-              hintStyle: TextStyle(color: kBackgroundCard),
+              hintStyle: TextStyle(color: kGold),
               prefixIcon: Icon(
                 Icons.lock,
-                color: kBackgroundCard,
+                color: kGold,
               ),
             ),
           ),
@@ -96,7 +98,7 @@ Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
                   TextSpan(
                     text: 'Sign Up',
                     style: TextStyle(
-                      color: kSecondaryInactive,
+                      color: kGold,
                       fontSize: baseModel.screenUtil.setSp(15),
                       decoration: TextDecoration.underline,
                     ),

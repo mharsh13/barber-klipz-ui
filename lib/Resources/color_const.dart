@@ -26,6 +26,12 @@ const kGrey = Color(0xFFDADADA);
 const kFinalPayOffer = Color(0xFF4A910C);
 const kReviewComponent = Color(0xFFF8F5FF);
 const kReviewFontColor = Color(0xFF5580C7);
+const kBlack1 = Color(0xFF060101);
+const kBlack2 = Color(0xFF070001);
+const kGold = Color(0xFFE1C459);
+const kLicorice = Color(0xFF150602);
+const kCafeNoir = Color(0xFF412D13);
+const kLicorice1 = Color(0xFF0A0106);
 
 //text color
 const kTextSubTitle = Color(0xFF707070);
