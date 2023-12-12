@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_naigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -194,7 +195,8 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             text: "Sign Up",
             onPressed: () {
               if (baseModel.formKey.currentState!.validate()) {
-                NavigatorUtil.push(context, screen: const OnboardingScreen());
+                NavigatorUtil.push(context,
+                    screen: const BottomNavigationBarScreen());
               }
             },
             screenUtil: baseModel.screenUtil,

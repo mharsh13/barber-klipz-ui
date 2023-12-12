@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../Resources/color_const.dart';
 import '../../../Utils/button_util.dart';
 import '../../../Utils/navigator_util.dart';
+import '../../BottomNavigationBarScreen/bottom_naigation_bar_screen.dart';
 import '../../OnboardingScreen/onboarding_screen.dart';
 import '../Backend/Provider/login_signup_base_model.dart';
 
@@ -78,7 +79,8 @@ Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             text: "Log In",
             onPressed: () {
               if (baseModel.loginFormKey.currentState!.validate()) {
-                NavigatorUtil.push(context, screen: const OnboardingScreen());
+                NavigatorUtil.push(context,
+                    screen: const BottomNavigationBarScreen());
               }
             },
             screenUtil: baseModel.screenUtil,
