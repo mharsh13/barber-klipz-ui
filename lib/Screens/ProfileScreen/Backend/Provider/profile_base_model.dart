@@ -10,7 +10,17 @@ class ProfileBaseModel extends ChangeNotifier {
 
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
+  int _currentValue = 0;
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
+  int get currentValue => _currentValue;
+
+  //functions
+
+  //changes the value of the tab bar
+  void setValue(value) {
+    _currentValue = value;
+    notifyListeners();
+  }
 }
