@@ -52,9 +52,9 @@ class _BottomNavigationBarScreenState
         return AlertDialog(
           backgroundColor: kWhite,
           surfaceTintColor: Colors.transparent,
-          insetPadding: EdgeInsets.symmetric(horizontal: 82),
-          contentPadding: EdgeInsets.all(18),
-          content: Container(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 82),
+          contentPadding: const EdgeInsets.all(18),
+          content: SizedBox(
             height: baseModel.screenUtil.setHeight(100),
             child: Column(
               children: [
@@ -76,7 +76,7 @@ class _BottomNavigationBarScreenState
                     ),
                     Column(
                       children: [
-                        Icon(Icons.add_circle_outline_outlined),
+                        const Icon(Icons.add_circle_outline_outlined),
                         TextUtil.secondaryText(
                           text: "Story",
                           color: kBlack,
@@ -90,7 +90,7 @@ class _BottomNavigationBarScreenState
                     ),
                     Column(
                       children: [
-                        Icon(Icons.live_tv_rounded),
+                        const Icon(Icons.live_tv_rounded),
                         TextUtil.secondaryText(
                           text: "Live",
                           color: kBlack,
@@ -108,7 +108,7 @@ class _BottomNavigationBarScreenState
                   children: [
                     Column(
                       children: [
-                        Icon(Icons.movie_creation_outlined),
+                        const Icon(Icons.movie_creation_outlined),
                         TextUtil.secondaryText(
                           text: "Flickz",
                           color: kBlack,
@@ -122,7 +122,7 @@ class _BottomNavigationBarScreenState
                     ),
                     Column(
                       children: [
-                        Icon(Icons.chat_outlined),
+                        const Icon(Icons.chat_outlined),
                         TextUtil.secondaryText(
                           text: "Audio",
                           color: kBlack,
