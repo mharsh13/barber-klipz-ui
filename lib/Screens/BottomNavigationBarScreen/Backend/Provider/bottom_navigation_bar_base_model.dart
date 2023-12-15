@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../AddPostScreen/add_post_screen.dart';
+import '../../../AddScreen/add_post_screen.dart';
 import '../../../ExploreScreen/explore_screen.dart';
 import '../../../HomeScreen/home_screen.dart';
 import '../../../NotificationScreen/notification_screen.dart';
