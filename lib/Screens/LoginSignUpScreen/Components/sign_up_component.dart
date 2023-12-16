@@ -1,5 +1,4 @@
-import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_naigation_bar_screen.dart';
-import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
+import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';

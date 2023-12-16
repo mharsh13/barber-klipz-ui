@@ -1,4 +1,7 @@
+import 'package:barber_klipz_ui/Screens/AddPostScreen/add_filter_screen.dart';
+import 'package:barber_klipz_ui/Screens/AddPostScreen/add_post_screen.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/Backend/Provider/bottom_navigation_bar_base_model.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -60,16 +63,21 @@ class _BottomNavigationBarScreenState
               children: [
                 Row(
                   children: [
-                    Column(
-                      children: [
-                        const Icon(Icons.grid_on),
-                        TextUtil.secondaryText(
-                          text: "Post",
-                          color: kBlack,
-                          size: 13,
-                          fontWeight: FontWeight.w500,
-                        )
-                      ],
+                    GestureDetector(
+                      onTap: () {
+                        NavigatorUtil.push(context, screen: AddFilterScreen());
+                      },
+                      child: Column(
+                        children: [
+                          const Icon(Icons.grid_on),
+                          TextUtil.secondaryText(
+                            text: "Post",
+                            color: kBlack,
+                            size: 13,
+                            fontWeight: FontWeight.w500,
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(
                       width: baseModel.screenUtil.setWidth(25),
