@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:barber_klipz_ui/Resources/color_const.dart';
-import 'package:barber_klipz_ui/Screens/AddPostScreen/Backend/Provider/add_post_base_model.dart';
 import 'package:barber_klipz_ui/Screens/AddPostScreen/add_caption_screen.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
@@ -66,10 +65,10 @@ class _AddFilterScreenState extends ConsumerState<AddFilterScreen> {
         actions: [
           GestureDetector(
             onTap: () {
-              NavigatorUtil.push(context, screen: AddCaptionScreen());
+              NavigatorUtil.push(context, screen: const AddCaptionScreen());
             },
             child: Padding(
-              padding: EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 8),
               child: TextUtil.secondaryText(
                 text: "Next",
                 color: kBlack,

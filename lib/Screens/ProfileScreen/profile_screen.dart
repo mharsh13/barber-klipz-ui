@@ -125,7 +125,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             child: Align(
                 alignment: Alignment.bottomRight,
                 child: IconButton(
-                  icon: Icon(Icons.more_horiz),
+                  icon: const Icon(Icons.more_horiz),
                   onPressed: () {},
                 )),
           ),

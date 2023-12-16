@@ -90,7 +90,7 @@ class NotificationScreen extends ConsumerWidget {
             ListView.builder(
               itemCount: 10,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(
                   children: [

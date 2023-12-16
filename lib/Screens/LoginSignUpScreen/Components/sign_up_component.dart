@@ -23,7 +23,7 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             cursorColor: kGold,
             controller: baseModel.username,
             keyboardType: TextInputType.text,
-            style: TextStyle(color: kGold),
+            style: const TextStyle(color: kGold),
             validator: ValidatorUtil.validateText,
             decoration: const InputDecoration(
               hintText: "Username",

@@ -147,7 +147,7 @@ class HomeScreen extends ConsumerWidget {
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: 20,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.symmetric(
@@ -203,20 +203,20 @@ class HomeScreen extends ConsumerWidget {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.thumb_up_alt_outlined),
+                            const Icon(Icons.thumb_up_alt_outlined),
                             SizedBox(
                               width: screenUtil.setWidth(15),
                             ),
-                            Icon(Icons.message),
+                            const Icon(Icons.message),
                             SizedBox(
                               width: screenUtil.setWidth(15),
                             ),
-                            Icon(Icons.favorite_border_outlined),
+                            const Icon(Icons.favorite_border_outlined),
                             SizedBox(
                               width: screenUtil.setWidth(15),
                             ),
-                            Icon(Icons.offline_share),
-                            Spacer(),
+                            const Icon(Icons.offline_share),
+                            const Spacer(),
                             TextUtil.secondaryText(
                               text: "23 hours ago",
                               color: kTextSubTitle,

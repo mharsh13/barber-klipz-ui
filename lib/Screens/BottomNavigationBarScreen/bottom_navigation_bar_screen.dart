@@ -1,5 +1,4 @@
 import 'package:barber_klipz_ui/Screens/AddPostScreen/add_filter_screen.dart';
-import 'package:barber_klipz_ui/Screens/AddPostScreen/add_post_screen.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/Backend/Provider/bottom_navigation_bar_base_model.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
@@ -65,7 +64,8 @@ class _BottomNavigationBarScreenState
                   children: [
                     GestureDetector(
                       onTap: () {
-                        NavigatorUtil.push(context, screen: AddFilterScreen());
+                        NavigatorUtil.push(context,
+                            screen: const AddFilterScreen());
                       },
                       child: Column(
                         children: [

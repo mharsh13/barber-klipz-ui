@@ -1,3 +1,5 @@
+import 'package:barber_klipz_ui/Screens/DirectMessageScreen/direct_message_screen.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -50,68 +52,74 @@ Column allRequests(ScreenUtil screenUtil) {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              Container(
-                margin:
-                    EdgeInsets.symmetric(horizontal: screenUtil.setWidth(10)),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50)),
-                      width: screenUtil.setHeight(40),
-                      height: screenUtil.setHeight(40),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: const NetImage(
-                          uri:
-                              "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg",
+              GestureDetector(
+                onTap: () {
+                  NavigatorUtil.push(context,
+                      screen: const DirectMessageScreen());
+                },
+                child: Container(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: screenUtil.setWidth(10)),
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50)),
+                        width: screenUtil.setHeight(40),
+                        height: screenUtil.setHeight(40),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: const NetImage(
+                            uri:
+                                "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg",
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: screenUtil.setWidth(8),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextUtil.secondaryText(
-                          text: "mharsh13",
-                          color: kBlack,
-                          size: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: screenUtil.setHeight(2),
-                        ),
-                        Row(
-                          children: [
-                            TextUtil.secondaryText(
-                              text: "Helloooooo",
-                              color: kTextSubTitle,
-                              size: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            SizedBox(
-                              width: screenUtil.setWidth(5),
-                            ),
-                            TextUtil.secondaryText(
-                              text: "1w",
-                              color: kTextSubTitle,
-                              size: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.camera_alt,
-                          color: kTextSubTitle,
-                        ))
-                  ],
+                      SizedBox(
+                        width: screenUtil.setWidth(8),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextUtil.secondaryText(
+                            text: "mharsh13",
+                            color: kBlack,
+                            size: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            height: screenUtil.setHeight(2),
+                          ),
+                          Row(
+                            children: [
+                              TextUtil.secondaryText(
+                                text: "Helloooooo",
+                                color: kTextSubTitle,
+                                size: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              SizedBox(
+                                width: screenUtil.setWidth(5),
+                              ),
+                              TextUtil.secondaryText(
+                                text: "1w",
+                                color: kTextSubTitle,
+                                size: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.camera_alt,
+                            color: kTextSubTitle,
+                          ))
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

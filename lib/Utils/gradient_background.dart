@@ -7,7 +7,7 @@ Widget gradientBackground({Widget? child, required ScreenUtil screenUtil}) {
   return Container(
     height: screenUtil.screenHeight,
     width: screenUtil.screenWidth,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
