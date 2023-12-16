@@ -1,10 +1,12 @@
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
+import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
 
+import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -19,10 +21,11 @@ class HomeScreen extends ConsumerWidget {
         appBar: AppBar(
           backgroundColor: kBlack2,
           title: TextUtil.secondaryText(
-              text: "Barber Klipz",
-              color: kGold,
-              size: 18,
-              fontWeight: FontWeight.w600),
+            text: "Barber Klipz",
+            color: kGold,
+            size: 18,
+            fontWeight: FontWeight.w600,
+          ),
           centerTitle: true,
           leading: Row(
             children: [
@@ -66,7 +69,9 @@ class HomeScreen extends ConsumerWidget {
               child: IconButton(
                 icon: const Icon(Icons.email_outlined),
                 color: kWhite,
-                onPressed: () {},
+                onPressed: () {
+                  NavigatorUtil.push(context, screen: const InboxScreen());
+                },
               ),
             ),
           ],
