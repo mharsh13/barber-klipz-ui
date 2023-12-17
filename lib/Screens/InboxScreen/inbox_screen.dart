@@ -1,3 +1,5 @@
+import 'package:barber_klipz_ui/Screens/NewMessageScreen/new_message_screen.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -43,11 +45,19 @@ class _InboxScreenState extends ConsumerState<InboxScreen>
             color: kWhite,
           ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(right: screenUtil.setWidth(8)),
-              child: const Icon(
-                Icons.edit_square,
-                color: kWhite,
+            GestureDetector(
+              onTap: () {
+                NavigatorUtil.push(
+                  context,
+                  screen: const NewMessageScreen(),
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: screenUtil.setWidth(8)),
+                child: const Icon(
+                  Icons.edit_square,
+                  color: kWhite,
+                ),
               ),
             )
           ],

@@ -34,10 +34,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       appBar: AppBar(
         backgroundColor: kBlack2,
         title: TextUtil.secondaryText(
-            text: "sm0602",
-            color: kGold,
-            size: 18,
-            fontWeight: FontWeight.w600),
+          text: "sm0602",
+          color: kGold,
+          size: 18,
+          fontWeight: FontWeight.w600,
+        ),
         centerTitle: true,
         leading: Row(
           children: [

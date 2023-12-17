@@ -11,13 +11,7 @@ Widget gradientBackground({Widget? child, required ScreenUtil screenUtil}) {
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [
-          kBlack1, kBlack2, kLicorice, kLicorice1
-          // PrimaryGradientColor.kPrimary,
-          // PrimaryGradientColor.kSecondary,
-          // PrimaryGradientColor.ktertiary,
-          // PrimaryGradientColor.kquaternary,
-        ],
+        colors: [kBlack1, kBlack2, kLicorice, kLicorice1],
       ),
     ),
     child: child,

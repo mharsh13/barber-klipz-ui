@@ -98,12 +98,10 @@ class TextUtil {
     TextInputAction? textInputAction,
   }) {
     return Container(
-      width: screenUtil.setWidth(290),
-
+      width: screenUtil.setWidth(300),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
       ),
-      // alignment: Alignment.centerLeft,
       child: TextFormField(
         key: key,
         scrollPadding: scrollPadding ?? EdgeInsets.zero,
@@ -114,12 +112,11 @@ class TextUtil {
         inputFormatters: inputFormatters ?? [],
         textInputAction: textInputAction,
         style: TextUtil.textStyle(
-          color: kPrimary,
+          color: kBlack,
           fontSize: screenUtil.setSp(15),
           fontWeight: FontWeight.w500,
         ),
         focusNode: focusNode,
-        // textInputAction: TextInputAction.next,
         onFieldSubmitted: (term) {
           if (focusNode != null) {
             focusNode.unfocus();
@@ -133,7 +130,7 @@ class TextUtil {
             minHeight: screenUtil.setHeight(38),
           ),
           filled: true,
-          fillColor: kBackground,
+          fillColor: kBackgroundGrey,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(7),
             borderSide: BorderSide.none,
@@ -141,7 +138,6 @@ class TextUtil {
           isDense: true,
           errorStyle: const TextStyle(color: Colors.amberAccent),
           contentPadding: const EdgeInsets.only(top: 13, bottom: 13, left: 10),
-          // border: InputBorder.none,
           hintText: hintText,
           hintStyle: TextUtil.textStyle(
             color: kHintText,
