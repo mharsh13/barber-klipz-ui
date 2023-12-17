@@ -134,7 +134,7 @@ class NewMessageScreen extends ConsumerWidget {
                           Checkbox(
                             checkColor: Colors.white,
                             value: baseModel.isChecked,
-                            shape: CircleBorder(),
+                            shape: const CircleBorder(),
                             onChanged: (bool? value) {
                               baseModel.checkUser(value);
                             },

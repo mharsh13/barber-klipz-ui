@@ -46,7 +46,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
             ),
             TextUtil.secondaryText(
               text: "mharsh13",
-              color: kWhite,
+              color: kGold,
               size: 14,
               fontWeight: FontWeight.w500,
             ),
