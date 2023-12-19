@@ -20,7 +20,7 @@ class ButtonUtil {
         width: screenUtil.setWidth(300),
         height: screenUtil.setHeight(37),
         decoration: BoxDecoration(
-          color: inactive ? kButtonInactive : kSecondary,
+          color: inactive ? kButtonInactive : kYellow,
           borderRadius: BorderRadius.circular(150),
         ),
         child: Center(

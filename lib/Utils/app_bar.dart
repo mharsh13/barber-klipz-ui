@@ -39,7 +39,7 @@ class AppBarUtil {
             )
           : Container(),
       flexibleSpace: Container(
-        decoration: BoxDecoration(color: kPrimary),
+        decoration: const BoxDecoration(color: kLicorice),
       ),
     );
   }
