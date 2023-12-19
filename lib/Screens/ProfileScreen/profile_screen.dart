@@ -1,5 +1,8 @@
 import 'package:barber_klipz_ui/Resources/image_const.dart';
+import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/account_settings_screen.dart';
 import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
+import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -48,7 +51,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             Flexible(
               child: IconButton(
                 icon: const Icon(
-                  Icons.favorite_border_outlined,
+                  Icons.cut_outlined,
                   color: kWhite,
                 ),
                 onPressed: () {},
@@ -82,7 +85,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             child: IconButton(
               icon: const Icon(Icons.settings),
               color: kWhite,
-              onPressed: () {},
+              onPressed: () {
+                NavigatorUtil.push(
+                  context,
+                  screen: const AccountSettingsScreen(),
+                );
+              },
             ),
           ),
         ],
@@ -94,13 +102,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             child: Stack(
               children: [
                 SizedBox(
-                  width: screenUtil.screenWidth,
-                  height: screenUtil.setHeight(120),
-                  child: Image.asset(
-                    ImageConst.sampleImage,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    width: screenUtil.screenWidth,
+                    height: screenUtil.setHeight(120),
+                    child: const NetImage(
+                      uri:
+                          "https://media.istockphoto.com/id/603164912/photo/suburb-asphalt-road-and-sun-flowers.jpg?s=612x612&w=0&k=20&c=qLoQ5QONJduHrQ0kJF3fvoofmGAFcrq6cL84HbzdLQM=",
+                      fit: BoxFit.cover,
+                    )),
                 Positioned(
                   bottom: 0.5,
                   left: 145,
@@ -110,12 +118,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     width: screenUtil.setHeight(80),
                     height: screenUtil.setHeight(80),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        ImageConst.appLogo,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(50),
+                        child: const NetImage(
+                          fit: BoxFit.cover,
+                          uri:
+                              "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+                        )),
                   ),
                 ),
               ],

@@ -308,6 +308,7 @@ class TextUtil {
     Icon? icon,
     TextEditingController? controller,
     String? Function(String?)? validator,
+    required String hintText,
     GlobalKey<FormFieldState>? key,
     bool? enabled,
     bool? readOnly,
@@ -315,7 +316,7 @@ class TextUtil {
     Widget? suffix,
   }) {
     return Container(
-      width: screenUtil.setWidth(200),
+      width: screenUtil.setWidth(230),
       alignment: Alignment.centerLeft,
       child: TextFormField(
         readOnly: readOnly ?? false,
@@ -331,6 +332,12 @@ class TextUtil {
         ),
         focusNode: focusNode,
         decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: TextUtil.textStyle(
+            color: kHintText,
+            fontSize: screenUtil.setHeight(12),
+            fontWeight: FontWeight.w400,
+          ),
           suffixIcon: icon,
           suffix: suffix,
           suffixIconConstraints: const BoxConstraints(
@@ -343,12 +350,8 @@ class TextUtil {
               color: kTextSubTitle,
             ),
           ),
+          contentPadding: const EdgeInsets.only(top: 8, bottom: 5, left: 10),
           errorStyle: const TextStyle(color: kError),
-          contentPadding: const EdgeInsets.only(
-            top: 4,
-            bottom: 5,
-            left: 4,
-          ),
         ),
       ),
     );

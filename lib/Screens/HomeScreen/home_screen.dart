@@ -211,11 +211,11 @@ class HomeScreen extends ConsumerWidget {
                             SizedBox(
                               width: screenUtil.setWidth(15),
                             ),
-                            const Icon(Icons.favorite_border_outlined),
+                            const Icon(Icons.cut_outlined),
                             SizedBox(
                               width: screenUtil.setWidth(15),
                             ),
-                            const Icon(Icons.offline_share),
+                            const Icon(Icons.share),
                             const Spacer(),
                             TextUtil.secondaryText(
                               text: "23 hours ago",
@@ -240,7 +240,7 @@ class HomeScreen extends ConsumerWidget {
                               width: screenUtil.setWidth(10),
                             ),
                             TextUtil.secondaryText(
-                              text: "5 loves",
+                              text: "5 faded points",
                               color: kBlack,
                               size: 12,
                               fontWeight: FontWeight.bold,
