@@ -1,3 +1,4 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
@@ -191,7 +192,43 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             const Spacer(),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showAdaptiveActionSheet(
+                                  context: context,
+                                  isDismissible: true,
+                                  title: Container(
+                                    height: 6,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: kGold,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  ),
+                                  androidBorderRadius: 30,
+                                  actions: <BottomSheetAction>[
+                                    BottomSheetAction(
+                                        title: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.report_gmailerrorred,
+                                              color: kError,
+                                              size: 28,
+                                            ),
+                                            SizedBox(
+                                              width: screenUtil.setWidth(7),
+                                            ),
+                                            TextUtil.secondaryText(
+                                              text: "Report",
+                                              color: kError,
+                                              size: 15,
+                                              fontWeight: FontWeight.w500,
+                                            )
+                                          ],
+                                        ),
+                                        onPressed: (context) {}),
+                                  ],
+                                );
+                              },
                               icon: const Icon(Icons.more_horiz),
                             )
                           ],
