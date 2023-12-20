@@ -203,23 +203,28 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
           SizedBox(
             height: baseModel.screenUtil.setHeight(15),
           ),
-          RichText(
-            text: TextSpan(
-              text: 'Already have an account? ',
-              style: TextStyle(
-                color: kGrey,
-                fontSize: baseModel.screenUtil.setSp(15),
-              ),
-              children: [
-                TextSpan(
-                  text: 'Log In',
-                  style: TextStyle(
-                    color: kGold,
-                    fontSize: baseModel.screenUtil.setSp(15),
-                    decoration: TextDecoration.underline,
-                  ),
+          GestureDetector(
+            onTap: () {
+              baseModel.setValue(1);
+            },
+            child: RichText(
+              text: TextSpan(
+                text: 'Already have an account? ',
+                style: TextStyle(
+                  color: kGrey,
+                  fontSize: baseModel.screenUtil.setSp(15),
                 ),
-              ],
+                children: [
+                  TextSpan(
+                    text: 'Log In',
+                    style: TextStyle(
+                      color: kGold,
+                      fontSize: baseModel.screenUtil.setSp(15),
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

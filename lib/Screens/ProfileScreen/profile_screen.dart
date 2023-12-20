@@ -1,3 +1,4 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/account_settings_screen.dart';
 import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
@@ -135,7 +136,99 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 alignment: Alignment.bottomRight,
                 child: IconButton(
                   icon: const Icon(Icons.more_horiz),
-                  onPressed: () {},
+                  onPressed: () {
+                    showAdaptiveActionSheet(
+                      context: context,
+                      isDismissible: true,
+                      title: Container(
+                        height: 6,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: kTextSubTitle,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      androidBorderRadius: 30,
+                      actions: <BottomSheetAction>[
+                        BottomSheetAction(
+                            title: Row(
+                              children: [
+                                const Icon(
+                                  Icons.facebook,
+                                  size: 28,
+                                ),
+                                SizedBox(
+                                  width: screenUtil.setWidth(7),
+                                ),
+                                TextUtil.secondaryText(
+                                  text: "Invite to Barber Klipz",
+                                  color: kBlack,
+                                  size: 15,
+                                  fontWeight: FontWeight.w500,
+                                )
+                              ],
+                            ),
+                            onPressed: (context) {}),
+                        BottomSheetAction(
+                            title: Row(
+                              children: [
+                                const Icon(
+                                  Icons.share,
+                                  size: 28,
+                                ),
+                                SizedBox(
+                                  width: screenUtil.setWidth(7),
+                                ),
+                                TextUtil.secondaryText(
+                                  text: "Share Profile",
+                                  color: kBlack,
+                                  size: 15,
+                                  fontWeight: FontWeight.w500,
+                                )
+                              ],
+                            ),
+                            onPressed: (context) {}),
+                        BottomSheetAction(
+                            title: Row(
+                              children: [
+                                const Icon(
+                                  Icons.list,
+                                  size: 28,
+                                ),
+                                SizedBox(
+                                  width: screenUtil.setWidth(7),
+                                ),
+                                TextUtil.secondaryText(
+                                  text: "Add to my Linktree",
+                                  color: kBlack,
+                                  size: 15,
+                                  fontWeight: FontWeight.w500,
+                                )
+                              ],
+                            ),
+                            onPressed: (context) {}),
+                        BottomSheetAction(
+                            title: Row(
+                              children: [
+                                const Icon(
+                                  Icons.block,
+                                  size: 28,
+                                ),
+                                SizedBox(
+                                  width: screenUtil.setWidth(7),
+                                ),
+                                TextUtil.secondaryText(
+                                  text: "Blocked Users",
+                                  color: kBlack,
+                                  size: 15,
+                                  fontWeight: FontWeight.w500,
+                                )
+                              ],
+                            ),
+                            onPressed: (context) {}),
+                      ],
+                    );
+                  },
                 )),
           ),
           Padding(

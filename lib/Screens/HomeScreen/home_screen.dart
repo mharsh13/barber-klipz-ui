@@ -200,7 +200,7 @@ class HomeScreen extends ConsumerWidget {
                                     height: 6,
                                     width: 40,
                                     decoration: BoxDecoration(
-                                      color: kGold,
+                                      color: kTextSubTitle,
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                   ),

@@ -87,24 +87,29 @@ Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
           SizedBox(
             height: baseModel.screenUtil.setHeight(15),
           ),
-          Center(
-            child: RichText(
-              text: TextSpan(
-                text: 'Not a member yet? ',
-                style: TextStyle(
-                  color: kWhite,
-                  fontSize: baseModel.screenUtil.setSp(15),
-                ),
-                children: [
-                  TextSpan(
-                    text: 'Sign Up',
-                    style: TextStyle(
-                      color: kGold,
-                      fontSize: baseModel.screenUtil.setSp(15),
-                      decoration: TextDecoration.underline,
-                    ),
+          GestureDetector(
+            onTap: () {
+              baseModel.setValue(0);
+            },
+            child: Center(
+              child: RichText(
+                text: TextSpan(
+                  text: 'Not a member yet? ',
+                  style: TextStyle(
+                    color: kWhite,
+                    fontSize: baseModel.screenUtil.setSp(15),
                   ),
-                ],
+                  children: [
+                    TextSpan(
+                      text: 'Sign Up',
+                      style: TextStyle(
+                        color: kGold,
+                        fontSize: baseModel.screenUtil.setSp(15),
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
