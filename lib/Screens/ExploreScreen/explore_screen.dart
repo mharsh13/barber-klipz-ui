@@ -19,7 +19,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
   @override
   void initState() {
     _tabController = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
     );
     super.initState();
@@ -100,7 +100,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                 controller: _tabController,
                 tabs: [
                   SizedBox(
-                    width: screenUtil.screenWidth / 2,
+                    width: screenUtil.screenWidth / 3,
                     child: Padding(
                       padding: EdgeInsets.only(
                         bottom: screenUtil.setHeight(10),
@@ -109,14 +109,14 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                         child: TextUtil.secondaryText(
                           text: 'Top Competitions',
                           color: kBlack,
-                          size: 15,
+                          size: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: screenUtil.screenWidth / 2,
+                    width: screenUtil.screenWidth / 3,
                     child: Padding(
                       padding: EdgeInsets.only(
                         bottom: screenUtil.setHeight(10),
@@ -125,7 +125,23 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                         child: TextUtil.secondaryText(
                           text: 'Barbers',
                           color: kBlack,
-                          size: 15,
+                          size: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: screenUtil.screenWidth / 3,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: screenUtil.setHeight(10),
+                      ),
+                      child: Center(
+                        child: TextUtil.secondaryText(
+                          text: 'Multiplayer',
+                          color: kBlack,
+                          size: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -133,7 +149,11 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                   ),
                 ],
               ),
-              baseModel.currentValue == 0 ? Container() : Container(),
+              baseModel.currentValue == 0
+                  ? Container()
+                  : baseModel.currentValue == 1
+                      ? Container()
+                      : Container(),
             ],
           ),
         ),
