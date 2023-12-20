@@ -14,12 +14,16 @@ class AddCaptionScreen extends ConsumerWidget {
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kBlack2,
+        leading: const BackButton(
+          color: kWhite,
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: screenUtil.setWidth(8)),
             child: TextUtil.secondaryText(
               text: "Share",
-              color: kBlack,
+              color: kWhite,
               size: 15,
               fontWeight: FontWeight.w600,
             ),
