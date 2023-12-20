@@ -32,9 +32,8 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlack2,
-        leading: const BackButton(
-          color: kWhite,
-        ),
+        centerTitle: false,
+        leadingWidth: screenUtil.setWidth(10),
         title: TextUtil.secondaryText(
           text: "Explore Screen",
           color: kGold,
