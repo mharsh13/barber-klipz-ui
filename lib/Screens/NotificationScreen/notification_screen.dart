@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
-import '../../Resources/image_const.dart';
 import '../../Utils/text_util.dart';
 
 class NotificationScreen extends ConsumerWidget {
@@ -104,7 +103,7 @@ class NotificationScreen extends ConsumerWidget {
                           height: screenUtil.setHeight(40),
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
-                              child: NetImage(
+                              child: const NetImage(
                                 fit: BoxFit.cover,
                                 uri:
                                     "https://miro.medium.com/v2/resize:fit:1400/1*YMJDp-kqus7i-ktWtksNjg.jpeg",

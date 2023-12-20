@@ -116,7 +116,7 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: NetImage(
+                                child: const NetImage(
                                   fit: BoxFit.cover,
                                   uri:
                                       "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
@@ -136,7 +136,7 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
-                              child: NetImage(
+                              child: const NetImage(
                                 fit: BoxFit.cover,
                                 uri:
                                     "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
@@ -175,7 +175,7 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
-                                  child: NetImage(
+                                  child: const NetImage(
                                     fit: BoxFit.cover,
                                     uri:
                                         "https://media.gcflearnfree.org/ctassets/topics/246/share_flower_fullsize.jpg",
@@ -238,7 +238,7 @@ class HomeScreen extends ConsumerWidget {
                         ),
                         SizedBox(
                           height: screenUtil.setHeight(300),
-                          child: NetImage(
+                          child: const NetImage(
                             uri:
                                 "https://miro.medium.com/v2/resize:fit:1400/1*YMJDp-kqus7i-ktWtksNjg.jpeg",
                             fit: BoxFit.cover,

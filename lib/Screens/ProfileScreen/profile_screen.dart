@@ -1,5 +1,4 @@
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
-import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/account_settings_screen.dart';
 import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';

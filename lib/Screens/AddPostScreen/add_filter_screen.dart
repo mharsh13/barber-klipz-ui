@@ -11,6 +11,7 @@ import 'package:photofilters/filters/filters.dart';
 import 'package:photofilters/filters/preset_filters.dart';
 import 'package:photofilters/widgets/photo_filter.dart';
 import 'package:image/image.dart' as img;
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 
 class AddFilterScreen extends ConsumerStatefulWidget {
