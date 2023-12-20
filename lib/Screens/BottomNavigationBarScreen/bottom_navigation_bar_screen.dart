@@ -58,91 +58,161 @@ class _BottomNavigationBarScreenState
           contentPadding: const EdgeInsets.all(18),
           content: SizedBox(
             height: baseModel.screenUtil.setHeight(100),
-            child: Column(
+            child: GridView.count(
+              crossAxisCount: 3,
+              crossAxisSpacing: baseModel.screenUtil.setWidth(10),
+              mainAxisSpacing: baseModel.screenUtil.setHeight(15),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                Row(
+                GestureDetector(
+                  onTap: () {
+                    NavigatorUtil.push(context,
+                        screen: const AddFilterScreen());
+                  },
+                  child: Column(
+                    children: [
+                      const Icon(Icons.grid_on),
+                      TextUtil.secondaryText(
+                        text: "Post",
+                        color: kBlack,
+                        size: 13,
+                        fontWeight: FontWeight.w500,
+                      )
+                    ],
+                  ),
+                ),
+                Column(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        NavigatorUtil.push(context,
-                            screen: const AddFilterScreen());
-                      },
-                      child: Column(
-                        children: [
-                          const Icon(Icons.grid_on),
-                          TextUtil.secondaryText(
-                            text: "Post",
-                            color: kBlack,
-                            size: 13,
-                            fontWeight: FontWeight.w500,
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: baseModel.screenUtil.setWidth(25),
-                    ),
-                    Column(
-                      children: [
-                        const Icon(Icons.add_circle_outline_outlined),
-                        TextUtil.secondaryText(
-                          text: "Story",
-                          color: kBlack,
-                          size: 13,
-                          fontWeight: FontWeight.w500,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: baseModel.screenUtil.setWidth(25),
-                    ),
-                    Column(
-                      children: [
-                        const Icon(Icons.live_tv_rounded),
-                        TextUtil.secondaryText(
-                          text: "Live",
-                          color: kBlack,
-                          size: 13,
-                          fontWeight: FontWeight.w500,
-                        )
-                      ],
-                    ),
+                    const Icon(Icons.add_circle_outline_outlined),
+                    TextUtil.secondaryText(
+                      text: "Story",
+                      color: kBlack,
+                      size: 13,
+                      fontWeight: FontWeight.w500,
+                    )
                   ],
                 ),
-                SizedBox(
-                  height: baseModel.screenUtil.setHeight(20),
-                ),
-                Row(
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        const Icon(Icons.movie_creation_outlined),
-                        TextUtil.secondaryText(
-                          text: "Flickz",
-                          color: kBlack,
-                          size: 13,
-                          fontWeight: FontWeight.w500,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: baseModel.screenUtil.setWidth(70),
-                    ),
-                    Column(
-                      children: [
-                        const Icon(Icons.chat_outlined),
-                        TextUtil.secondaryText(
-                          text: "Audio",
-                          color: kBlack,
-                          size: 13,
-                          fontWeight: FontWeight.w500,
-                        )
-                      ],
-                    ),
+                    const Icon(Icons.live_tv_rounded),
+                    TextUtil.secondaryText(
+                      text: "Live",
+                      color: kBlack,
+                      size: 13,
+                      fontWeight: FontWeight.w500,
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Icon(Icons.movie_creation_outlined),
+                    TextUtil.secondaryText(
+                      text: "Flickz",
+                      color: kBlack,
+                      size: 13,
+                      fontWeight: FontWeight.w500,
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Icon(Icons.chat_outlined),
+                    TextUtil.secondaryText(
+                      text: "Audio",
+                      color: kBlack,
+                      size: 13,
+                      fontWeight: FontWeight.w500,
+                    )
                   ],
                 )
               ],
             ),
+            // Column(
+            //   children: [
+            //     Row(
+            //       children: [
+            //         GestureDetector(
+            //           onTap: () {
+            //             NavigatorUtil.push(context,
+            //                 screen: const AddFilterScreen());
+            //           },
+            //           child: Column(
+            //             children: [
+            //               const Icon(Icons.grid_on),
+            //               TextUtil.secondaryText(
+            //                 text: "Post",
+            //                 color: kBlack,
+            //                 size: 13,
+            //                 fontWeight: FontWeight.w500,
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //         SizedBox(
+            //           width: baseModel.screenUtil.setWidth(25),
+            //         ),
+            //         Column(
+            //           children: [
+            //             const Icon(Icons.add_circle_outline_outlined),
+            //             TextUtil.secondaryText(
+            //               text: "Story",
+            //               color: kBlack,
+            //               size: 13,
+            //               fontWeight: FontWeight.w500,
+            //             )
+            //           ],
+            //         ),
+            //         SizedBox(
+            //           width: baseModel.screenUtil.setWidth(25),
+            //         ),
+            //         Column(
+            //           children: [
+            //             const Icon(Icons.live_tv_rounded),
+            //             TextUtil.secondaryText(
+            //               text: "Live",
+            //               color: kBlack,
+            //               size: 13,
+            //               fontWeight: FontWeight.w500,
+            //             )
+            //           ],
+            //         ),
+            //       ],
+            //     ),
+            //     SizedBox(
+            //       height: baseModel.screenUtil.setHeight(20),
+            //     ),
+            //     Row(
+            //       children: [
+            //         Column(
+            //           children: [
+            //             const Icon(Icons.movie_creation_outlined),
+            //             TextUtil.secondaryText(
+            //               text: "Flickz",
+            //               color: kBlack,
+            //               size: 13,
+            //               fontWeight: FontWeight.w500,
+            //             )
+            //           ],
+            //         ),
+            //         SizedBox(
+            //           width: baseModel.screenUtil.setWidth(70),
+            //         ),
+            //         Column(
+            //           children: [
+            //             const Icon(Icons.chat_outlined),
+            //             TextUtil.secondaryText(
+            //               text: "Audio",
+            //               color: kBlack,
+            //               size: 13,
+            //               fontWeight: FontWeight.w500,
+            //             )
+            //           ],
+            //         ),
+            //       ],
+            //     )
+            //   ],
+            // ),
           ),
         );
       },
