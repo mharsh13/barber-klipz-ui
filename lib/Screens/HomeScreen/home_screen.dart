@@ -2,6 +2,7 @@ import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
@@ -114,9 +115,10 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
-                                  ImageConst.appLogo,
+                                child: NetImage(
                                   fit: BoxFit.cover,
+                                  uri:
+                                      "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
                                 ),
                               ),
                             ),
@@ -132,11 +134,13 @@ class HomeScreen extends ConsumerWidget {
                                   width: screenUtil.setWidth(1), color: kGold),
                             ),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
-                                  ImageConst.appLogo,
-                                  fit: BoxFit.cover,
-                                )),
+                              borderRadius: BorderRadius.circular(50),
+                              child: NetImage(
+                                fit: BoxFit.cover,
+                                uri:
+                                    "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
+                              ),
+                            ),
                           );
                   },
                 ),
@@ -169,12 +173,12 @@ class HomeScreen extends ConsumerWidget {
                                     color: kGold),
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
-                                  ImageConst.appLogo,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: NetImage(
+                                    fit: BoxFit.cover,
+                                    uri:
+                                        "https://media.gcflearnfree.org/ctassets/topics/246/share_flower_fullsize.jpg",
+                                  )),
                             ),
                             SizedBox(
                               width: screenUtil.setWidth(12),
@@ -196,7 +200,12 @@ class HomeScreen extends ConsumerWidget {
                           height: screenUtil.setHeight(5),
                         ),
                         SizedBox(
-                          child: Image.asset(ImageConst.appLogo),
+                          height: screenUtil.setHeight(300),
+                          child: NetImage(
+                            uri:
+                                "https://miro.medium.com/v2/resize:fit:1400/1*YMJDp-kqus7i-ktWtksNjg.jpeg",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         SizedBox(
                           height: screenUtil.setHeight(8),
