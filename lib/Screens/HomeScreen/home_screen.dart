@@ -3,6 +3,7 @@ import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,7 +41,11 @@ class HomeScreen extends ConsumerWidget {
                     Icons.movie_creation_outlined,
                     color: kWhite,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    print("hiii");
+                    NavigatorUtil.push(context,
+                        screen: const ViewFlickzScreen());
+                  },
                 ),
               ),
               SizedBox(
