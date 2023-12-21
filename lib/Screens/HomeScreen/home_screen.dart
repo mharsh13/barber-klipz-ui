@@ -357,10 +357,13 @@ class HomeScreen extends ConsumerWidget {
                         SizedBox(
                           height: screenUtil.setHeight(5),
                         ),
-                        TextUtil.secondaryText(
-                          text: "View all 10 comments",
-                          color: kTextSubTitle,
-                          size: 12,
+                        GestureDetector(
+                          onTap: () {},
+                          child: TextUtil.secondaryText(
+                            text: "View all 10 comments",
+                            color: kTextSubTitle,
+                            size: 12,
+                          ),
                         )
                       ],
                     ),
@@ -368,6 +371,29 @@ class HomeScreen extends ConsumerWidget {
                 },
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ColorTile extends StatelessWidget {
+  final Color color;
+
+  const ColorTile({super.key, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color,
+      height: 600,
+      child: Center(
+        child: Text(
+          color.toString(),
+          style: TextStyle(
+            color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

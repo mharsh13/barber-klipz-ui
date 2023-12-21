@@ -52,7 +52,7 @@ class AccountSettingsScreen extends ConsumerWidget {
             category(screenUtil),
             paymentProfile(screenUtil),
             monthStatistics(screenUtil),
-            accountSection(screenUtil),
+            accountSection(context, screenUtil),
             helpSection(screenUtil),
             SizedBox(
               height: screenUtil.setHeight(20),
