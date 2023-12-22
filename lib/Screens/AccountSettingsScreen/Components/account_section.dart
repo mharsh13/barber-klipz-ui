@@ -1,5 +1,6 @@
 import 'package:barber_klipz_ui/Screens/ChangePasswordScreen/change_password_screen.dart';
 import 'package:barber_klipz_ui/Screens/ChangeUsernameScreen/change_username_screen.dart';
+import 'package:barber_klipz_ui/Screens/NotificationSettingsScreen/notification_settings_screen.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -162,7 +163,10 @@ Column accountSection(BuildContext context, ScreenUtil screenUtil) {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                NavigatorUtil.push(context,
+                    screen: const NotificationSettingsScreen());
+              },
               icon: const Icon(
                 Icons.arrow_forward_ios,
                 color: kTextSubTitle,
