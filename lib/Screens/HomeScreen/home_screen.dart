@@ -11,6 +11,7 @@ import 'package:badges/badges.dart' as badges;
 
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
+import '../ViewAllCommentsScreen/view_all_comments_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -358,7 +359,10 @@ class HomeScreen extends ConsumerWidget {
                           height: screenUtil.setHeight(5),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            NavigatorUtil.push(context,
+                                screen: const ViewAllCommentsScreen());
+                          },
                           child: TextUtil.secondaryText(
                             text: "View all 10 comments",
                             color: kTextSubTitle,
