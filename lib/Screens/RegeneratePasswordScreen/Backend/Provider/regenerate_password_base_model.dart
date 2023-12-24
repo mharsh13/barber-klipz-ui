@@ -11,7 +11,13 @@ class RegeneratePasswordBaseModel extends ChangeNotifier {
 
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _newPassword = TextEditingController();
+  TextEditingController _confirmPassword = TextEditingController();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
+  GlobalKey<FormState> get formKey => _formKey;
+  TextEditingController get newPassword => _newPassword;
+  TextEditingController get confirmPassword => _confirmPassword;
 }

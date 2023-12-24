@@ -239,7 +239,7 @@ class TextUtil {
     Function(String)? onChanged,
   }) {
     return Container(
-      width: screenUtil.setWidth(290),
+      width: screenUtil.setWidth(335),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
       ),
@@ -249,7 +249,7 @@ class TextUtil {
         validator: validator,
         onChanged: onChanged,
         controller: textEditingController,
-        cursorColor: kPrimary,
+        cursorColor: kBlack,
         keyboardType: inputType,
         style: TextUtil.textStyle(
           color: kTextBody,
@@ -262,11 +262,11 @@ class TextUtil {
           FocusScope.of(context!).requestFocus(nextNode);
         },
         decoration: InputDecoration(
-          focusColor: kPrimary,
+          focusColor: kBlack,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(7),
             borderSide: const BorderSide(
-              color: kPrimary,
+              color: kBlack,
               width: 1.2,
             ),
           ),
