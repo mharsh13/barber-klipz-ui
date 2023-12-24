@@ -170,7 +170,7 @@ class ViewAllCommentsScreen extends ConsumerWidget {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Icon(
                                     baseModel.isFavourtie
                                         ? Icons.favorite
