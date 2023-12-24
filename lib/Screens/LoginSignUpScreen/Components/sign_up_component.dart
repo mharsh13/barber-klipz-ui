@@ -1,4 +1,3 @@
-import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,6 @@ import '../../../Resources/color_const.dart';
 import '../../../Utils/button_util.dart';
 import '../../../Utils/validator_util.dart';
 import '../Backend/Provider/login_signup_base_model.dart';
-import '../otp_screen.dart';
 
 Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
   return Form(

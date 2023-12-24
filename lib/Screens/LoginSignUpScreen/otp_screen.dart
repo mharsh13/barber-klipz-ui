@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/Backend/Provider/login_signup_base_model.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/gestures.dart';
@@ -12,13 +11,14 @@ import '../../Resources/color_const.dart';
 import '../../Utils/button_util.dart';
 import '../../Utils/text_util.dart';
 import '../../Utils/validator_util.dart';
+import '../RegeneratePasswordScreen/regenerate_password_screen.dart';
 
 class OtpScreen extends ConsumerStatefulWidget {
-  const OtpScreen({
+  OtpScreen({
     Key? key,
-    required this.phoneNumber,
+    required this.forgotPassword,
   }) : super(key: key);
-  final String phoneNumber;
+  bool forgotPassword;
 
   @override
   ConsumerState<OtpScreen> createState() => _OtpScreenState();
@@ -201,7 +201,10 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               ButtonUtil.primaryButton(
                 text: 'Verify & Proceed',
                 onPressed: () {
-                  baseModel.verifyEmail(context);
+                  widget.forgotPassword
+                      ? NavigatorUtil.push(context,
+                          screen: const RegeneratePasswordScreen())
+                      : baseModel.verifyEmail(context);
                 },
                 screenUtil: screenUtil,
               ),
@@ -211,7 +214,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: 'By clicking “Sign Up”, you agree to our ',
+                  text: 'By clicking “Verify & Proceed”, you agree to our ',
                   style: TextStyle(
                     color: kTextBody,
                     fontSize: screenUtil.setSp(10),

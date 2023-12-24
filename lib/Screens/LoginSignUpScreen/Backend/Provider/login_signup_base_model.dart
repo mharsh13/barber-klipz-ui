@@ -33,6 +33,8 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   final ApiHelper _apiHelper = ApiHelper();
   final TextEditingController _otp = TextEditingController();
+  final TextEditingController _forgotEmail = TextEditingController();
+  final GlobalKey<FormState> _forgotPasswordFormKey = GlobalKey<FormState>();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
@@ -48,6 +50,8 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   GlobalKey<FormState> get loginFormKey => _loginFormKey;
   ApiHelper get apiHelper => _apiHelper;
   TextEditingController get otp => _otp;
+  TextEditingController get forgotEmail => _forgotEmail;
+  GlobalKey<FormState> get forgotPasswordFormKey => _forgotPasswordFormKey;
 
   //functions
 
@@ -62,11 +66,6 @@ class LoginSignUpBaseModel extends ChangeNotifier {
     _privacyPolicy = !_privacyPolicy;
     notifyListeners();
   }
-
-  // void setOtp(String otp) {
-  //   _otp = otp;
-  //   notifyListeners();
-  // }
 
   //api functions
 
@@ -96,7 +95,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
             Global.jwt = value["token"];
             NavigatorUtil.push(context,
                 screen: OtpScreen(
-                  phoneNumber: _mobileNumber.text,
+                  forgotPassword: false,
                 ));
           }
         }
