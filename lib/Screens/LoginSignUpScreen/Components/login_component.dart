@@ -78,8 +78,7 @@ Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             text: "Log In",
             onPressed: () {
               if (baseModel.loginFormKey.currentState!.validate()) {
-                NavigatorUtil.push(context,
-                    screen: const BottomNavigationBarScreen());
+                baseModel.login(context);
               }
             },
             screenUtil: baseModel.screenUtil,

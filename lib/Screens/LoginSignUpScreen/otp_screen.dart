@@ -51,7 +51,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     if (_timer != null) {
       _timer!.cancel();
     }
-
     super.dispose();
   }
 
@@ -122,9 +121,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 padding:
                     EdgeInsets.symmetric(horizontal: screenUtil.setWidth(20)),
                 child: PinCodeTextField(
-                  onChanged: (value) {
-                    // baseModel.setOtp(value);
-                  },
+                  // onChanged: (value) {
+                  //   baseModel.setOtp(value);
+                  // },
                   appContext: context,
                   validator: ValidatorUtil.validateOtp,
                   length: 6,
@@ -138,6 +137,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     fontSize: screenUtil.setHeight(18),
                     fontWeight: FontWeight.w500,
                   ),
+                  controller: baseModel.otp,
                   pinTheme: PinTheme(
                     shape: PinCodeFieldShape.box,
                     borderRadius: BorderRadius.circular(13),
@@ -201,8 +201,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               ButtonUtil.primaryButton(
                 text: 'Verify & Proceed',
                 onPressed: () {
-                  NavigatorUtil.push(context,
-                      screen: BottomNavigationBarScreen());
+                  baseModel.verifyEmail(context);
                 },
                 screenUtil: screenUtil,
               ),

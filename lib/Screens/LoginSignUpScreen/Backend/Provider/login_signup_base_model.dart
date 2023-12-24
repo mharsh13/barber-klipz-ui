@@ -1,6 +1,16 @@
+import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
+import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../../Helpers/api_helpers.dart';
+import '../../../../Resources/color_const.dart';
+import '../../../../Utils/navigator_util.dart';
+import '../../../../Utils/toast_util.dart';
+import '../../../../global.dart';
 
 final loginSignUpBaseModel =
     ChangeNotifierProvider((ref) => LoginSignUpBaseModel(ref));
@@ -21,6 +31,8 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   final TextEditingController _loginPassword = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  final ApiHelper _apiHelper = ApiHelper();
+  final TextEditingController _otp = TextEditingController();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
@@ -34,6 +46,8 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   TextEditingController get loginPassword => _loginPassword;
   GlobalKey<FormState> get formKey => _formKey;
   GlobalKey<FormState> get loginFormKey => _loginFormKey;
+  ApiHelper get apiHelper => _apiHelper;
+  TextEditingController get otp => _otp;
 
   //functions
 
@@ -47,5 +61,122 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   void setPrivacyPolicy() {
     _privacyPolicy = !_privacyPolicy;
     notifyListeners();
+  }
+
+  // void setOtp(String otp) {
+  //   _otp = otp;
+  //   notifyListeners();
+  // }
+
+  //api functions
+
+  Future<void> registerUser(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      Map<String, dynamic> formData = {
+        "email": _email.text,
+        "password": _password.text,
+        "user_name": _username.text,
+        "phone": _mobileNumber.text,
+      };
+
+      await _apiHelper
+          .postData(context: context, data: formData, url: "auth/register")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          print(value);
+          if (value["token"] != null) {
+            Global.jwt = value["token"];
+            NavigatorUtil.push(context,
+                screen: OtpScreen(
+                  phoneNumber: _mobileNumber.text,
+                ));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> verifyEmail(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      Map<String, dynamic> formData = {
+        "otp": _otp.text,
+      };
+      await _apiHelper
+          .putData(context: context, data: formData, url: "auth/verifyEmail")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          print(value);
+          if (value["token"] != null) {
+            Global.jwt = value["token"];
+            ToastUtil(context)
+                .showSuccessToastNotification("Sign up successfull");
+            NavigatorUtil.push(
+              context,
+              screen: const BottomNavigationBarScreen(),
+            );
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> login(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      Map<String, dynamic> formData = {
+        "emailOrUsername": _loginUsername.text,
+        "password": _loginPassword.text,
+      };
+
+      await _apiHelper
+          .postData(context: context, data: formData, url: "auth/login")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          print(value);
+          if (value["token"] != null) {
+            Global.jwt = value["token"];
+            ToastUtil(context)
+                .showSuccessToastNotification("Logged In Successfully");
+            NavigatorUtil.push(context,
+                screen: const BottomNavigationBarScreen());
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
   }
 }

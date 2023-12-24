@@ -194,10 +194,7 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             text: "Sign Up",
             onPressed: () {
               if (baseModel.formKey.currentState!.validate()) {
-                NavigatorUtil.push(context,
-                    screen: OtpScreen(
-                      phoneNumber: baseModel.mobileNumber.text,
-                    ));
+                baseModel.registerUser(context);
               }
             },
             screenUtil: baseModel.screenUtil,
