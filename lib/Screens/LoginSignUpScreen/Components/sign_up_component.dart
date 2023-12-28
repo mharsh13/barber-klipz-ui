@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/global.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,10 @@ import '../../../Utils/button_util.dart';
 import '../../../Utils/validator_util.dart';
 import '../Backend/Provider/login_signup_base_model.dart';
 
-Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
+Form signUpComponent(
+  BuildContext context,
+  LoginSignUpBaseModel baseModel,
+) {
   return Form(
     key: baseModel.formKey,
     child: Padding(

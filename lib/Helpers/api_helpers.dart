@@ -1,4 +1,6 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/toast_util.dart';
@@ -8,9 +10,10 @@ class ApiHelper {
   final Dio _dio = Dio();
 
   void getHeader() {
+    _dio.interceptors.add(CookieManager(CookieJar()));
     _dio.options.contentType = 'application/json';
     _dio.options.headers['Content-Type'] = 'application/json';
-    _dio.options.headers["jwt"] = Global.jwt;
+    _dio.options.headers["Authorization"] = "Bearer ${Global.jwt}";
   }
 
   Future<Map<String, dynamic>?> postData({
@@ -37,30 +40,11 @@ class ApiHelper {
         if (response.statusCode == 201 || response.statusCode == 200) {
           res = response.data as Map<String, dynamic>;
         } else {
-          switch (response.statusCode) {
-            case 400:
-              ToastUtil(context).showErrorToastNotification('Bad request');
-              break;
-            case 401:
-              ToastUtil(context).showErrorToastNotification('Unauthorized');
-              break;
-            case 402:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 403:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 404:
-              ToastUtil(context).showErrorToastNotification('Not found');
-              break;
-            case 500:
-              ToastUtil(context)
-                  .showErrorToastNotification('Internal Server Error');
-              break;
-            default:
-              ToastUtil(context)
-                  .showErrorToastNotification('Something went wrong');
-              break;
+          res = response.data as Map<String, dynamic>;
+          if (res!["mesaage"] is List) {
+            ToastUtil(context).showErrorToastNotification(res!["message"][0]);
+          } else {
+            ToastUtil(context).showErrorToastNotification(res!["message"]);
           }
         }
       }).catchError((e) {});
@@ -77,6 +61,7 @@ class ApiHelper {
     required String url,
   }) async {
     getHeader();
+
     Map<String, dynamic>? res;
     try {
       _dio.options.method = "PUT";
@@ -92,33 +77,18 @@ class ApiHelper {
         ),
       )
           .then((response) {
+        print('----------------------------------');
+        print(response);
+        print(Global.jwt);
+        print('----------------------------------');
         if (response.statusCode == 201 || response.statusCode == 200) {
           res = response.data as Map<String, dynamic>;
         } else {
-          switch (response.statusCode) {
-            case 400:
-              ToastUtil(context).showErrorToastNotification('Bad request');
-              break;
-            case 401:
-              ToastUtil(context).showErrorToastNotification('Unauthorized');
-              break;
-            case 402:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 403:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 404:
-              ToastUtil(context).showErrorToastNotification('Not found');
-              break;
-            case 500:
-              ToastUtil(context)
-                  .showErrorToastNotification('Internal Server Error');
-              break;
-            default:
-              ToastUtil(context)
-                  .showErrorToastNotification('Something went wrong');
-              break;
+          res = response.data as Map<String, dynamic>;
+          if (res!["mesaage"] is List) {
+            ToastUtil(context).showErrorToastNotification(res!["message"][0]);
+          } else {
+            ToastUtil(context).showErrorToastNotification(res!["message"]);
           }
         }
       }).catchError((e) {});
@@ -145,30 +115,11 @@ class ApiHelper {
         if (response.statusCode == 200) {
           res = response.data;
         } else {
-          switch (response.statusCode) {
-            case 400:
-              ToastUtil(context).showErrorToastNotification('Bad request');
-              break;
-            case 401:
-              ToastUtil(context).showErrorToastNotification('Unauthorized');
-              break;
-            case 402:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 403:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 404:
-              ToastUtil(context).showErrorToastNotification('Not found');
-              break;
-            case 500:
-              ToastUtil(context)
-                  .showErrorToastNotification('Internal Server Error');
-              break;
-            default:
-              ToastUtil(context)
-                  .showErrorToastNotification('Something went wrong');
-              break;
+          res = response.data as Map<String, dynamic>;
+          if (res!["mesaage"] is List) {
+            ToastUtil(context).showErrorToastNotification(res!["message"][0]);
+          } else {
+            ToastUtil(context).showErrorToastNotification(res!["message"]);
           }
         }
       });
@@ -202,30 +153,11 @@ class ApiHelper {
         if (response.statusCode == 200) {
           res = response.data;
         } else {
-          switch (response.statusCode) {
-            case 400:
-              ToastUtil(context).showErrorToastNotification('Bad request');
-              break;
-            case 401:
-              ToastUtil(context).showErrorToastNotification('Unauthorized');
-              break;
-            case 402:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 403:
-              ToastUtil(context).showErrorToastNotification('Payment required');
-              break;
-            case 404:
-              ToastUtil(context).showErrorToastNotification('Not found');
-              break;
-            case 500:
-              ToastUtil(context)
-                  .showErrorToastNotification('Internal Server Error');
-              break;
-            default:
-              ToastUtil(context)
-                  .showErrorToastNotification('Something went wrong');
-              break;
+          res = response.data as Map<String, dynamic>;
+          if (res!["mesaage"] is List) {
+            ToastUtil(context).showErrorToastNotification(res!["message"][0]);
+          } else {
+            ToastUtil(context).showErrorToastNotification(res!["message"]);
           }
         }
       });

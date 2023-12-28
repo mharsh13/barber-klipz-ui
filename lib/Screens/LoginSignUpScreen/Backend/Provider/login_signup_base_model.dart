@@ -1,5 +1,6 @@
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
+import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -97,11 +98,14 @@ class LoginSignUpBaseModel extends ChangeNotifier {
                 screen: OtpScreen(
                   forgotPassword: false,
                 ));
+          } else if (value["message"] != null) {
+            ToastUtil(context).showErrorToastNotification(value["message"]);
           }
         }
       });
       notifyListeners();
     } catch (e) {
+      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
@@ -126,7 +130,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
         if (value != null) {
           print(value);
           if (value["token"] != null) {
-            Global.jwt = value["token"];
+            SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Sign up successfull");
             NavigatorUtil.push(
@@ -164,7 +168,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
         if (value != null) {
           print(value);
           if (value["token"] != null) {
-            Global.jwt = value["token"];
+            SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Logged In Successfully");
             NavigatorUtil.push(context,
