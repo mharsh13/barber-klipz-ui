@@ -17,4 +17,9 @@ class SharedPreferenceUtil {
       return "";
     }
   }
+
+  static void removeJwt() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('jwt');
+  }
 }

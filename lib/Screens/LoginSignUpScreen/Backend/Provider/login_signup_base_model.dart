@@ -132,6 +132,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Sign up successfull");
+
             NavigatorUtil.push(
               context,
               screen: const BottomNavigationBarScreen(),
@@ -141,6 +142,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
+      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
