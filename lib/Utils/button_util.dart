@@ -55,7 +55,7 @@ class ButtonUtil {
                   color: Color.fromRGBO(0, 0, 0, 0.16),
                 ),
               ],
-              color: kSecondary,
+              color: kYellow,
               borderRadius: BorderRadius.circular(screenUtil.setSp(100)),
             ),
         child: Center(

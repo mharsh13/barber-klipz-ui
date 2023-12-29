@@ -11,6 +11,7 @@ import 'package:photofilters/filters/filters.dart';
 import 'package:photofilters/filters/preset_filters.dart';
 import 'package:photofilters/widgets/photo_filter.dart';
 import 'package:image/image.dart' as img;
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 
 class AddFilterScreen extends ConsumerStatefulWidget {
@@ -35,7 +36,13 @@ class _AddFilterScreenState extends ConsumerState<AddFilterScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => PhotoFilterSelector(
-            title: const Text("Photo Filter Example"),
+            appBarColor: kBlack2,
+            title: TextUtil.secondaryText(
+              text: "Filter",
+              color: kGold,
+              size: 18,
+              fontWeight: FontWeight.w600,
+            ),
             image: image!,
             filters: presetFiltersList,
             filename: fileName!,
@@ -56,11 +63,15 @@ class _AddFilterScreenState extends ConsumerState<AddFilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kBlack2,
+        leading: const BackButton(
+          color: kWhite,
+        ),
         title: TextUtil.secondaryText(
           text: "Filter",
-          color: kBlack,
-          size: 20,
-          fontWeight: FontWeight.w500,
+          color: kGold,
+          size: 18,
+          fontWeight: FontWeight.w600,
         ),
         actions: [
           GestureDetector(
@@ -68,10 +79,10 @@ class _AddFilterScreenState extends ConsumerState<AddFilterScreen> {
               NavigatorUtil.push(context, screen: const AddCaptionScreen());
             },
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 15),
               child: TextUtil.secondaryText(
                 text: "Next",
-                color: kBlack,
+                color: kWhite,
                 size: 15,
                 fontWeight: FontWeight.w500,
               ),
@@ -89,9 +100,12 @@ class _AddFilterScreenState extends ConsumerState<AddFilterScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: kYellow,
         onPressed: () => getImage(context),
         tooltip: 'Pick Image',
-        child: const Icon(Icons.add_a_photo),
+        child: const Icon(
+          Icons.add_a_photo,
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
-import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
-import 'package:barber_klipz_ui/Utils/navigator_util.dart';
+import 'package:barber_klipz_ui/global.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +8,10 @@ import '../../../Utils/button_util.dart';
 import '../../../Utils/validator_util.dart';
 import '../Backend/Provider/login_signup_base_model.dart';
 
-Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
+Form signUpComponent(
+  BuildContext context,
+  LoginSignUpBaseModel baseModel,
+) {
   return Form(
     key: baseModel.formKey,
     child: Padding(
@@ -194,8 +196,7 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             text: "Sign Up",
             onPressed: () {
               if (baseModel.formKey.currentState!.validate()) {
-                NavigatorUtil.push(context,
-                    screen: const BottomNavigationBarScreen());
+                baseModel.registerUser(context);
               }
             },
             screenUtil: baseModel.screenUtil,
@@ -203,23 +204,28 @@ Form signUpComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
           SizedBox(
             height: baseModel.screenUtil.setHeight(15),
           ),
-          RichText(
-            text: TextSpan(
-              text: 'Already have an account? ',
-              style: TextStyle(
-                color: kGrey,
-                fontSize: baseModel.screenUtil.setSp(15),
-              ),
-              children: [
-                TextSpan(
-                  text: 'Log In',
-                  style: TextStyle(
-                    color: kGold,
-                    fontSize: baseModel.screenUtil.setSp(15),
-                    decoration: TextDecoration.underline,
-                  ),
+          GestureDetector(
+            onTap: () {
+              baseModel.setValue(1);
+            },
+            child: RichText(
+              text: TextSpan(
+                text: 'Already have an account? ',
+                style: TextStyle(
+                  color: kGrey,
+                  fontSize: baseModel.screenUtil.setSp(15),
                 ),
-              ],
+                children: [
+                  TextSpan(
+                    text: 'Log In',
+                    style: TextStyle(
+                      color: kGold,
+                      fontSize: baseModel.screenUtil.setSp(15),
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

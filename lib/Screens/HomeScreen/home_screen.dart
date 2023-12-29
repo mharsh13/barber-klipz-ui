@@ -1,13 +1,17 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
+import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
 
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
+import '../ViewAllCommentsScreen/view_all_comments_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -38,7 +42,11 @@ class HomeScreen extends ConsumerWidget {
                     Icons.movie_creation_outlined,
                     color: kWhite,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    print("hiii");
+                    NavigatorUtil.push(context,
+                        screen: const ViewFlickzScreen());
+                  },
                 ),
               ),
               SizedBox(
@@ -114,9 +122,10 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
-                                  ImageConst.appLogo,
+                                child: const NetImage(
                                   fit: BoxFit.cover,
+                                  uri:
+                                      "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
                                 ),
                               ),
                             ),
@@ -132,11 +141,13 @@ class HomeScreen extends ConsumerWidget {
                                   width: screenUtil.setWidth(1), color: kGold),
                             ),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
-                                  ImageConst.appLogo,
-                                  fit: BoxFit.cover,
-                                )),
+                              borderRadius: BorderRadius.circular(50),
+                              child: const NetImage(
+                                fit: BoxFit.cover,
+                                uri:
+                                    "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
+                              ),
+                            ),
                           );
                   },
                 ),
@@ -169,12 +180,12 @@ class HomeScreen extends ConsumerWidget {
                                     color: kGold),
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
-                                  ImageConst.appLogo,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: const NetImage(
+                                    fit: BoxFit.cover,
+                                    uri:
+                                        "https://media.gcflearnfree.org/ctassets/topics/246/share_flower_fullsize.jpg",
+                                  )),
                             ),
                             SizedBox(
                               width: screenUtil.setWidth(12),
@@ -187,7 +198,43 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             const Spacer(),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showAdaptiveActionSheet(
+                                  context: context,
+                                  isDismissible: true,
+                                  title: Container(
+                                    height: 6,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: kTextSubTitle,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  ),
+                                  androidBorderRadius: 30,
+                                  actions: <BottomSheetAction>[
+                                    BottomSheetAction(
+                                        title: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.report_gmailerrorred,
+                                              color: kError,
+                                              size: 28,
+                                            ),
+                                            SizedBox(
+                                              width: screenUtil.setWidth(7),
+                                            ),
+                                            TextUtil.secondaryText(
+                                              text: "Report",
+                                              color: kError,
+                                              size: 15,
+                                              fontWeight: FontWeight.w500,
+                                            )
+                                          ],
+                                        ),
+                                        onPressed: (context) {}),
+                                  ],
+                                );
+                              },
                               icon: const Icon(Icons.more_horiz),
                             )
                           ],
@@ -196,7 +243,12 @@ class HomeScreen extends ConsumerWidget {
                           height: screenUtil.setHeight(5),
                         ),
                         SizedBox(
-                          child: Image.asset(ImageConst.appLogo),
+                          height: screenUtil.setHeight(300),
+                          child: const NetImage(
+                            uri:
+                                "https://miro.medium.com/v2/resize:fit:1400/1*YMJDp-kqus7i-ktWtksNjg.jpeg",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         SizedBox(
                           height: screenUtil.setHeight(8),
@@ -306,10 +358,16 @@ class HomeScreen extends ConsumerWidget {
                         SizedBox(
                           height: screenUtil.setHeight(5),
                         ),
-                        TextUtil.secondaryText(
-                          text: "View all 10 comments",
-                          color: kTextSubTitle,
-                          size: 12,
+                        GestureDetector(
+                          onTap: () {
+                            NavigatorUtil.push(context,
+                                screen: const ViewAllCommentsScreen());
+                          },
+                          child: TextUtil.secondaryText(
+                            text: "View all 10 comments",
+                            color: kTextSubTitle,
+                            size: 12,
+                          ),
                         )
                       ],
                     ),
@@ -317,6 +375,29 @@ class HomeScreen extends ConsumerWidget {
                 },
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ColorTile extends StatelessWidget {
+  final Color color;
+
+  const ColorTile({super.key, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color,
+      height: 600,
+      child: Center(
+        child: Text(
+          color.toString(),
+          style: TextStyle(
+            color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

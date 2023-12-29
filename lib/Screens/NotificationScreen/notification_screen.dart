@@ -1,9 +1,9 @@
 import 'package:barber_klipz_ui/Screens/NotificationScreen/Backend/Provider/notification_base_model.dart';
+import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
-import '../../Resources/image_const.dart';
 import '../../Utils/text_util.dart';
 
 class NotificationScreen extends ConsumerWidget {
@@ -102,12 +102,12 @@ class NotificationScreen extends ConsumerWidget {
                           width: screenUtil.setHeight(40),
                           height: screenUtil.setHeight(40),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.asset(
-                              ImageConst.appLogo,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                              borderRadius: BorderRadius.circular(50),
+                              child: const NetImage(
+                                fit: BoxFit.cover,
+                                uri:
+                                    "https://miro.medium.com/v2/resize:fit:1400/1*YMJDp-kqus7i-ktWtksNjg.jpeg",
+                              )),
                         ),
                         SizedBox(
                           width: screenUtil.setWidth(8),
