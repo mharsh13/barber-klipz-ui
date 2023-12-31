@@ -1,6 +1,4 @@
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/toast_util.dart';
@@ -10,7 +8,6 @@ class ApiHelper {
   final Dio _dio = Dio();
 
   void getHeader() {
-    _dio.interceptors.add(CookieManager(CookieJar()));
     _dio.options.contentType = 'application/json';
     _dio.options.headers['Content-Type'] = 'application/json';
     _dio.options.headers["Authorization"] = "Bearer ${Global.jwt}";
@@ -22,6 +19,7 @@ class ApiHelper {
     required String url,
   }) async {
     getHeader();
+
     Map<String, dynamic>? res;
     try {
       _dio.options.method = "POST";
@@ -36,7 +34,7 @@ class ApiHelper {
           },
         ),
       )
-          .then((response) {
+          .then((response) async {
         if (response.statusCode == 201 || response.statusCode == 200) {
           res = response.data as Map<String, dynamic>;
         } else {
@@ -77,10 +75,6 @@ class ApiHelper {
         ),
       )
           .then((response) {
-        print('----------------------------------');
-        print(response);
-        print(Global.jwt);
-        print('----------------------------------');
         if (response.statusCode == 201 || response.statusCode == 200) {
           res = response.data as Map<String, dynamic>;
         } else {
@@ -104,6 +98,7 @@ class ApiHelper {
     required String url,
   }) async {
     getHeader();
+
     Map<String, dynamic>? res;
     try {
       _dio.options.method = "GET";
@@ -124,6 +119,8 @@ class ApiHelper {
         }
       });
     } catch (e) {
+      print('ERROR HERE');
+      print(e);
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
     return res;
