@@ -1,5 +1,7 @@
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/Backend/Provider/account_settings_base_model.dart';
+import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
 import 'package:barber_klipz_ui/Utils/button_util.dart';
+import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -59,7 +61,16 @@ class AccountSettingsScreen extends ConsumerWidget {
             ),
             Center(
               child: ButtonUtil.primaryButton(
-                  text: "Logout", onPressed: () {}, screenUtil: screenUtil),
+                  text: "Logout",
+                  onPressed: () {
+                    SharedPreferenceUtil.setJwt('');
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const OnboardingScreen(),
+                      ),
+                    );
+                  },
+                  screenUtil: screenUtil),
             ),
             SizedBox(
               height: screenUtil.setHeight(15),
