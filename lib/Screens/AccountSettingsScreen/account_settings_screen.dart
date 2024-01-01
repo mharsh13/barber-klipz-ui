@@ -1,4 +1,5 @@
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/Backend/Provider/account_settings_base_model.dart';
+import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
 import 'package:barber_klipz_ui/Utils/button_util.dart';
 import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +63,12 @@ class AccountSettingsScreen extends ConsumerWidget {
               child: ButtonUtil.primaryButton(
                   text: "Logout",
                   onPressed: () {
-                    print('-------');
-                    SharedPreferenceUtil.removeJwt();
+                    SharedPreferenceUtil.setJwt('');
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const OnboardingScreen(),
+                      ),
+                    );
                   },
                   screenUtil: screenUtil),
             ),

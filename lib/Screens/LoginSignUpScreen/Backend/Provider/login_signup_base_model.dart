@@ -1,10 +1,14 @@
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
 import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
@@ -21,6 +25,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
 
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
+  final Dio _dio = Dio();
   int _currentValue = 0;
   bool _privacyPolicy = false;
   final TextEditingController _username = TextEditingController();
@@ -127,7 +132,6 @@ class LoginSignUpBaseModel extends ChangeNotifier {
           .then((value) {
         Loader.hide();
         if (value != null) {
-          print(value);
           if (value["token"] != null) {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)

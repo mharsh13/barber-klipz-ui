@@ -1,6 +1,11 @@
-import 'package:barber_klipz_ui/Providers/user_base_model.dart';
+import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
+import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
+import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../Resources/color_const.dart';
 import '../../Utils/text_util.dart';
@@ -16,9 +21,35 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
+    final baseModel = ref.read(splashScreenBaseModel);
     super.initState();
-    final user = ref.read(userBaseModel);
-    execute(context, user);
+
+    execute(baseModel);
+  }
+
+  execute(SplashScreenBaseModel baseModel) async {
+    SharedPreferenceUtil.getJwt().then((value) async {
+      await baseModel.getMe(context).then((isLoggedIn) {
+        if (!isLoggedIn) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const OnboardingScreen(),
+            ),
+          );
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const BottomNavigationBarScreen(),
+            ),
+          );
+        }
+      });
+    });
+  }
+
+  Future<String> getDocPath() async {
+    final docpath = await getApplicationDocumentsDirectory();
+    return docpath.path;
   }
 
   @override
