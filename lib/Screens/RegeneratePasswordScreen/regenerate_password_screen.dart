@@ -1,7 +1,5 @@
-import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/login_signup_screen.dart';
 import 'package:barber_klipz_ui/Screens/RegeneratePasswordScreen/Backend/Provider/regenerate_password_base_model.dart';
 import 'package:barber_klipz_ui/Utils/gradient_background.dart';
-import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/toast_util.dart';
 import 'package:barber_klipz_ui/Utils/validator_util.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +48,7 @@ class RegeneratePasswordScreen extends ConsumerWidget {
                     hintText: "New Password",
                     textEditingController: baseModel.newPassword,
                     validator: ValidatorUtil.validateText,
+                    obscureText: true,
                   ),
                   SizedBox(
                     height: screenUtil.setHeight(28),
@@ -60,6 +59,7 @@ class RegeneratePasswordScreen extends ConsumerWidget {
                     hintText: "Confirm Password",
                     textEditingController: baseModel.confirmPassword,
                     validator: ValidatorUtil.validateText,
+                    obscureText: true,
                   ),
                   SizedBox(
                     height: baseModel.screenUtil.setHeight(400),
