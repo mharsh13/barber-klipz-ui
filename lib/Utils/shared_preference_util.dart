@@ -5,6 +5,7 @@ import '../global.dart';
 class SharedPreferenceUtil {
   static void setJwt(String jwt) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    Global.jwt = jwt;
     await prefs.setString('jwt', jwt);
   }
 

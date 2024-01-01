@@ -29,24 +29,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   execute(SplashScreenBaseModel baseModel) async {
     SharedPreferenceUtil.getJwt().then((value) async {
-      await baseModel.getMe(context).then((isLoggedIn) {
-        if (!isLoggedIn) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const OnboardingScreen(),
-            ),
-          );
-        } else {
-          print('---------------------');
-          print(baseModel.user!.phone);
-          print('---------------------');
+      if (value == "") {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const OnboardingScreen(),
+          ),
+        );
+      } else {
+        await baseModel.getMe(context).then((isLoggedIn) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const BottomNavigationBarScreen(),
             ),
           );
-        }
-      });
+        });
+      }
     });
   }
 
