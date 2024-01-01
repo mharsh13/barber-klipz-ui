@@ -13,6 +13,7 @@ import '../../Utils/text_util.dart';
 import '../../Utils/validator_util.dart';
 import '../RegeneratePasswordScreen/regenerate_password_screen.dart';
 
+// ignore: must_be_immutable
 class OtpScreen extends ConsumerStatefulWidget {
   OtpScreen({
     Key? key,
@@ -56,7 +57,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
   @override
   void initState() {
-    final baseModel = ref.read(loginSignUpBaseModel);
+    // final baseModel = ref.read(loginSignUpBaseModel);
     startTimer();
     super.initState();
   }

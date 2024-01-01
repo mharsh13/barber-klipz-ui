@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../Resources/color_const.dart';
-import '../../../Utils/navigator_util.dart';
 import '../../../Utils/text_util.dart';
 import '../../../Utils/validator_util.dart';
 import '../Backend/Provider/login_signup_base_model.dart';
-import '../otp_screen.dart';
 
 Form forgotPasswordDialogBox(
     LoginSignUpBaseModel baseModel, BuildContext context) {
@@ -70,10 +68,7 @@ Form forgotPasswordDialogBox(
                         onTap: () {
                           if (baseModel.forgotPasswordFormKey.currentState!
                               .validate()) {
-                            NavigatorUtil.push(context,
-                                screen: OtpScreen(
-                                  forgotPassword: true,
-                                ));
+                            baseModel.updateOtp(context);
                           }
                         },
                         child: TextUtil.secondaryText(

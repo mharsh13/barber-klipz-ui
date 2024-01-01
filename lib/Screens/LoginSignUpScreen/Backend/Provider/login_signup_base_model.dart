@@ -1,14 +1,10 @@
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
 import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
-import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
@@ -25,7 +21,6 @@ class LoginSignUpBaseModel extends ChangeNotifier {
 
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
-  final Dio _dio = Dio();
   int _currentValue = 0;
   bool _privacyPolicy = false;
   final TextEditingController _username = TextEditingController();
@@ -183,6 +178,42 @@ class LoginSignUpBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> updateOtp(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      Map<String, dynamic> formData = {
+        "email": _forgotEmail.text,
+      };
+
+      await _apiHelper
+          .patchData(context: context, data: formData, url: "auth/update-otp")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          print(value);
+          if (value["message"] != null) {
+            ToastUtil(context).showSuccessToastNotification(value["message"]);
+            NavigatorUtil.push(context,
+                screen: OtpScreen(
+                  forgotPassword: true,
+                ));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

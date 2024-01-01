@@ -107,6 +107,10 @@ class ApiHelper {
         Global.baseURL + url,
       )
           .then((response) {
+        print('----------------------');
+        print(response);
+        print('----------------------');
+
         if (response.statusCode == 200) {
           res = response.data;
         } else {
@@ -119,6 +123,9 @@ class ApiHelper {
         }
       });
     } catch (e) {
+      print('----------------------');
+      print(e);
+      print('----------------------');
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
     return res;
