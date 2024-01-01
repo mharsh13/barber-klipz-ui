@@ -138,7 +138,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     fontSize: screenUtil.setHeight(18),
                     fontWeight: FontWeight.w500,
                   ),
-                  controller: baseModel.otp,
+                  controller: widget.forgotPassword
+                      ? baseModel.forgetOtp
+                      : baseModel.otp,
                   pinTheme: PinTheme(
                     shape: PinCodeFieldShape.box,
                     borderRadius: BorderRadius.circular(13),
@@ -203,8 +205,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 text: 'Verify & Proceed',
                 onPressed: () {
                   widget.forgotPassword
-                      ? NavigatorUtil.push(context,
-                          screen: const RegeneratePasswordScreen())
+                      ? baseModel.verifyForgotPassword(context)
                       : baseModel.verifyEmail(context);
                 },
                 screenUtil: screenUtil,

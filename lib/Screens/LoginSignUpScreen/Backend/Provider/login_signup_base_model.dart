@@ -1,5 +1,6 @@
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
+import 'package:barber_klipz_ui/Screens/RegeneratePasswordScreen/regenerate_password_screen.dart';
 import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -33,6 +34,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   final ApiHelper _apiHelper = ApiHelper();
   final TextEditingController _otp = TextEditingController();
+  final TextEditingController _forgetOtp = TextEditingController();
   final TextEditingController _forgotEmail = TextEditingController();
   final GlobalKey<FormState> _forgotPasswordFormKey = GlobalKey<FormState>();
 
@@ -50,6 +52,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   GlobalKey<FormState> get loginFormKey => _loginFormKey;
   ApiHelper get apiHelper => _apiHelper;
   TextEditingController get otp => _otp;
+  TextEditingController get forgetOtp => _forgetOtp;
   TextEditingController get forgotEmail => _forgotEmail;
   GlobalKey<FormState> get forgotPasswordFormKey => _forgotPasswordFormKey;
 
@@ -203,11 +206,49 @@ class LoginSignUpBaseModel extends ChangeNotifier {
         if (value != null) {
           print(value);
           if (value["message"] != null) {
+            SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context).showSuccessToastNotification(value["message"]);
             NavigatorUtil.push(context,
                 screen: OtpScreen(
                   forgotPassword: true,
                 ));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> verifyForgotPassword(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      Map<String, dynamic> formData = {
+        "otp": _forgetOtp.text,
+      };
+
+      await _apiHelper
+          .postData(
+              context: context, data: formData, url: "auth/verify-forget-pwd")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          print(value);
+          if (value["token"] != null) {
+            SharedPreferenceUtil.setJwt(value["token"]);
+            ToastUtil(context)
+                .showSuccessToastNotification("OTP verified Successfully");
+            NavigatorUtil.push(context,
+                screen: const RegeneratePasswordScreen());
           }
         }
       });

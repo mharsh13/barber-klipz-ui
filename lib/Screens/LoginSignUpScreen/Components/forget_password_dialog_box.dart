@@ -68,6 +68,7 @@ Form forgotPasswordDialogBox(
                         onTap: () {
                           if (baseModel.forgotPasswordFormKey.currentState!
                               .validate()) {
+                            print('--------');
                             baseModel.updateOtp(context);
                           }
                         },

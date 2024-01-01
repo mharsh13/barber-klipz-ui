@@ -37,6 +37,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ),
           );
         } else {
+          print('---------------------');
+          print(baseModel.user!.phone);
+          print('---------------------');
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const BottomNavigationBarScreen(),
