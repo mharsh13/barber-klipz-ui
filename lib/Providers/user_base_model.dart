@@ -17,15 +17,8 @@ class UserBaseModel extends ChangeNotifier {
   ApiHelper get apiHelper => _apiHelper;
   UserModel? get user => _user;
 
-  Future<void> getUserDetails(BuildContext context) async {
-    try {
-      await _apiHelper.getData(context: context, url: "auth/me").then((value) {
-        if (value != null) {
-          _user = UserModel.fromMap(value["data"]);
-        }
-      });
-    } catch (e) {
-      ToastUtil(context).showErrorToastNotification('Something went wrong');
-    }
+  void updateDetails(Map<String, dynamic> value) {
+    _user = UserModel.fromMap(value);
+    notifyListeners();
   }
 }

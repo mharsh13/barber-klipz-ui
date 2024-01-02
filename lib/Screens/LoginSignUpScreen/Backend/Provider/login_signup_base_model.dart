@@ -11,7 +11,6 @@ import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
 import '../../../../Utils/navigator_util.dart';
 import '../../../../Utils/toast_util.dart';
-import '../../../../global.dart';
 
 final loginSignUpBaseModel =
     ChangeNotifierProvider((ref) => LoginSignUpBaseModel(ref));

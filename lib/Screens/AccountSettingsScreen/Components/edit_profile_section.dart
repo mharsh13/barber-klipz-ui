@@ -5,6 +5,7 @@ import '../../../Resources/color_const.dart';
 import '../../../Utils/net_image.dart';
 import '../../../Utils/text_util.dart';
 import '../Backend/Provider/account_settings_base_model.dart';
+import 'image_source.dart';
 
 Column editProfile(
   ScreenUtil screenUtil,
@@ -27,10 +28,21 @@ Column editProfile(
               fontWeight: FontWeight.w500,
             ),
             const Spacer(),
-            TextUtil.secondaryText(
-              text: "Change cover image",
-              color: kError,
-              size: 12,
+            GestureDetector(
+              onTap: () {
+                imageSource(
+                  title: "Cover Image",
+                  context: context,
+                  screenUtil: screenUtil,
+                  camera: baseModel.selectCoverCameraImage,
+                  gallery: baseModel.selectCoverGalleryImage,
+                );
+              },
+              child: TextUtil.secondaryText(
+                text: "Change cover image",
+                color: kError,
+                size: 12,
+              ),
             ),
           ],
         ),
@@ -40,29 +52,53 @@ Column editProfile(
         child: Stack(
           children: [
             SizedBox(
-                width: screenUtil.screenWidth,
-                height: screenUtil.setHeight(120),
-                child: const NetImage(
-                  uri:
-                      "https://media.istockphoto.com/id/603164912/photo/suburb-asphalt-road-and-sun-flowers.jpg?s=612x612&w=0&k=20&c=qLoQ5QONJduHrQ0kJF3fvoofmGAFcrq6cL84HbzdLQM=",
-                  fit: BoxFit.cover,
-                )),
+              width: screenUtil.screenWidth,
+              height: screenUtil.setHeight(120),
+              child: baseModel.coverPhoto != null
+                  ? Image.file(
+                      baseModel.coverPhoto!,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      decoration:
+                          BoxDecoration(border: Border.all(color: kBlack)),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: screenUtil.setHeight(30)),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: TextUtil.secondaryText(
+                            text: "Upload a cover photo",
+                            color: kBlack,
+                            size: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+            ),
             Positioned(
               bottom: 0.5,
               left: 145,
               child: Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                width: screenUtil.setHeight(80),
-                height: screenUtil.setHeight(80),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: const NetImage(
-                    fit: BoxFit.cover,
-                    uri:
-                        "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
-                  ),
+                height: screenUtil.setHeight(75),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xffA5A5A5),
                 ),
+                child: baseModel.profilePicture != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.file(baseModel.profilePicture!),
+                      )
+                    : CircleAvatar(
+                        radius: screenUtil.setHeight(52),
+                        backgroundColor: kBlack,
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: kWhite,
+                          size: screenUtil.setSp(30),
+                        ),
+                      ),
               ),
             ),
           ],
@@ -71,10 +107,21 @@ Column editProfile(
       SizedBox(
         height: screenUtil.setHeight(7),
       ),
-      TextUtil.secondaryText(
-        text: "Change cover image",
-        color: kError,
-        size: 12,
+      GestureDetector(
+        onTap: () {
+          imageSource(
+            title: "Profile Picture",
+            context: context,
+            screenUtil: screenUtil,
+            camera: baseModel.selectCameraImage,
+            gallery: baseModel.selectGalleryImage,
+          );
+        },
+        child: TextUtil.secondaryText(
+          text: "Change Profile Picture",
+          color: kError,
+          size: 12,
+        ),
       ),
       SizedBox(
         height: screenUtil.setHeight(12),
@@ -99,6 +146,7 @@ Column editProfile(
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Username",
+              controller: baseModel.username,
             )
           ],
         ),
@@ -126,6 +174,7 @@ Column editProfile(
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Enter your name",
+              controller: baseModel.firstName,
             )
           ],
         ),
@@ -153,6 +202,7 @@ Column editProfile(
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Enter your surname",
+              controller: baseModel.lastName,
             )
           ],
         ),
@@ -180,6 +230,7 @@ Column editProfile(
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Enter your website",
+              controller: baseModel.website,
             )
           ],
         ),
@@ -207,6 +258,7 @@ Column editProfile(
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Write something about you",
+              controller: baseModel.bio,
             )
           ],
         ),

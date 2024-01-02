@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/Providers/user_base_model.dart';
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/Backend/Provider/account_settings_base_model.dart';
 import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
 import 'package:barber_klipz_ui/Utils/button_util.dart';
@@ -21,6 +22,7 @@ class AccountSettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final baseModel = ref.watch(accountSettingsBaseModel);
+    final userBase = ref.watch(userBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
@@ -38,11 +40,19 @@ class AccountSettingsScreen extends ConsumerWidget {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: screenUtil.setWidth(8)),
-            child: TextUtil.secondaryText(
-              text: "Save",
-              color: kWhite,
-              size: 14,
-              fontWeight: FontWeight.w500,
+            child: GestureDetector(
+              onTap: () {
+                baseModel.updateProfile(
+                  context,
+                  userBase,
+                );
+              },
+              child: TextUtil.secondaryText(
+                text: "Save",
+                color: kWhite,
+                size: 14,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           )
         ],
