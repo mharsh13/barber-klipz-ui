@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/Utils/toast_util.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -195,7 +196,12 @@ Form signUpComponent(
             text: "Sign Up",
             onPressed: () {
               if (baseModel.formKey.currentState!.validate()) {
-                baseModel.registerUser(context);
+                if (baseModel.privacyPolicy == false) {
+                  ToastUtil(context).showErrorToastNotification(
+                      "Please accept the terms & conditions");
+                } else {
+                  baseModel.registerUser(context);
+                }
               }
             },
             screenUtil: baseModel.screenUtil,
