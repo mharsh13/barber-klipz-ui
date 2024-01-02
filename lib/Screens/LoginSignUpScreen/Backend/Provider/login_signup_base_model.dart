@@ -99,8 +99,6 @@ class LoginSignUpBaseModel extends ChangeNotifier {
                 screen: OtpScreen(
                   forgotPassword: false,
                 ));
-          } else if (value["message"] != null) {
-            ToastUtil(context).showErrorToastNotification(value["message"]);
           }
         }
       });
