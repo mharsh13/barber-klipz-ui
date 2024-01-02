@@ -4,8 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Resources/color_const.dart';
 import '../../../Utils/net_image.dart';
 import '../../../Utils/text_util.dart';
+import '../Backend/Provider/account_settings_base_model.dart';
 
-Column editProfile(ScreenUtil screenUtil) {
+Column editProfile(
+  ScreenUtil screenUtil,
+  AccountSettingsBaseModel baseModel,
+  BuildContext context,
+) {
   return Column(
     children: [
       Container(
@@ -180,56 +185,6 @@ Column editProfile(ScreenUtil screenUtil) {
         ),
       ),
       SizedBox(
-        height: screenUtil.setHeight(15),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenUtil.setWidth(18),
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-              width: screenUtil.setWidth(85),
-              child: TextUtil.secondaryText(
-                text: "Linktree",
-                color: kTextSubTitle,
-                size: 14,
-              ),
-            ),
-            SizedBox(
-              width: screenUtil.setWidth(7),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: kWhite,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const [
-                    BoxShadow(
-                      offset: Offset(1, 1),
-                      blurRadius: 12.0,
-                      color: Color.fromRGBO(0, 0, 0, 0.16),
-                    )
-                  ]),
-              child: Row(
-                children: [
-                  const Icon(Icons.list),
-                  SizedBox(
-                    width: screenUtil.setWidth(5),
-                  ),
-                  TextUtil.secondaryText(
-                    text: "Add this to my linktree",
-                    color: kBlack1,
-                    size: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-      SizedBox(
         height: screenUtil.setHeight(12),
       ),
       Padding(
@@ -276,9 +231,23 @@ Column editProfile(ScreenUtil screenUtil) {
             SizedBox(
               width: screenUtil.setWidth(7),
             ),
-            TextUtil.editProfileTextFormField(
-              screenUtil: screenUtil,
-              hintText: "",
+            GestureDetector(
+              onTap: () async {
+                await baseModel.changeDate(context);
+              },
+              child: TextUtil.editProfileTextFormField(
+                screenUtil: screenUtil,
+                hintText: "Date of birth",
+                controller: baseModel.newDate.text == ""
+                    ? baseModel.selectedDate
+                    : baseModel.newDate,
+                enabled: false,
+                icon: Icon(
+                  Icons.calendar_month_rounded,
+                  size: screenUtil.setSp(18),
+                  color: kHintText,
+                ),
+              ),
             )
           ],
         ),

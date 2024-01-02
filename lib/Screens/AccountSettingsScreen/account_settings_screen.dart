@@ -50,7 +50,11 @@ class AccountSettingsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            editProfile(screenUtil),
+            editProfile(
+              screenUtil,
+              baseModel,
+              context,
+            ),
             category(screenUtil),
             paymentProfile(screenUtil),
             monthStatistics(screenUtil),

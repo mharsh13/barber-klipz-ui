@@ -340,6 +340,9 @@ class TextUtil {
             fontSize: screenUtil.setHeight(12),
             fontWeight: FontWeight.w400,
           ),
+          disabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: kBlack),
+          ),
           suffixIcon: icon,
           suffix: suffix,
           suffixIconConstraints: const BoxConstraints(
