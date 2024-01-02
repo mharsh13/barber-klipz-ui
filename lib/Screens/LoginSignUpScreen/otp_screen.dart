@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/Backend/Provider/login_signup_base_model.dart';
-import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,7 +10,6 @@ import '../../Resources/color_const.dart';
 import '../../Utils/button_util.dart';
 import '../../Utils/text_util.dart';
 import '../../Utils/validator_util.dart';
-import '../RegeneratePasswordScreen/regenerate_password_screen.dart';
 
 // ignore: must_be_immutable
 class OtpScreen extends ConsumerStatefulWidget {
@@ -88,7 +86,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
+              const Center(
                 child: Icon(
                   Icons.mobile_friendly_outlined,
                   size: 100,

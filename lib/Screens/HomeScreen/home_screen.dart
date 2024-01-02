@@ -43,7 +43,6 @@ class HomeScreen extends ConsumerWidget {
                     color: kWhite,
                   ),
                   onPressed: () {
-                    print("hiii");
                     NavigatorUtil.push(context,
                         screen: const ViewFlickzScreen());
                   },

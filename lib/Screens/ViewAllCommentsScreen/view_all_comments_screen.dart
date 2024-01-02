@@ -215,7 +215,7 @@ class ViewAllCommentsScreen extends ConsumerWidget {
                   SizedBox(
                     height: screenUtil.setHeight(5),
                   ),
-                  Divider(
+                  const Divider(
                     color: kGrey,
                   )
                 ],

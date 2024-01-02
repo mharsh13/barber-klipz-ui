@@ -21,16 +21,10 @@ class UserBaseModel extends ChangeNotifier {
     try {
       await _apiHelper.getData(context: context, url: "auth/me").then((value) {
         if (value != null) {
-          print('------------------------------');
-          print(value);
-          print('------------------------------');
           _user = UserModel.fromMap(value["data"]);
         }
       });
     } catch (e) {
-      print('------------------------------');
-      print(e);
-      print('------------------------------');
       ToastUtil(context).showErrorToastNotification('Something went wrong');
     }
   }

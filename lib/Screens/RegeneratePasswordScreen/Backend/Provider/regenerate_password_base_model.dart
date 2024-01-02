@@ -52,7 +52,6 @@ class RegeneratePasswordBaseModel extends ChangeNotifier {
           .then((value) {
         Loader.hide();
         if (value != null) {
-          print(value);
           if (value["message"] != null) {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context).showSuccessToastNotification(value["message"]);
@@ -65,7 +64,6 @@ class RegeneratePasswordBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

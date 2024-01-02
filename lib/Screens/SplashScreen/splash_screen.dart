@@ -9,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../Resources/color_const.dart';
 import '../../Utils/text_util.dart';
-import 'execute.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
