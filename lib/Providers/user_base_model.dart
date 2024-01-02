@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../Helpers/api_helpers.dart';
-import '../Utils/toast_util.dart';
 
 final userBaseModel = ChangeNotifierProvider((ref) => UserBaseModel(ref));
 

@@ -5,7 +5,6 @@ import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../Resources/color_const.dart';
 import '../../Utils/text_util.dart';
@@ -44,11 +43,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         });
       }
     });
-  }
-
-  Future<String> getDocPath() async {
-    final docpath = await getApplicationDocumentsDirectory();
-    return docpath.path;
   }
 
   @override

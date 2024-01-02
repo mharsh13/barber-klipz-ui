@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Resources/color_const.dart';
-import '../../../Utils/net_image.dart';
 import '../../../Utils/text_util.dart';
 import '../Backend/Provider/account_settings_base_model.dart';
 import 'image_source.dart';
