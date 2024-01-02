@@ -23,6 +23,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   void initState() {
+    final splashBaseModel = ref.read(splashScreenBaseModel);
+    splashBaseModel.getMe(context);
     _tabController = TabController(
       length: 2,
       vsync: this,

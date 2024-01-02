@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
+import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
 import 'Components/account_section.dart';
 import 'Components/category_section.dart';
@@ -68,11 +69,8 @@ class AccountSettingsScreen extends ConsumerWidget {
                   text: "Logout",
                   onPressed: () {
                     SharedPreferenceUtil.setJwt('');
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const OnboardingScreen(),
-                      ),
-                    );
+                    NavigatorUtil.pushAndRemoveUntil(context,
+                        screen: const OnboardingScreen());
                   },
                   screenUtil: screenUtil),
             ),

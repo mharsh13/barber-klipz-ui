@@ -29,6 +29,7 @@ class SplashScreenBaseModel extends ChangeNotifier {
     try {
       await _apiHelper.getData(context: context, url: "auth/me").then((value) {
         if (value != null) {
+          print(value);
           isLoggedIn = true;
           _user = UserModel.fromMap(value["data"]);
         }

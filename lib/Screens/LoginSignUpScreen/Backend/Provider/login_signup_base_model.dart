@@ -91,10 +91,12 @@ class LoginSignUpBaseModel extends ChangeNotifier {
       await _apiHelper
           .postData(context: context, data: formData, url: "auth/register")
           .then((value) {
+        print(value);
         Loader.hide();
         if (value != null) {
           if (value["token"] != null) {
-            Global.jwt = value["token"];
+            // Global.jwt = value["token"];
+            SharedPreferenceUtil.setJwt(value["token"]);
             NavigatorUtil.push(context,
                 screen: OtpScreen(
                   forgotPassword: false,
@@ -104,6 +106,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
+      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
