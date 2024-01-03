@@ -11,6 +11,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 // ignore: depend_on_referenced_packages
 import "package:http_parser/http_parser.dart";
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 import '../../../../Helpers/api_helpers.dart';
 import '../../../../Utils/toast_util.dart';
@@ -26,6 +28,8 @@ class AccountSettingsBaseModel extends ChangeNotifier {
   final ScreenUtil _screenUtil = ScreenUtil();
   File? _profilePicture;
   File? _coverPhoto;
+  String? _profileImage;
+  String? _coverImage;
   final TextEditingController _username = TextEditingController();
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
@@ -41,6 +45,8 @@ class AccountSettingsBaseModel extends ChangeNotifier {
   ScreenUtil get screenUtil => _screenUtil;
   File? get profilePicture => _profilePicture;
   File? get coverPhoto => _coverPhoto;
+  String? get profileImage => _profileImage;
+  String? get coverImage => _coverImage;
   TextEditingController get username => _username;
   TextEditingController get firstName => _firstName;
   TextEditingController get lastName => _lastName;
@@ -169,6 +175,22 @@ class AccountSettingsBaseModel extends ChangeNotifier {
       _newDate.text = "${picked.toLocal()}".split(' ')[0];
       notifyListeners();
     }
+  }
+
+  //functions
+
+  //initialized the text form fields with initial value
+  void initialize(UserBaseModel baseModel) {
+    _username.text = baseModel.user!.user_name;
+    _firstName.text = baseModel.user!.first_name ?? "";
+    _lastName.text = baseModel.user!.last_name ?? "";
+    _profileImage = baseModel.user!.profile_image ?? "";
+    _coverImage = baseModel.user!.cover_image ?? "";
+    _selectedDate.text = DateFormat("yyyy-dd-MM")
+        .format(DateTime.parse(baseModel.user!.birthday.toString()));
+    _defaultDate = baseModel.user!.birthday ?? "";
+    _website.text = baseModel.user!.website ?? "";
+    _bio.text = baseModel.user!.bio ?? "";
   }
 
   //API functions

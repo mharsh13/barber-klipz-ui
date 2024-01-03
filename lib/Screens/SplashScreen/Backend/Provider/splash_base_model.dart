@@ -33,6 +33,7 @@ class SplashScreenBaseModel extends ChangeNotifier {
           _user = UserModel.fromMap(value["data"]);
         }
       });
+      notifyListeners();
     } catch (e) {
       isLoggedIn = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");

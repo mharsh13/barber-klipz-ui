@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Resources/color_const.dart';
+import '../../../Utils/net_image.dart';
 import '../../../Utils/text_util.dart';
 import '../Backend/Provider/account_settings_base_model.dart';
 import 'image_source.dart';
@@ -58,22 +59,28 @@ Column editProfile(
                       baseModel.coverPhoto!,
                       fit: BoxFit.cover,
                     )
-                  : Container(
-                      decoration:
-                          BoxDecoration(border: Border.all(color: kBlack)),
-                      child: Padding(
-                        padding: EdgeInsets.only(top: screenUtil.setHeight(30)),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: TextUtil.secondaryText(
-                            text: "Upload a cover photo",
-                            color: kBlack,
-                            size: 15,
-                            fontWeight: FontWeight.w500,
+                  : baseModel.coverImage == null
+                      ? Container(
+                          decoration:
+                              BoxDecoration(border: Border.all(color: kBlack)),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(top: screenUtil.setHeight(30)),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: TextUtil.secondaryText(
+                                text: "Upload a cover photo",
+                                color: kBlack,
+                                size: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
+                        )
+                      : NetImage(
+                          uri: baseModel.coverImage!,
+                          fit: BoxFit.cover,
                         ),
-                      ),
-                    ),
             ),
             Positioned(
               bottom: 0.5,
@@ -89,15 +96,25 @@ Column editProfile(
                         borderRadius: BorderRadius.circular(100),
                         child: Image.file(baseModel.profilePicture!),
                       )
-                    : CircleAvatar(
-                        radius: screenUtil.setHeight(52),
-                        backgroundColor: kBlack,
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: kWhite,
-                          size: screenUtil.setSp(30),
-                        ),
-                      ),
+                    : baseModel.profileImage == null
+                        ? CircleAvatar(
+                            radius: screenUtil.setHeight(52),
+                            backgroundColor: kBlack,
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: kWhite,
+                              size: screenUtil.setSp(30),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: NetImage(
+                              height: screenUtil.setHeight(75),
+                              width: screenUtil.setHeight(75),
+                              uri: baseModel.profileImage!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
               ),
             ),
           ],

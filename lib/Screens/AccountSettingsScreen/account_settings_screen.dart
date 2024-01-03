@@ -16,11 +16,33 @@ import 'Components/help_section.dart';
 import 'Components/month_statistics.dart';
 import 'Components/payment_profile.dart';
 
-class AccountSettingsScreen extends ConsumerWidget {
+class AccountSettingsScreen extends ConsumerStatefulWidget {
   const AccountSettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AccountSettingsScreen> createState() =>
+      _AccountSettingsScreenState();
+}
+
+class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
+  @override
+  void initState() {
+    final baseModel = ref.read(accountSettingsBaseModel);
+    final userBase = ref.read(userBaseModel);
+    getDetails(baseModel, userBase);
+    super.initState();
+  }
+
+  void getDetails(
+      AccountSettingsBaseModel baseModel, UserBaseModel userBaseModel) {
+    baseModel.initialize(userBaseModel);
+    _loader = false;
+  }
+
+  bool _loader = true;
+
+  @override
+  Widget build(BuildContext context) {
     final baseModel = ref.watch(accountSettingsBaseModel);
     final userBase = ref.watch(userBaseModel);
     final screenUtil = baseModel.screenUtil;
@@ -57,50 +79,61 @@ class AccountSettingsScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            editProfile(
-              screenUtil,
-              baseModel,
-              context,
-            ),
-            category(screenUtil),
-            paymentProfile(screenUtil),
-            monthStatistics(screenUtil),
-            accountSection(context, screenUtil),
-            helpSection(screenUtil),
-            SizedBox(
-              height: screenUtil.setHeight(20),
-            ),
-            Center(
-              child: ButtonUtil.primaryButton(
-                  text: "Logout",
-                  onPressed: () {
-                    SharedPreferenceUtil.setJwt('');
-                    NavigatorUtil.pushAndRemoveUntil(context,
-                        screen: const OnboardingScreen());
-                  },
-                  screenUtil: screenUtil),
-            ),
-            SizedBox(
-              height: screenUtil.setHeight(15),
-            ),
-            Center(
-              child: TextUtil.secondaryText(
-                text: "Delete Account",
-                color: kYellow,
-                size: 13,
-                fontWeight: FontWeight.w500,
+      body: _loader
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: kPrimary,
+              ),
+            )
+          : GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    editProfile(
+                      screenUtil,
+                      baseModel,
+                      context,
+                    ),
+                    category(screenUtil),
+                    paymentProfile(screenUtil),
+                    monthStatistics(screenUtil),
+                    accountSection(context, screenUtil),
+                    helpSection(screenUtil),
+                    SizedBox(
+                      height: screenUtil.setHeight(20),
+                    ),
+                    Center(
+                      child: ButtonUtil.primaryButton(
+                          text: "Logout",
+                          onPressed: () {
+                            SharedPreferenceUtil.setJwt('');
+                            NavigatorUtil.pushAndRemoveUntil(context,
+                                screen: const OnboardingScreen());
+                          },
+                          screenUtil: screenUtil),
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(15),
+                    ),
+                    Center(
+                      child: TextUtil.secondaryText(
+                        text: "Delete Account",
+                        color: kYellow,
+                        size: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(25),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(
-              height: screenUtil.setHeight(25),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
