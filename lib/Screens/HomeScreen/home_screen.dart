@@ -1,6 +1,7 @@
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
+import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_chat_room_screen.dart';
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
@@ -44,8 +45,10 @@ class HomeScreen extends ConsumerWidget {
                     color: kWhite,
                   ),
                   onPressed: () {
-                    NavigatorUtil.push(context,
-                        screen: const ViewFlickzScreen());
+                    NavigatorUtil.push(
+                      context,
+                      screen: const ViewFlickzScreen(),
+                    );
                   },
                 ),
               ),
@@ -58,7 +61,10 @@ class HomeScreen extends ConsumerWidget {
                     Icons.chat_outlined,
                     color: kWhite,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    NavigatorUtil.push(context,
+                        screen: const AudioVideoChatRoomScreen());
+                  },
                 ),
               ),
             ],
@@ -71,7 +77,8 @@ class HomeScreen extends ConsumerWidget {
                   color: kWhite,
                 ),
                 onPressed: () {
-                  NavigatorUtil.push(context, screen: FadedPointsScreen());
+                  NavigatorUtil.push(context,
+                      screen: const AudioVideoChatRoomScreen());
                 },
               ),
             ),

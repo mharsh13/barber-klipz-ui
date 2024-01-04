@@ -1,11 +1,8 @@
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/Backend/Provider/faded_points_base_model.dart';
-import 'package:barber_klipz_ui/Utils/button_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/src/screen_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
-import '../../Utils/net_image.dart';
 import '../../Utils/text_util.dart';
 import 'Components/faded_points.dart';
 import 'Components/subscriptions.dart';
