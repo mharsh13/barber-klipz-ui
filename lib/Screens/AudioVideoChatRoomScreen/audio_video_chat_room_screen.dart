@@ -241,6 +241,7 @@ class AudioVideoChatRoomScreen extends ConsumerWidget {
                               width: screenUtil.setWidth(40),
                             ),
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextUtil.secondaryText(
                                   text: "George",
@@ -249,19 +250,19 @@ class AudioVideoChatRoomScreen extends ConsumerWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                                 TextUtil.secondaryText(
-                                  text: "George",
+                                  text: "Sofia",
                                   color: kTextSubTitle,
                                   size: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 TextUtil.secondaryText(
-                                  text: "George",
+                                  text: "Regina",
                                   color: kTextSubTitle,
                                   size: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 TextUtil.secondaryText(
-                                  text: "George",
+                                  text: "Valentina",
                                   color: kTextSubTitle,
                                   size: 13,
                                   fontWeight: FontWeight.bold,
@@ -275,19 +276,19 @@ class AudioVideoChatRoomScreen extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextUtil.secondaryText(
-                                  text: "George",
+                                  text: "Isabella",
                                   color: kTextSubTitle,
                                   size: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 TextUtil.secondaryText(
-                                  text: "George",
+                                  text: "Natalia",
                                   color: kTextSubTitle,
                                   size: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 TextUtil.secondaryText(
-                                  text: "George",
+                                  text: "Renata",
                                   color: kTextSubTitle,
                                   size: 13,
                                   fontWeight: FontWeight.bold,

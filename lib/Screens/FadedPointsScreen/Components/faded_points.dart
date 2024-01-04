@@ -63,7 +63,7 @@ Padding fadedPoints(ScreenUtil screenUtil) {
               ),
               const Spacer(),
               TextUtil.secondaryText(
-                text: '₹85.00',
+                text: '\$85.00',
                 color: kBlack,
                 size: 13,
                 fontWeight: FontWeight.w500,
@@ -106,7 +106,7 @@ Padding fadedPoints(ScreenUtil screenUtil) {
               ),
               const Spacer(),
               TextUtil.secondaryText(
-                text: '₹430.00',
+                text: '\$430.00',
                 color: kBlack,
                 size: 13,
                 fontWeight: FontWeight.w500,
@@ -149,7 +149,7 @@ Padding fadedPoints(ScreenUtil screenUtil) {
               ),
               const Spacer(),
               TextUtil.secondaryText(
-                text: '₹850.00',
+                text: '\$850.00',
                 color: kBlack,
                 size: 13,
                 fontWeight: FontWeight.w500,
@@ -192,7 +192,7 @@ Padding fadedPoints(ScreenUtil screenUtil) {
               ),
               const Spacer(),
               TextUtil.secondaryText(
-                text: '₹2,150.00',
+                text: '\$2,150.00',
                 color: kBlack,
                 size: 13,
                 fontWeight: FontWeight.w500,
@@ -235,7 +235,7 @@ Padding fadedPoints(ScreenUtil screenUtil) {
               ),
               const Spacer(),
               TextUtil.secondaryText(
-                text: '₹8,100.00',
+                text: '\$8,100.00',
                 color: kBlack,
                 size: 13,
                 fontWeight: FontWeight.w500,
@@ -278,7 +278,7 @@ Padding fadedPoints(ScreenUtil screenUtil) {
               ),
               const Spacer(),
               TextUtil.secondaryText(
-                text: '₹19,900.00',
+                text: '\$19,900.00',
                 color: kBlack,
                 size: 13,
                 fontWeight: FontWeight.w500,
