@@ -237,6 +237,7 @@ class TextUtil {
     BuildContext? context,
     FocusNode? nextNode,
     Function(String)? onChanged,
+    bool? obscureText,
   }) {
     return Container(
       width: screenUtil.setWidth(335),
@@ -261,6 +262,7 @@ class TextUtil {
           focusNode!.unfocus();
           FocusScope.of(context!).requestFocus(nextNode);
         },
+        obscureText: obscureText ?? false,
         decoration: InputDecoration(
           focusColor: kBlack,
           focusedBorder: OutlineInputBorder(
@@ -337,6 +339,9 @@ class TextUtil {
             color: kHintText,
             fontSize: screenUtil.setHeight(12),
             fontWeight: FontWeight.w400,
+          ),
+          disabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: kBlack),
           ),
           suffixIcon: icon,
           suffix: suffix,

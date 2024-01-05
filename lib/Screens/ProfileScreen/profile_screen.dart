@@ -1,6 +1,7 @@
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/account_settings_screen.dart';
 import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   void initState() {
+    final splashBaseModel = ref.read(splashScreenBaseModel);
+    splashBaseModel.getMe(context);
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -32,12 +35,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(profileBaseModel);
+    final splashBaseModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlack2,
         title: TextUtil.secondaryText(
-          text: "sm0602",
+          text: splashBaseModel.user == null
+              ? ""
+              : splashBaseModel.user!.user_name,
           color: kGold,
           size: 18,
           fontWeight: FontWeight.w600,

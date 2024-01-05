@@ -79,7 +79,7 @@ class ButtonUtil {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: screenUtil.setWidth(50),
+        width: screenUtil.setWidth(55),
         height: screenUtil.setHeight(22),
         decoration: decoration ??
             BoxDecoration(
@@ -90,7 +90,7 @@ class ButtonUtil {
                   color: Color.fromRGBO(0, 0, 0, 0.16),
                 ),
               ],
-              color: kSecondary,
+              color: kYellow,
               borderRadius: BorderRadius.circular(
                 screenUtil.setSp(100),
               ),

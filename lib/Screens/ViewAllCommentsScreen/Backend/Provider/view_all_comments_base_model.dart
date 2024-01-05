@@ -11,8 +11,8 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
 
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
-  TextEditingController _enterComment = TextEditingController();
-  bool _isFavourite = true;
+  final TextEditingController _enterComment = TextEditingController();
+  final bool _isFavourite = true;
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;

@@ -39,7 +39,7 @@ class ApiHelper {
           res = response.data as Map<String, dynamic>;
         } else {
           res = response.data as Map<String, dynamic>;
-          if (res!["mesaage"] is List) {
+          if (res!["message"].runtimeType == [].runtimeType) {
             ToastUtil(context).showErrorToastNotification(res!["message"][0]);
           } else {
             ToastUtil(context).showErrorToastNotification(res!["message"]);
@@ -79,7 +79,7 @@ class ApiHelper {
           res = response.data as Map<String, dynamic>;
         } else {
           res = response.data as Map<String, dynamic>;
-          if (res!["mesaage"] is List) {
+          if (res!["message"].runtimeType == [].runtimeType) {
             ToastUtil(context).showErrorToastNotification(res!["message"][0]);
           } else {
             ToastUtil(context).showErrorToastNotification(res!["message"]);
@@ -111,7 +111,7 @@ class ApiHelper {
           res = response.data;
         } else {
           res = response.data as Map<String, dynamic>;
-          if (res!["mesaage"] is List) {
+          if (res!["message"].runtimeType == [].runtimeType) {
             ToastUtil(context).showErrorToastNotification(res!["message"][0]);
           } else {
             ToastUtil(context).showErrorToastNotification(res!["message"]);
@@ -119,8 +119,6 @@ class ApiHelper {
         }
       });
     } catch (e) {
-      print('ERROR HERE');
-      print(e);
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
     return res;
@@ -151,7 +149,7 @@ class ApiHelper {
           res = response.data;
         } else {
           res = response.data as Map<String, dynamic>;
-          if (res!["mesaage"] is List) {
+          if (res!["message"].runtimeType == [].runtimeType) {
             ToastUtil(context).showErrorToastNotification(res!["message"][0]);
           } else {
             ToastUtil(context).showErrorToastNotification(res!["message"]);

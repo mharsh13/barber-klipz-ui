@@ -1,5 +1,4 @@
 import 'package:barber_klipz_ui/Screens/ChangePasswordScreen/change_password_screen.dart';
-import 'package:barber_klipz_ui/Screens/ChangeUsernameScreen/change_username_screen.dart';
 import 'package:barber_klipz_ui/Screens/NotificationSettingsScreen/notification_settings_screen.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/material.dart';
@@ -62,79 +61,7 @@ Column accountSection(BuildContext context, ScreenUtil screenUtil) {
         child: Row(
           children: [
             TextUtil.secondaryText(
-              text: "Change Username",
-              color: kTextSubTitle,
-              size: 13,
-            ),
-            const Spacer(),
-            IconButton(
-              onPressed: () {
-                NavigatorUtil.push(context,
-                    screen: const ChangeUsernameScreen());
-              },
-              icon: const Icon(
-                Icons.arrow_forward_ios,
-                color: kTextSubTitle,
-                size: 17,
-              ),
-            )
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenUtil.setWidth(18),
-        ),
-        child: Row(
-          children: [
-            TextUtil.secondaryText(
               text: "Verify Account",
-              color: kTextSubTitle,
-              size: 13,
-            ),
-            const Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.arrow_forward_ios,
-                color: kTextSubTitle,
-                size: 17,
-              ),
-            )
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenUtil.setWidth(18),
-        ),
-        child: Row(
-          children: [
-            TextUtil.secondaryText(
-              text: "Import content from Instagram",
-              color: kTextSubTitle,
-              size: 13,
-            ),
-            const Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.arrow_forward_ios,
-                color: kTextSubTitle,
-                size: 17,
-              ),
-            )
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenUtil.setWidth(18),
-        ),
-        child: Row(
-          children: [
-            TextUtil.secondaryText(
-              text: "Import content from tik tok",
               color: kTextSubTitle,
               size: 13,
             ),

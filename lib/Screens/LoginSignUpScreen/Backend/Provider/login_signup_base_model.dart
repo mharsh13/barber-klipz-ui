@@ -1,20 +1,16 @@
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
+import 'package:barber_klipz_ui/Screens/RegeneratePasswordScreen/regenerate_password_screen.dart';
 import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
-import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
 import '../../../../Utils/navigator_util.dart';
 import '../../../../Utils/toast_util.dart';
-import '../../../../global.dart';
 
 final loginSignUpBaseModel =
     ChangeNotifierProvider((ref) => LoginSignUpBaseModel(ref));
@@ -25,7 +21,6 @@ class LoginSignUpBaseModel extends ChangeNotifier {
 
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
-  final Dio _dio = Dio();
   int _currentValue = 0;
   bool _privacyPolicy = false;
   final TextEditingController _username = TextEditingController();
@@ -38,6 +33,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   final ApiHelper _apiHelper = ApiHelper();
   final TextEditingController _otp = TextEditingController();
+  final TextEditingController _forgetOtp = TextEditingController();
   final TextEditingController _forgotEmail = TextEditingController();
   final GlobalKey<FormState> _forgotPasswordFormKey = GlobalKey<FormState>();
 
@@ -55,6 +51,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   GlobalKey<FormState> get loginFormKey => _loginFormKey;
   ApiHelper get apiHelper => _apiHelper;
   TextEditingController get otp => _otp;
+  TextEditingController get forgetOtp => _forgetOtp;
   TextEditingController get forgotEmail => _forgotEmail;
   GlobalKey<FormState> get forgotPasswordFormKey => _forgotPasswordFormKey;
 
@@ -95,21 +92,18 @@ class LoginSignUpBaseModel extends ChangeNotifier {
           .then((value) {
         Loader.hide();
         if (value != null) {
-          print(value);
           if (value["token"] != null) {
-            Global.jwt = value["token"];
+            // Global.jwt = value["token"];
+            SharedPreferenceUtil.setJwt(value["token"]);
             NavigatorUtil.push(context,
                 screen: OtpScreen(
                   forgotPassword: false,
                 ));
-          } else if (value["message"] != null) {
-            ToastUtil(context).showErrorToastNotification(value["message"]);
           }
         }
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
@@ -136,6 +130,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Sign up successfull");
+
             NavigatorUtil.push(
               context,
               screen: const BottomNavigationBarScreen(),
@@ -169,13 +164,82 @@ class LoginSignUpBaseModel extends ChangeNotifier {
           .then((value) {
         Loader.hide();
         if (value != null) {
-          print(value);
           if (value["token"] != null) {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Logged In Successfully");
             NavigatorUtil.push(context,
                 screen: const BottomNavigationBarScreen());
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> updateOtp(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      Map<String, dynamic> formData = {
+        "email": _forgotEmail.text,
+      };
+
+      await _apiHelper
+          .patchData(context: context, data: formData, url: "auth/update-otp")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          if (value["message"] != null) {
+            SharedPreferenceUtil.setJwt(value["token"]);
+            ToastUtil(context).showSuccessToastNotification(value["message"]);
+            NavigatorUtil.push(context,
+                screen: OtpScreen(
+                  forgotPassword: true,
+                ));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> verifyForgotPassword(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      Map<String, dynamic> formData = {
+        "otp": _forgetOtp.text,
+      };
+
+      await _apiHelper
+          .postData(
+              context: context, data: formData, url: "auth/verify-forget-pwd")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          if (value["token"] != null) {
+            SharedPreferenceUtil.setJwt(value["token"]);
+            ToastUtil(context)
+                .showSuccessToastNotification("OTP verified Successfully");
+            NavigatorUtil.push(context,
+                screen: const RegeneratePasswordScreen());
           }
         }
       });

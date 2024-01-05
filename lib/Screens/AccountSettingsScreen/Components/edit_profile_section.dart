@@ -4,8 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Resources/color_const.dart';
 import '../../../Utils/net_image.dart';
 import '../../../Utils/text_util.dart';
+import '../Backend/Provider/account_settings_base_model.dart';
+import 'image_source.dart';
 
-Column editProfile(ScreenUtil screenUtil) {
+Column editProfile(
+  ScreenUtil screenUtil,
+  AccountSettingsBaseModel baseModel,
+  BuildContext context,
+) {
   return Column(
     children: [
       Container(
@@ -22,10 +28,21 @@ Column editProfile(ScreenUtil screenUtil) {
               fontWeight: FontWeight.w500,
             ),
             const Spacer(),
-            TextUtil.secondaryText(
-              text: "Change cover image",
-              color: kError,
-              size: 12,
+            GestureDetector(
+              onTap: () {
+                imageSource(
+                  title: "Cover Image",
+                  context: context,
+                  screenUtil: screenUtil,
+                  camera: baseModel.selectCoverCameraImage,
+                  gallery: baseModel.selectCoverGalleryImage,
+                );
+              },
+              child: TextUtil.secondaryText(
+                text: "Change cover image",
+                color: kError,
+                size: 12,
+              ),
             ),
           ],
         ),
@@ -35,29 +52,69 @@ Column editProfile(ScreenUtil screenUtil) {
         child: Stack(
           children: [
             SizedBox(
-                width: screenUtil.screenWidth,
-                height: screenUtil.setHeight(120),
-                child: const NetImage(
-                  uri:
-                      "https://media.istockphoto.com/id/603164912/photo/suburb-asphalt-road-and-sun-flowers.jpg?s=612x612&w=0&k=20&c=qLoQ5QONJduHrQ0kJF3fvoofmGAFcrq6cL84HbzdLQM=",
-                  fit: BoxFit.cover,
-                )),
+              width: screenUtil.screenWidth,
+              height: screenUtil.setHeight(120),
+              child: baseModel.coverPhoto != null
+                  ? Image.file(
+                      baseModel.coverPhoto!,
+                      fit: BoxFit.cover,
+                    )
+                  : baseModel.coverImage == null
+                      ? Container(
+                          decoration:
+                              BoxDecoration(border: Border.all(color: kBlack)),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(top: screenUtil.setHeight(30)),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: TextUtil.secondaryText(
+                                text: "Upload a cover photo",
+                                color: kBlack,
+                                size: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
+                      : NetImage(
+                          uri: baseModel.coverImage!,
+                          fit: BoxFit.cover,
+                        ),
+            ),
             Positioned(
               bottom: 0.5,
               left: 145,
               child: Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                width: screenUtil.setHeight(80),
-                height: screenUtil.setHeight(80),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: const NetImage(
-                    fit: BoxFit.cover,
-                    uri:
-                        "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
-                  ),
+                height: screenUtil.setHeight(75),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xffA5A5A5),
                 ),
+                child: baseModel.profilePicture != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.file(baseModel.profilePicture!),
+                      )
+                    : baseModel.profileImage == null
+                        ? CircleAvatar(
+                            radius: screenUtil.setHeight(52),
+                            backgroundColor: kBlack,
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: kWhite,
+                              size: screenUtil.setSp(30),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: NetImage(
+                              height: screenUtil.setHeight(75),
+                              width: screenUtil.setHeight(75),
+                              uri: baseModel.profileImage!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
               ),
             ),
           ],
@@ -66,10 +123,21 @@ Column editProfile(ScreenUtil screenUtil) {
       SizedBox(
         height: screenUtil.setHeight(7),
       ),
-      TextUtil.secondaryText(
-        text: "Change cover image",
-        color: kError,
-        size: 12,
+      GestureDetector(
+        onTap: () {
+          imageSource(
+            title: "Profile Picture",
+            context: context,
+            screenUtil: screenUtil,
+            camera: baseModel.selectCameraImage,
+            gallery: baseModel.selectGalleryImage,
+          );
+        },
+        child: TextUtil.secondaryText(
+          text: "Change Profile Picture",
+          color: kError,
+          size: 12,
+        ),
       ),
       SizedBox(
         height: screenUtil.setHeight(12),
@@ -94,6 +162,7 @@ Column editProfile(ScreenUtil screenUtil) {
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Username",
+              controller: baseModel.username,
             )
           ],
         ),
@@ -121,6 +190,7 @@ Column editProfile(ScreenUtil screenUtil) {
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Enter your name",
+              controller: baseModel.firstName,
             )
           ],
         ),
@@ -148,6 +218,7 @@ Column editProfile(ScreenUtil screenUtil) {
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Enter your surname",
+              controller: baseModel.lastName,
             )
           ],
         ),
@@ -175,56 +246,7 @@ Column editProfile(ScreenUtil screenUtil) {
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Enter your website",
-            )
-          ],
-        ),
-      ),
-      SizedBox(
-        height: screenUtil.setHeight(15),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenUtil.setWidth(18),
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-              width: screenUtil.setWidth(85),
-              child: TextUtil.secondaryText(
-                text: "Linktree",
-                color: kTextSubTitle,
-                size: 14,
-              ),
-            ),
-            SizedBox(
-              width: screenUtil.setWidth(7),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: kWhite,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const [
-                    BoxShadow(
-                      offset: Offset(1, 1),
-                      blurRadius: 12.0,
-                      color: Color.fromRGBO(0, 0, 0, 0.16),
-                    )
-                  ]),
-              child: Row(
-                children: [
-                  const Icon(Icons.list),
-                  SizedBox(
-                    width: screenUtil.setWidth(5),
-                  ),
-                  TextUtil.secondaryText(
-                    text: "Add this to my linktree",
-                    color: kBlack1,
-                    size: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ],
-              ),
+              controller: baseModel.website,
             )
           ],
         ),
@@ -252,6 +274,7 @@ Column editProfile(ScreenUtil screenUtil) {
             TextUtil.editProfileTextFormField(
               screenUtil: screenUtil,
               hintText: "Write something about you",
+              controller: baseModel.bio,
             )
           ],
         ),
@@ -276,9 +299,23 @@ Column editProfile(ScreenUtil screenUtil) {
             SizedBox(
               width: screenUtil.setWidth(7),
             ),
-            TextUtil.editProfileTextFormField(
-              screenUtil: screenUtil,
-              hintText: "",
+            GestureDetector(
+              onTap: () async {
+                await baseModel.changeDate(context);
+              },
+              child: TextUtil.editProfileTextFormField(
+                screenUtil: screenUtil,
+                hintText: "Date of birth",
+                controller: baseModel.newDate.text == ""
+                    ? baseModel.selectedDate
+                    : baseModel.newDate,
+                enabled: false,
+                icon: Icon(
+                  Icons.calendar_month_rounded,
+                  size: screenUtil.setSp(18),
+                  color: kHintText,
+                ),
+              ),
             )
           ],
         ),
