@@ -1,5 +1,7 @@
 import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/Backend/Provider/audio_video_chat_room_base_model.dart';
+import 'package:barber_klipz_ui/Screens/SingleAudioVideoRoomScreen/single_audio_video_room_screen.dart';
 import 'package:barber_klipz_ui/Utils/button_util.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -101,7 +103,10 @@ class AudioVideoChatRoomScreen extends ConsumerWidget {
               itemCount: 10,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    NavigatorUtil.push(context,
+                        screen: const SingleAudioVideoRoomScreen());
+                  },
                   child: Container(
                     foregroundDecoration:
                         const RotatedCornerDecoration.withColor(

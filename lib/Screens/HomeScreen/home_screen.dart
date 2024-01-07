@@ -78,7 +78,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 onPressed: () {
                   NavigatorUtil.push(context,
-                      screen: const FadedPointsScreen());
+                      screen: const AudioVideoChatRoomScreen());
                 },
               ),
             ),
