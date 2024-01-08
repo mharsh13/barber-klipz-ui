@@ -77,8 +77,7 @@ class HomeScreen extends ConsumerWidget {
                   color: kWhite,
                 ),
                 onPressed: () {
-                  NavigatorUtil.push(context,
-                      screen: const AudioVideoChatRoomScreen());
+                  NavigatorUtil.push(context, screen: const ViewFlickzScreen());
                 },
               ),
             ),

@@ -73,7 +73,7 @@ class _ReelComponentState extends ConsumerState<ReelComponent> {
           ),
         ),
         Positioned(
-          bottom: screenUtil.setHeight(60),
+          bottom: screenUtil.setHeight(35),
           left: 0,
           right: 0,
           child: Row(
@@ -115,33 +115,9 @@ class _ReelComponentState extends ConsumerState<ReelComponent> {
               ),
               SizedBox(
                 width: screenUtil.setWidth(60),
-                height: screenUtil.setHeight(140),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    InkWell(
-                        onTap: () {},
-                        child: Icon(
-                          isLike
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
-                          color: isLike ? Colors.red.shade600 : kWhite,
-                          size: 28,
-                        )),
-                    SizedBox(
-                      height: screenUtil.setHeight(24),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.share,
-                        size: 23,
-                        color: kWhite,
-                      ),
-                    ),
-                    SizedBox(
-                      height: screenUtil.setHeight(24),
-                    ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: NetImage(
@@ -151,8 +127,78 @@ class _ReelComponentState extends ConsumerState<ReelComponent> {
                         width: screenUtil.setHeight(30),
                       ),
                     ),
-                    const SizedBox(
-                      height: 2,
+                    SizedBox(
+                      height: screenUtil.setHeight(17),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: const Icon(
+                        Icons.thumb_up_alt_outlined,
+                        color: kWhite,
+                        size: 28,
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(5),
+                    ),
+                    TextUtil.secondaryText(
+                      text: "0",
+                      color: kWhite,
+                      size: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(17),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Icon(
+                        isLike
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        color: isLike ? Colors.red.shade600 : kWhite,
+                        size: 28,
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(5),
+                    ),
+                    TextUtil.secondaryText(
+                      text: "0",
+                      color: kWhite,
+                      size: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(17),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: const Icon(
+                        Icons.message,
+                        color: kWhite,
+                        size: 28,
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(5),
+                    ),
+                    TextUtil.secondaryText(
+                      text: "0",
+                      color: kWhite,
+                      size: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: screenUtil.setHeight(17),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: const Icon(
+                        Icons.share,
+                        size: 23,
+                        color: kWhite,
+                      ),
                     ),
                   ],
                 ),
