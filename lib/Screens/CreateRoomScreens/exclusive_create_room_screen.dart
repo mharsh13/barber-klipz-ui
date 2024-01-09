@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../Resources/color_const.dart';
 import '../../Utils/text_util.dart';
 
-class PublicCreateRoomScreen extends ConsumerWidget {
-  const PublicCreateRoomScreen({super.key});
+class ExclusiveCreateRoomScreen extends ConsumerWidget {
+  const ExclusiveCreateRoomScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -161,7 +161,7 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                         ),
                         height: screenUtil.setHeight(30),
                         decoration: BoxDecoration(
-                          color: kGreen,
+                          color: kHintText.withOpacity(0.7),
                           borderRadius: BorderRadius.all(
                             Radius.circular(
                               screenUtil.setSp(30),
@@ -187,7 +187,7 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                         ),
                         height: screenUtil.setHeight(30),
                         decoration: BoxDecoration(
-                          color: kHintText.withOpacity(0.7),
+                          color: kSecondaryInactive,
                           borderRadius: BorderRadius.all(
                             Radius.circular(
                               screenUtil.setSp(30),
@@ -236,7 +236,8 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                     height: screenUtil.setHeight(10),
                   ),
                   TextUtil.secondaryText(
-                    text: "Anyone can join",
+                    text:
+                        "Your subscribers can join, anyone can unlock it with faded points.",
                     color: kHintText,
                     size: 12,
                   ),
