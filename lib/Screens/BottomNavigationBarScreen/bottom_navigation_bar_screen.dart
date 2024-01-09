@@ -1,6 +1,7 @@
 import 'package:barber_klipz_ui/Screens/AddPostScreen/add_post_screen.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/Backend/Provider/bottom_navigation_bar_base_model.dart';
 import 'package:barber_klipz_ui/Screens/CreateRoomScreens/exclusive_create_room_screen.dart';
+import 'package:barber_klipz_ui/Screens/CreateRoomScreens/private_create_room_screen.dart';
 import 'package:barber_klipz_ui/Screens/CreateRoomScreens/public_create_room_screen.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
@@ -241,35 +242,42 @@ class _BottomNavigationBarScreenState
                                     SizedBox(
                                       width: baseModel.screenUtil.setWidth(15),
                                     ),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: baseModel.screenUtil
-                                              .setHeight(60),
-                                          width:
-                                              baseModel.screenUtil.setWidth(60),
-                                          decoration: BoxDecoration(
+                                    GestureDetector(
+                                      onTap: () {
+                                        NavigatorUtil.push(context,
+                                            screen:
+                                                const PrivateCreateRoomScreen());
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: baseModel.screenUtil
+                                                .setHeight(60),
+                                            width: baseModel.screenUtil
+                                                .setWidth(60),
+                                            decoration: BoxDecoration(
+                                              color: kBlack,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: const Icon(
+                                              Icons.lock,
+                                              color: kWhite,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: baseModel.screenUtil
+                                                .setHeight(5),
+                                          ),
+                                          TextUtil.secondaryText(
+                                            text: "Private\ninvite only",
                                             color: kBlack,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            size: 11,
+                                            fontWeight: FontWeight.w500,
+                                            textAlign: TextAlign.center,
                                           ),
-                                          child: const Icon(
-                                            Icons.lock,
-                                            color: kWhite,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              baseModel.screenUtil.setHeight(5),
-                                        ),
-                                        TextUtil.secondaryText(
-                                          text: "Private\ninvite only",
-                                          color: kBlack,
-                                          size: 11,
-                                          fontWeight: FontWeight.w500,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

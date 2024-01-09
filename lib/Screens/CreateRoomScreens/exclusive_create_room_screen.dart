@@ -66,7 +66,7 @@ class ExclusiveCreateRoomScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: TextFormField(
-                      controller: baseModel.publicTitle,
+                      controller: baseModel.exclusiveTitle,
                       cursorColor: kBlack,
                       keyboardType: TextInputType.text,
                       style: TextUtil.textStyle(
@@ -266,7 +266,7 @@ class ExclusiveCreateRoomScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: TextFormField(
-                          controller: baseModel.publicTitle,
+                          controller: baseModel.exclusiveTags,
                           cursorColor: kBlack,
                           keyboardType: TextInputType.text,
                           style: TextUtil.textStyle(
@@ -330,12 +330,12 @@ class ExclusiveCreateRoomScreen extends ConsumerWidget {
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: CupertinoSwitch(
-                        value: baseModel.inRoomChats,
+                        value: baseModel.exclusiveInRoomChats,
                         activeColor: kYellow,
                         trackColor: kGrey,
                         thumbColor: kWhite,
                         onChanged: (value) {
-                          baseModel.enableInRoomChats(value);
+                          baseModel.enableExclusiveInRoomChats(value);
                         },
                       ),
                     ),

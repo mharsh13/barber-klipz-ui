@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../Resources/color_const.dart';
 import '../../Utils/text_util.dart';
 
-class PublicCreateRoomScreen extends ConsumerWidget {
-  const PublicCreateRoomScreen({super.key});
+class PrivateCreateRoomScreen extends ConsumerWidget {
+  const PrivateCreateRoomScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,7 +66,7 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: TextFormField(
-                      controller: baseModel.publicTitle,
+                      controller: baseModel.privateTitle,
                       cursorColor: kBlack,
                       keyboardType: TextInputType.text,
                       style: TextUtil.textStyle(
@@ -161,7 +161,7 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                         ),
                         height: screenUtil.setHeight(30),
                         decoration: BoxDecoration(
-                          color: kGreen,
+                          color: kHintText.withOpacity(0.7),
                           borderRadius: BorderRadius.all(
                             Radius.circular(
                               screenUtil.setSp(30),
@@ -213,7 +213,7 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                         ),
                         height: screenUtil.setHeight(30),
                         decoration: BoxDecoration(
-                          color: kHintText.withOpacity(0.7),
+                          color: kBlack,
                           borderRadius: BorderRadius.all(
                             Radius.circular(
                               screenUtil.setSp(30),
@@ -236,7 +236,7 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                     height: screenUtil.setHeight(10),
                   ),
                   TextUtil.secondaryText(
-                    text: "Anyone can join",
+                    text: "Just for you and your friends.",
                     color: kHintText,
                     size: 12,
                   ),
@@ -265,7 +265,7 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: TextFormField(
-                          controller: baseModel.publicTags,
+                          controller: baseModel.privateTags,
                           cursorColor: kBlack,
                           keyboardType: TextInputType.text,
                           style: TextUtil.textStyle(
@@ -329,12 +329,12 @@ class PublicCreateRoomScreen extends ConsumerWidget {
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: CupertinoSwitch(
-                        value: baseModel.publicInRoomChats,
+                        value: baseModel.privateInRoomChats,
                         activeColor: kYellow,
                         trackColor: kGrey,
                         thumbColor: kWhite,
                         onChanged: (value) {
-                          baseModel.enablePublicInRoomChats(value);
+                          baseModel.enablePrivateInRoomChats(value);
                         },
                       ),
                     ),
