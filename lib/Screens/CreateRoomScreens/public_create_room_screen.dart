@@ -1,4 +1,6 @@
 import 'package:barber_klipz_ui/Screens/CreateRoomScreens/Backend/Provider/create_room_base_model.dart';
+import 'package:barber_klipz_ui/Screens/CreateRoomScreens/with_create_room_screen.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,11 +33,17 @@ class PublicCreateRoomScreen extends ConsumerWidget {
             padding: EdgeInsets.only(
               right: screenUtil.setWidth(10),
             ),
-            child: TextUtil.secondaryText(
-              text: "Next",
-              color: kWhite,
-              size: 14,
-              fontWeight: FontWeight.w500,
+            child: GestureDetector(
+              onTap: () {
+                NavigatorUtil.push(context,
+                    screen: const WithCreateRoomScreen());
+              },
+              child: TextUtil.secondaryText(
+                text: "Next",
+                color: kWhite,
+                size: 14,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           )
         ],

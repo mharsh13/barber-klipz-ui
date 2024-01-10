@@ -6,11 +6,9 @@ import 'package:barber_klipz_ui/Screens/CreateRoomScreens/public_create_room_scr
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
-import '../../Utils/net_image.dart';
 
 class BottomNavigationBarScreen extends ConsumerStatefulWidget {
   const BottomNavigationBarScreen({super.key});
