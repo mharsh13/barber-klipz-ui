@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_chat_room_screen.dart';
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
+import 'package:barber_klipz_ui/Screens/HomeScreen/story_creator_screen.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
@@ -10,6 +13,9 @@ import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:story_maker/story_maker.dart';
 
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
@@ -45,6 +51,7 @@ class HomeScreen extends ConsumerWidget {
                     color: kWhite,
                   ),
                   onPressed: () {
+                    print('------------------------');
                     NavigatorUtil.push(
                       context,
                       screen: const ViewFlickzScreen(),
@@ -62,8 +69,11 @@ class HomeScreen extends ConsumerWidget {
                     color: kWhite,
                   ),
                   onPressed: () {
-                    NavigatorUtil.push(context,
-                        screen: const AudioVideoChatRoomScreen());
+                    print('------------------------');
+                    NavigatorUtil.push(
+                      context,
+                      screen: const AudioVideoChatRoomScreen(),
+                    );
                   },
                 ),
               ),
@@ -77,7 +87,8 @@ class HomeScreen extends ConsumerWidget {
                   color: kWhite,
                 ),
                 onPressed: () {
-                  NavigatorUtil.push(context, screen: const ViewFlickzScreen());
+                  NavigatorUtil.push(context,
+                      screen: const FadedPointsScreen());
                 },
               ),
             ),
@@ -86,7 +97,8 @@ class HomeScreen extends ConsumerWidget {
                 icon: const Icon(Icons.email_outlined),
                 color: kWhite,
                 onPressed: () {
-                  NavigatorUtil.push(context, screen: const InboxScreen());
+                  NavigatorUtil.push(context,
+                      screen: const AudioVideoChatRoomScreen());
                 },
               ),
             ),
@@ -107,33 +119,57 @@ class HomeScreen extends ConsumerWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return index == 0
-                        ? badges.Badge(
-                            position: badges.BadgePosition.bottomEnd(
-                                bottom: -1, end: 5),
-                            showBadge: true,
-                            badgeStyle: const badges.BadgeStyle(
-                              badgeColor: kYellow,
-                            ),
-                            onTap: () {},
-                            badgeContent: const Icon(Icons.add,
-                                color: Colors.white, size: 10),
-                            child: Container(
-                              height: screenUtil.setHeight(50),
-                              width: screenUtil.setHeight(50),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: screenUtil.setWidth(8)),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    width: screenUtil.setWidth(1),
-                                    color: kGold),
+                        ? GestureDetector(
+                            onTap: () async {
+                              // await [
+                              //   Permission.photos,
+                              //   Permission.storage,
+                              //   Permission.camera,
+                              // ].request();
+                              // final picker = ImagePicker();
+                              // await picker
+                              //     .pickImage(source: ImageSource.gallery)
+                              //     .then((file) async {
+                              //   final File editedFile =
+                              //       await Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (context) => StoryMaker(
+                              //         filePath: file!.path,
+                              //       ),
+                              //     ),
+                              //   );
+                              NavigatorUtil.push(context,
+                                  screen: StoryCreatorScreen());
+                              // });
+                            },
+                            child: badges.Badge(
+                              position: badges.BadgePosition.bottomEnd(
+                                  bottom: -1, end: 5),
+                              showBadge: true,
+                              badgeStyle: const badges.BadgeStyle(
+                                badgeColor: kYellow,
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: const NetImage(
-                                  fit: BoxFit.cover,
-                                  uri:
-                                      "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
+                              onTap: () {},
+                              badgeContent: const Icon(Icons.add,
+                                  color: Colors.white, size: 10),
+                              child: Container(
+                                height: screenUtil.setHeight(50),
+                                width: screenUtil.setHeight(50),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: screenUtil.setWidth(8)),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      width: screenUtil.setWidth(1),
+                                      color: kGold),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: const NetImage(
+                                    fit: BoxFit.cover,
+                                    uri:
+                                        "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
+                                  ),
                                 ),
                               ),
                             ),
