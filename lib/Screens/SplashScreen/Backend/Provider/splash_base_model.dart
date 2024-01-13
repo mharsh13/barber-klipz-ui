@@ -35,6 +35,7 @@ class SplashScreenBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
+      print(e);
       isLoggedIn = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
