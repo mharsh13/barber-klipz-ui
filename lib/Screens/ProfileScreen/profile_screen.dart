@@ -5,7 +5,6 @@ import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_bas
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/src/screen_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';

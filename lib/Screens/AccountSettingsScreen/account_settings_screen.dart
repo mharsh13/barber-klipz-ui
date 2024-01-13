@@ -9,7 +9,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../Resources/color_const.dart';
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
-import '../SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'Components/account_section.dart';
 import 'Components/category_section.dart';
 import 'Components/edit_profile_section.dart';
