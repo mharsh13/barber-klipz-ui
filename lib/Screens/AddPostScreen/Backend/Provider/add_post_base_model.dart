@@ -129,6 +129,8 @@ class AddPostBaseModel extends ChangeNotifier {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).pop();
+          ToastUtil(context)
+              .showSuccessToastNotification("Post created successfully");
         }
       });
       notifyListeners();
