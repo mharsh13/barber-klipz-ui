@@ -46,7 +46,6 @@ class HomeScreen extends ConsumerWidget {
                     color: kWhite,
                   ),
                   onPressed: () {
-                    print('------------------------');
                     NavigatorUtil.push(
                       context,
                       screen: const ViewFlickzScreen(),
@@ -64,7 +63,6 @@ class HomeScreen extends ConsumerWidget {
                     color: kWhite,
                   ),
                   onPressed: () {
-                    print('------------------------');
                     NavigatorUtil.push(
                       context,
                       screen: const AudioVideoChatRoomScreen(),

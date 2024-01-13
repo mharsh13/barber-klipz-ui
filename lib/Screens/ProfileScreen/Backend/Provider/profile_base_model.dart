@@ -19,7 +19,7 @@ class ProfileBaseModel extends ChangeNotifier {
   int _currentValue = 0;
   bool _loader = false;
   final ApiHelper _apiHelper = ApiHelper();
-  List<CreatePostModel> _allPosts = [];
+  final List<CreatePostModel> _allPosts = [];
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
@@ -56,7 +56,6 @@ class ProfileBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -119,12 +121,10 @@ class AddPostBaseModel extends ChangeNotifier {
           ),
         ),
       });
-      // ignore: use_build_context_synchronously
       await _apiHelper
           .postData(context: context, data: formData, url: "post/create")
           .then((value) {
         Loader.hide();
-        print(value);
         if (value != null) {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
@@ -135,7 +135,6 @@ class AddPostBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

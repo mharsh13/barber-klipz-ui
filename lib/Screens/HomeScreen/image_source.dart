@@ -63,8 +63,10 @@ Future<void> imageSource({
                       ),
                       child: IconButton(
                         onPressed: () {
-                          NavigatorUtil.push(context, screen: CameraPage())
-                              .then((value) => Navigator.of(context).pop());
+                          NavigatorUtil.push(
+                            context,
+                            screen: const CameraPage(),
+                          ).then((value) => Navigator.of(context).pop());
                         },
                         icon: const Icon(Icons.camera_alt_rounded),
                         color: kBlack,

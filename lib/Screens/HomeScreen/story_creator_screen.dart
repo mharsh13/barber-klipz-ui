@@ -40,7 +40,6 @@ class _StoryCreatorScreenState extends ConsumerState<StoryCreatorScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print('-------------------------');
                     baseModel.setStoryFilter(context);
                   },
                   child: Column(

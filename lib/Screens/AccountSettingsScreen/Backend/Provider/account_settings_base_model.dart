@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:barber_klipz_ui/Providers/user_base_model.dart';
@@ -240,7 +242,6 @@ class AccountSettingsBaseModel extends ChangeNotifier {
           .patchData(
               context: context, data: formData, url: "user/update-profile")
           .then((value) {
-        print(value);
         Loader.hide();
         if (value != null) {
           ToastUtil(context)
