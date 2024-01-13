@@ -5,10 +5,12 @@ import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_bas
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/src/screen_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Resources/color_const.dart';
 import '../../Utils/text_util.dart';
+import 'Components/post_component.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -370,37 +372,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             ],
           ),
           baseModel.currentValue == 0
-              ? Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: screenUtil.setHeight(20)),
-                  child: Column(children: [
-                    Icon(
-                      Icons.video_collection_outlined,
-                      color: kHintText,
-                      size: screenUtil.setSp(80),
-                    ),
-                    SizedBox(
-                      height: screenUtil.setHeight(10),
-                    ),
-                    TextUtil.secondaryText(
-                      text: "Your content has values!",
-                      color: kBlack,
-                      size: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    SizedBox(
-                      height: screenUtil.setHeight(10),
-                    ),
-                    TextUtil.secondaryText(
-                      text:
-                          "Create your first piece of content\nand start making money.",
-                      color: kBlack,
-                      size: 14,
-                      fontWeight: FontWeight.w400,
-                      textAlign: TextAlign.center,
-                    )
-                  ]),
-                )
+              ? postsComponent(screenUtil)
               : Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: screenUtil.setHeight(20)),
