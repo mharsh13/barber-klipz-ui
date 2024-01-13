@@ -118,9 +118,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   SizedBox(
                       width: screenUtil.screenWidth,
                       height: screenUtil.setHeight(120),
-                      child: const NetImage(
-                        uri:
-                            "https://media.istockphoto.com/id/603164912/photo/suburb-asphalt-road-and-sun-flowers.jpg?s=612x612&w=0&k=20&c=qLoQ5QONJduHrQ0kJF3fvoofmGAFcrq6cL84HbzdLQM=",
+                      child: NetImage(
+                        uri: splashBaseModel.user!.cover_image,
                         fit: BoxFit.cover,
                       )),
                   Positioned(
@@ -133,10 +132,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       height: screenUtil.setHeight(80),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: const NetImage(
+                          child: NetImage(
                             fit: BoxFit.cover,
-                            uri:
-                                "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+                            uri: splashBaseModel.user!.profile_image,
                           )),
                     ),
                   ),
