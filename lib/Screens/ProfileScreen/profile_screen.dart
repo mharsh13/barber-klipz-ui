@@ -36,7 +36,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   void getPosts(ProfileBaseModel baseModel) {
-    baseModel.getAllPosts(context);
+    baseModel.getAllUserPosts(context);
   }
 
   @override

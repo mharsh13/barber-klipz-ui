@@ -61,6 +61,7 @@ dependencies:
   story_maker: ^1.0.5
   flutter_camera: ^1.0.0
   image_painter: ^0.6.1
+  timeago: ^3.2.2
 
 dev_dependencies:
   flutter_test:

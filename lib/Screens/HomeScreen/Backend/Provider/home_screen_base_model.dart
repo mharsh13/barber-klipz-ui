@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,10 +12,13 @@ import 'package:path/path.dart';
 import 'package:image/image.dart' as img;
 import 'package:photofilters/photofilters.dart';
 
+import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
 import '../../../../Utils/navigator_util.dart';
 import '../../../../Utils/text_util.dart';
+import '../../../../Utils/toast_util.dart';
 import '../../story_creator_screen.dart';
+import '../Model/all_post_model.dart';
 
 final homeScreenBaseModel =
     ChangeNotifierProvider((ref) => HomeScreenBaseModel(ref));
@@ -27,12 +32,18 @@ class HomeScreenBaseModel extends ChangeNotifier {
   final ImagePicker _imagePicker = ImagePicker();
   String? _imagePath;
   File? _storyImage;
+  final ApiHelper _apiHelper = ApiHelper();
+  final List<AllPostModel> _allPosts = [];
+  bool _loader = false;
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   ImagePicker get imagePicker => _imagePicker;
   String? get imagePath => _imagePath;
   File? get storyImage => _storyImage;
+  ApiHelper get apiHelper => _apiHelper;
+  List<AllPostModel> get allPosts => _allPosts;
+  bool get loader => _loader;
 
   //selects profile picture of user from gallery
   Future<void> selectGalleryImage() async {
@@ -114,6 +125,31 @@ class HomeScreenBaseModel extends ChangeNotifier {
     if (imageFile != null && imageFile.containsKey('image_filtered')) {
       _storyImage = imageFile['image_filtered'];
       notifyListeners();
+    }
+  }
+
+  //API functions
+
+  //gets the list of all the posts
+  Future<void> getAllPosts(BuildContext context) async {
+    try {
+      _loader = true;
+      await _apiHelper
+          .getData(context: context, url: "post/get-all")
+          .then((value) {
+        _loader = false;
+        _allPosts.clear();
+        if (value != null) {
+          List data = value["data"];
+          for (Map<String, dynamic> post in data) {
+            _allPosts.add(AllPostModel.fromMap(post));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
 }

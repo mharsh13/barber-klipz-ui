@@ -84,7 +84,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       body: _loader
           ? const Center(
               child: CircularProgressIndicator(
-                color: kPrimary,
+                color: kYellow,
               ),
             )
           : GestureDetector(

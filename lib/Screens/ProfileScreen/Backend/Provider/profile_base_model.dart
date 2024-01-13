@@ -38,8 +38,8 @@ class ProfileBaseModel extends ChangeNotifier {
 
   //API functions
 
-  //gets the list of all the collabs
-  Future<void> getAllPosts(BuildContext context) async {
+  //gets the list of all the user posts
+  Future<void> getAllUserPosts(BuildContext context) async {
     try {
       _loader = true;
       await _apiHelper
