@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Models/create_post_model.dart';
+import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Models/user_post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,14 +19,14 @@ class ProfileBaseModel extends ChangeNotifier {
   int _currentValue = 0;
   bool _loader = false;
   final ApiHelper _apiHelper = ApiHelper();
-  final List<CreatePostModel> _allPosts = [];
+  final List<UserPostModel> _allPosts = [];
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   int get currentValue => _currentValue;
   bool get loader => _loader;
   ApiHelper get apiHelper => _apiHelper;
-  List<CreatePostModel> get allPosts => _allPosts;
+  List<UserPostModel> get allPosts => _allPosts;
 
   //functions
 
@@ -50,7 +50,7 @@ class ProfileBaseModel extends ChangeNotifier {
         if (value != null) {
           List data = value["data"];
           for (Map<String, dynamic> post in data) {
-            _allPosts.add(CreatePostModel.fromMap(post));
+            _allPosts.add(UserPostModel.fromMap(post));
           }
         }
       });

@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class CreatePostModel {
+class UserPostModel {
   String id;
   String caption;
   String media_type;
@@ -16,7 +16,7 @@ class CreatePostModel {
   String updated_at;
   bool liked;
 
-  CreatePostModel({
+  UserPostModel({
     required this.id,
     required this.caption,
     required this.media_type,
@@ -46,8 +46,8 @@ class CreatePostModel {
     };
   }
 
-  factory CreatePostModel.fromMap(Map<String, dynamic> map) {
-    return CreatePostModel(
+  factory UserPostModel.fromMap(Map<String, dynamic> map) {
+    return UserPostModel(
       id: map['id'] as String,
       caption: map['caption'] as String,
       media_type: map['media_type'] as String,
@@ -64,6 +64,6 @@ class CreatePostModel {
 
   String toJson() => json.encode(toMap());
 
-  factory CreatePostModel.fromJson(String source) =>
-      CreatePostModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserPostModel.fromJson(String source) =>
+      UserPostModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
