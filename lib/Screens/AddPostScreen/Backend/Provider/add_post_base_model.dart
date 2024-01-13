@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,9 +10,13 @@ import 'package:image/image.dart' as img;
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 import 'package:photofilters/photofilters.dart';
+// ignore: depend_on_referenced_packages
+import "package:http_parser/http_parser.dart";
 
+import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
 import '../../../../Utils/text_util.dart';
+import '../../../../Utils/toast_util.dart';
 
 final addPostBaseModel = ChangeNotifierProvider((ref) => AddPostBaseModel(ref));
 
@@ -28,6 +34,7 @@ class AddPostBaseModel extends ChangeNotifier {
   XFile? _pickedFile;
   bool _exclusiveContent = false;
   bool _exclusiveContentAgreement = false;
+  final ApiHelper _apiHelper = ApiHelper();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
@@ -39,6 +46,7 @@ class AddPostBaseModel extends ChangeNotifier {
   XFile? get pickedFile => _pickedFile;
   bool get exclusiveContent => _exclusiveContent;
   bool get exclusiveContentAgreement => _exclusiveContentAgreement;
+  ApiHelper get apiHelper => _apiHelper;
 
   //functions
 
@@ -84,6 +92,50 @@ class AddPostBaseModel extends ChangeNotifier {
         _selectedImage = imageFile['image_filtered'];
         notifyListeners();
       }
+    }
+  }
+
+  //API calls
+
+  Future<void> createImagePost(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      String fileName = _selectedImage!.path.split('/').last;
+      FormData formData = FormData.fromMap({
+        "caption": _caption.text,
+        "media_type": "IMAGE",
+        "media": await MultipartFile.fromFile(
+          _selectedImage!.path,
+          filename: fileName,
+          contentType: MediaType(
+            "image",
+            'png,jpg,jpeg',
+          ),
+        ),
+      });
+      // ignore: use_build_context_synchronously
+      await _apiHelper
+          .postData(context: context, data: formData, url: "post/create")
+          .then((value) {
+        Loader.hide();
+        print(value);
+        if (value != null) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      Loader.hide();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
 }
