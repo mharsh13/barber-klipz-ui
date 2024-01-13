@@ -43,7 +43,7 @@ class ProfileBaseModel extends ChangeNotifier {
     try {
       _loader = true;
       await _apiHelper
-          .getData(context: context, url: "post/get-all")
+          .getData(context: context, url: "user/get-all-post")
           .then((value) {
         _loader = false;
         _allPosts.clear();
