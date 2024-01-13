@@ -1,25 +1,20 @@
-import 'dart:io';
-
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
 import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_chat_room_screen.dart';
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/story_creator_screen.dart';
-import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:story_maker/story_maker.dart';
 
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
 import '../ViewAllCommentsScreen/view_all_comments_screen.dart';
+import 'image_source.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -121,26 +116,13 @@ class HomeScreen extends ConsumerWidget {
                     return index == 0
                         ? GestureDetector(
                             onTap: () async {
-                              // await [
-                              //   Permission.photos,
-                              //   Permission.storage,
-                              //   Permission.camera,
-                              // ].request();
-                              // final picker = ImagePicker();
-                              // await picker
-                              //     .pickImage(source: ImageSource.gallery)
-                              //     .then((file) async {
-                              //   final File editedFile =
-                              //       await Navigator.of(context).push(
-                              //     MaterialPageRoute(
-                              //       builder: (context) => StoryMaker(
-                              //         filePath: file!.path,
-                              //       ),
-                              //     ),
-                              //   );
-                              NavigatorUtil.push(context,
-                                  screen: StoryCreatorScreen());
-                              // });
+                              imageSource(
+                                title: "Story",
+                                context: context,
+                                screenUtil: screenUtil,
+                                gallery: baseModel.selectGalleryImage,
+                              ).then((value) => NavigatorUtil.push(context,
+                                  screen: const StoryCreatorScreen()));
                             },
                             child: badges.Badge(
                               position: badges.BadgePosition.bottomEnd(
@@ -419,29 +401,6 @@ class HomeScreen extends ConsumerWidget {
                 },
               )
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ColorTile extends StatelessWidget {
-  final Color color;
-
-  const ColorTile({super.key, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: color,
-      height: 600,
-      child: Center(
-        child: Text(
-          color.toString(),
-          style: TextStyle(
-            color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
-            fontWeight: FontWeight.bold,
           ),
         ),
       ),

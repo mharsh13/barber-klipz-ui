@@ -1,14 +1,15 @@
+import 'package:barber_klipz_ui/Screens/HomeScreen/camera_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Resources/color_const.dart';
 import '../../../Utils/text_util.dart';
+import '../../Utils/navigator_util.dart';
 
 Future<void> imageSource({
   required BuildContext context,
   required ScreenUtil screenUtil,
   required String title,
-  required Future<void> Function() camera,
   required Future<void> Function() gallery,
 }) async {
   await showModalBottomSheet(
@@ -62,7 +63,8 @@ Future<void> imageSource({
                       ),
                       child: IconButton(
                         onPressed: () {
-                          camera().then((value) => Navigator.of(context).pop());
+                          NavigatorUtil.push(context, screen: CameraPage())
+                              .then((value) => Navigator.of(context).pop());
                         },
                         icon: const Icon(Icons.camera_alt_rounded),
                         color: kBlack,

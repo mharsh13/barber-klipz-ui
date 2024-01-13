@@ -1,83 +1,87 @@
-import 'dart:io';
-
+// ignore_for_file: use_build_context_synchronously
+import 'package:barber_klipz_ui/Resources/color_const.dart';
+import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:story_maker/story_maker.dart';
 
-class StoryCreatorScreen extends StatefulWidget {
+class StoryCreatorScreen extends ConsumerStatefulWidget {
+  const StoryCreatorScreen({super.key});
+
   @override
-  _StoryCreatorScreenState createState() => _StoryCreatorScreenState();
+  ConsumerState<StoryCreatorScreen> createState() => _StoryCreatorScreenState();
 }
 
-class _StoryCreatorScreenState extends State<StoryCreatorScreen> {
-  final ImagePicker _imagePicker = ImagePicker();
-  TextEditingController textEditingController = TextEditingController();
-
-  String? imagePath;
-
+class _StoryCreatorScreenState extends ConsumerState<StoryCreatorScreen> {
   @override
   Widget build(BuildContext context) {
+    final baseModel = ref.watch(homeScreenBaseModel);
+    final screenUtil = baseModel.screenUtil;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Story Creator'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: () {
-              // Handle the action when the user clicks the checkmark button
-            },
-          ),
-        ],
-      ),
       body: Column(
         children: [
           Expanded(
-            child: imagePath != null
+            child: baseModel.storyImage != null
                 ? StoryMaker(
-                    filePath: imagePath!,
-
-                    // fit: BoxFit.cover,
+                    filePath: baseModel.storyImage!.path,
                   )
                 : Container(
-                    // Display the image or video content here
-                    color: Colors.black,
+                    color: kBlack,
                   ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: screenUtil.setWidth(10),
+              vertical: screenUtil.setHeight(6),
+            ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: Icon(Icons.camera),
-                  onPressed: () async {
-                    // Handle the action when the user clicks the camera button
-                    final pickedFile = await _imagePicker.pickImage(
-                        source: ImageSource.camera);
-
-                    setState(() {
-                      imagePath = pickedFile!.path;
-                    });
+                GestureDetector(
+                  onTap: () {
+                    print('-------------------------');
+                    baseModel.setStoryFilter(context);
                   },
+                  child: Column(
+                    children: [
+                      const Icon(Icons.filter_b_and_w_outlined),
+                      SizedBox(
+                        height: screenUtil.setHeight(3),
+                      ),
+                      TextUtil.secondaryText(
+                        text: "Filter",
+                        color: kBlack,
+                        size: 11,
+                      )
+                    ],
+                  ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.image),
-                  onPressed: () async {
-                    // Handle the action when the user clicks the camera button
-                    final pickedFile = await _imagePicker.pickImage(
-                        source: ImageSource.gallery);
-
-                    setState(() {
-                      imagePath = pickedFile!.path;
-                    });
-                  },
+                Column(
+                  children: [
+                    const Icon(Icons.sentiment_very_satisfied_outlined),
+                    SizedBox(
+                      height: screenUtil.setHeight(3),
+                    ),
+                    TextUtil.secondaryText(
+                      text: "Sticker",
+                      color: kBlack,
+                      size: 11,
+                    )
+                  ],
                 ),
-                Spacer(),
-                IconButton(
-                  icon: Icon(Icons.brush),
-                  onPressed: () {
-                    // Handle the action when the user clicks the brush button
-                    // showDrawingScreen();
-                  },
+                Column(
+                  children: [
+                    const Icon(Icons.brush),
+                    SizedBox(
+                      height: screenUtil.setHeight(3),
+                    ),
+                    TextUtil.secondaryText(
+                      text: "Filter",
+                      color: kBlack,
+                      size: 11,
+                    )
+                  ],
                 ),
               ],
             ),

@@ -59,7 +59,8 @@ dependencies:
   image_cropper: ^5.0.1
   rotated_corner_decoration: ^2.1.0+1
   story_maker: ^1.0.5
-  permission_handler: ^11.1.0
+  flutter_camera: ^1.0.0
+  image_painter: ^0.6.1
 
 dev_dependencies:
   flutter_test:
