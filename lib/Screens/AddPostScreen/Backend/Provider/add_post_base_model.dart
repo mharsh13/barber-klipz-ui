@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -99,7 +100,8 @@ class AddPostBaseModel extends ChangeNotifier {
 
   //API calls
 
-  Future<void> createImagePost(BuildContext context) async {
+  Future<void> createImagePost(
+      BuildContext context, ProfileBaseModel profileBaseModel) async {
     try {
       Loader.show(
         context,
@@ -131,6 +133,7 @@ class AddPostBaseModel extends ChangeNotifier {
           Navigator.of(context).pop();
           ToastUtil(context)
               .showSuccessToastNotification("Post created successfully");
+          profileBaseModel.getAllUserPosts(context);
         }
       });
       notifyListeners();

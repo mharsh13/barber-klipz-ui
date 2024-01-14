@@ -1,5 +1,6 @@
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/AddPostScreen/Backend/Provider/add_post_base_model.dart';
+import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class AddCaptionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final baseModel = ref.watch(addPostBaseModel);
+    final userProfileBaseModel = ref.watch(profileBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +23,10 @@ class AddCaptionScreen extends ConsumerWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              baseModel.createImagePost(context);
+              baseModel.createImagePost(
+                context,
+                userProfileBaseModel,
+              );
             },
             child: Padding(
               padding: EdgeInsets.only(right: screenUtil.setWidth(8)),
