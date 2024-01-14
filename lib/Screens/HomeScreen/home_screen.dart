@@ -230,8 +230,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Row(
                                 children: [
                                   Container(
-                                    height: screenUtil.setHeight(50),
-                                    width: screenUtil.setHeight(50),
+                                    height: screenUtil.setHeight(45),
+                                    width: screenUtil.setHeight(45),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
