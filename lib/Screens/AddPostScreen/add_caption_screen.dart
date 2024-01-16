@@ -6,11 +6,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddCaptionScreen extends ConsumerWidget {
+class AddCaptionScreen extends ConsumerStatefulWidget {
   const AddCaptionScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AddCaptionScreen> createState() => _AddCaptionScreenState();
+}
+
+class _AddCaptionScreenState extends ConsumerState<AddCaptionScreen> {
+  @override
+  Widget build(BuildContext context) {
     final baseModel = ref.watch(addPostBaseModel);
     final userProfileBaseModel = ref.watch(profileBaseModel);
     final screenUtil = baseModel.screenUtil;
@@ -69,7 +74,6 @@ class AddCaptionScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: TextFormField(
-                          key: key,
                           scrollPadding: EdgeInsets.zero,
                           controller: baseModel.caption,
                           cursorColor: kBlack,
@@ -148,57 +152,63 @@ class AddCaptionScreen extends ConsumerWidget {
             const Divider(
               color: kTextSubTitle,
             ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: screenUtil.setWidth(5)),
-                  child: const Icon(
-                    Icons.location_on_outlined,
-                    size: 32,
-                  ),
-                ),
-                SizedBox(
-                  width: screenUtil.setWidth(10),
-                ),
-                Container(
-                  width: screenUtil.screenWidth - screenUtil.setSp(47),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: TextFormField(
-                    key: key,
-                    scrollPadding: EdgeInsets.zero,
-                    cursorColor: kBlack,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    style: TextUtil.textStyle(
-                      color: kBlack,
-                      fontSize: screenUtil.setSp(15),
-                      fontWeight: FontWeight.w400,
+            GestureDetector(
+              onTap: () {
+                baseModel.getCurrentPosition(context);
+              },
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: screenUtil.setWidth(5)),
+                    child: const Icon(
+                      Icons.location_on_outlined,
+                      size: 32,
                     ),
-                    decoration: InputDecoration(
-                      constraints: BoxConstraints(
-                        minHeight: screenUtil.setHeight(38),
-                      ),
-                      filled: true,
-                      fillColor: kBackground,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7),
-                        borderSide: BorderSide.none,
-                      ),
-                      isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(top: 13, bottom: 13, left: 10),
-                      hintText: "Add location",
-                      hintStyle: TextUtil.textStyle(
-                        color: kHintText,
-                        fontSize: screenUtil.setHeight(12),
+                  ),
+                  SizedBox(
+                    width: screenUtil.setWidth(10),
+                  ),
+                  Container(
+                    width: screenUtil.screenWidth - screenUtil.setSp(47),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: TextFormField(
+                      scrollPadding: EdgeInsets.zero,
+                      cursorColor: kBlack,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      style: TextUtil.textStyle(
+                        color: kBlack,
+                        fontSize: screenUtil.setSp(15),
                         fontWeight: FontWeight.w400,
                       ),
+                      enabled: false,
+                      controller: baseModel.locationController,
+                      decoration: InputDecoration(
+                        constraints: BoxConstraints(
+                          minHeight: screenUtil.setHeight(38),
+                        ),
+                        filled: true,
+                        fillColor: kBackground,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7),
+                          borderSide: BorderSide.none,
+                        ),
+                        isDense: true,
+                        contentPadding: const EdgeInsets.only(
+                            top: 13, bottom: 13, left: 10),
+                        hintText: "Add location",
+                        hintStyle: TextUtil.textStyle(
+                          color: kHintText,
+                          fontSize: screenUtil.setHeight(12),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const Divider(
               color: kTextSubTitle,

@@ -62,6 +62,8 @@ dependencies:
   flutter_camera: ^1.0.0
   image_painter: ^0.6.1
   timeago: ^3.2.2
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
 
 dev_dependencies:
   flutter_test:
