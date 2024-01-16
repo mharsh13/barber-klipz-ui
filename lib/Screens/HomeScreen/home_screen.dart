@@ -5,13 +5,12 @@ import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_cha
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/story_creator_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Provider/view_all_comments_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
-// ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../Utils/navigator_util.dart';
@@ -41,6 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(homeScreenBaseModel);
+    final viewCommentsBaseModel = ref.watch(viewAllCommentsBaseModel);
     final screenUtil = baseModel.screenUtil;
     return SafeArea(
       child: Scaffold(
@@ -324,8 +324,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       );
                                     },
                                     child: baseModel.islike
-                                        ? Icon(Icons.thumb_up_alt_rounded)
-                                        : Icon(Icons.thumb_up_alt_outlined),
+                                        ? const Icon(Icons.thumb_up_alt_rounded)
+                                        : const Icon(
+                                            Icons.thumb_up_alt_outlined),
                                   ),
                                   SizedBox(
                                     width: screenUtil.setWidth(15),
@@ -434,8 +435,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  NavigatorUtil.push(context,
-                                      screen: const ViewAllCommentsScreen());
+                                  NavigatorUtil.push(
+                                    context,
+                                    screen: ViewAllCommentsScreen(
+                                      postModel: baseModel.allPosts[index],
+                                    ),
+                                  );
                                 },
                                 child: TextUtil.secondaryText(
                                   text: "View all 10 comments",
