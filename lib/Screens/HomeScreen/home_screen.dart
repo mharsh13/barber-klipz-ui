@@ -316,7 +316,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                               Row(
                                 children: [
-                                  const Icon(Icons.thumb_up_alt_outlined),
+                                  GestureDetector(
+                                    onTap: () {
+                                      baseModel.likeAndUnlikePost(
+                                        context,
+                                        baseModel.allPosts[index],
+                                      );
+                                    },
+                                    child: baseModel.islike
+                                        ? Icon(Icons.thumb_up_alt_rounded)
+                                        : Icon(Icons.thumb_up_alt_outlined),
+                                  ),
                                   SizedBox(
                                     width: screenUtil.setWidth(15),
                                   ),

@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -18,7 +19,7 @@ import '../../../../Utils/navigator_util.dart';
 import '../../../../Utils/text_util.dart';
 import '../../../../Utils/toast_util.dart';
 import '../../story_creator_screen.dart';
-import '../Model/all_post_model.dart';
+import '../Model/post_model.dart';
 
 final homeScreenBaseModel =
     ChangeNotifierProvider((ref) => HomeScreenBaseModel(ref));
@@ -33,8 +34,9 @@ class HomeScreenBaseModel extends ChangeNotifier {
   String? _imagePath;
   File? _storyImage;
   final ApiHelper _apiHelper = ApiHelper();
-  final List<AllPostModel> _allPosts = [];
+  final List<PostModel> _allPosts = [];
   bool _loader = false;
+  bool _isLike = false;
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
@@ -42,8 +44,9 @@ class HomeScreenBaseModel extends ChangeNotifier {
   String? get imagePath => _imagePath;
   File? get storyImage => _storyImage;
   ApiHelper get apiHelper => _apiHelper;
-  List<AllPostModel> get allPosts => _allPosts;
+  List<PostModel> get allPosts => _allPosts;
   bool get loader => _loader;
+  bool get islike => _isLike;
 
   //selects profile picture of user from gallery
   Future<void> selectGalleryImage() async {
@@ -104,7 +107,6 @@ class HomeScreenBaseModel extends ChangeNotifier {
     String? fileName = basename(_storyImage!.path);
     var image = img.decodeImage(await selectedImage.readAsBytes());
     image = img.copyResize(image!, width: 600);
-    // ignore: use_build_context_synchronously
     var imageFile = NavigatorUtil.push(
       context,
       screen: PhotoFilterSelector(
@@ -142,13 +144,54 @@ class HomeScreenBaseModel extends ChangeNotifier {
         if (value != null) {
           List data = value["data"];
           for (Map<String, dynamic> post in data) {
-            _allPosts.add(AllPostModel.fromMap(post));
+            _allPosts.add(PostModel.fromMap(post));
           }
         }
       });
       notifyListeners();
     } catch (e) {
       _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  //like and unlike a particular post
+  Future<void> likeAndUnlikePost(
+      BuildContext context, PostModel postModel) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kPrimary,
+        ),
+      );
+      await _apiHelper
+          .postData(
+              context: context,
+              data: {},
+              url: "post/toggle-like/${postModel.id}")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          if (value["message"] == "Post liked successfully") {
+            postModel.liked = true;
+            postModel.likes_count++;
+            _isLike = true;
+            ToastUtil(context)
+                .showSuccessToastNotification("Post liked successfully");
+          } else if (value["message"] == "Post disliked successfully") {
+            postModel.liked = false;
+            postModel.likes_count--;
+            _isLike = false;
+            ToastUtil(context)
+                .showSuccessToastNotification("Post disliked successfully");
+          }
+        }
+        notifyListeners();
+      });
+    } catch (e) {
+      Loader.hide();
+      notifyListeners();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
