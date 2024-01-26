@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
@@ -12,6 +14,7 @@ import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:story_maker/story_maker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../Utils/navigator_util.dart';
@@ -133,10 +136,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       screenUtil: screenUtil,
                                       gallery: baseModel.selectGalleryImage,
                                     ).then(
-                                      (value) => NavigatorUtil.push(
-                                        context,
-                                        screen: const StoryCreatorScreen(),
-                                      ),
+                                      (value) async {
+                                        final File editedFile =
+                                            await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => StoryMaker(
+                                              filePath:
+                                                  baseModel.storyImage!.path,
+                                            ),
+                                          ),
+                                        );
+                                        //add to story api call
+                                        print(editedFile.path);
+                                      },
                                     );
                                   },
                                   child: badges.Badge(
