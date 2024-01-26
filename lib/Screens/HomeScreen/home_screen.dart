@@ -444,7 +444,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   );
                                 },
                                 child: TextUtil.secondaryText(
-                                  text: "View all 10 comments",
+                                  text:
+                                      "View all ${baseModel.allPosts[index].comments_count} comments",
                                   color: kTextSubTitle,
                                   size: 12,
                                 ),
