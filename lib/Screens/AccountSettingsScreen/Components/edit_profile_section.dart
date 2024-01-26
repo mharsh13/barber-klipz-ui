@@ -163,6 +163,7 @@ Column editProfile(
               screenUtil: screenUtil,
               hintText: "Username",
               controller: baseModel.username,
+              enabled: false,
             )
           ],
         ),

@@ -1,18 +1,41 @@
+import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Model/post_model.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Provider/view_all_comments_base_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../Resources/color_const.dart';
 import '../../Utils/net_image.dart';
 import '../../Utils/text_util.dart';
 
-class ViewAllCommentsScreen extends ConsumerWidget {
-  const ViewAllCommentsScreen({super.key});
+// ignore: must_be_immutable
+class ViewAllCommentsScreen extends ConsumerStatefulWidget {
+  PostModel postModel;
+  ViewAllCommentsScreen({super.key, required this.postModel});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ViewAllCommentsScreen> createState() =>
+      _ViewAllCommentsScreenState();
+}
+
+class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
+  @override
+  void initState() {
+    final baseModel = ref.read(viewAllCommentsBaseModel);
+    getComments(baseModel);
+    super.initState();
+  }
+
+  void getComments(ViewAllComentsBaseModel baseModel) {
+    baseModel.getAllComments(context, widget.postModel.id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final baseModel = ref.watch(viewAllCommentsBaseModel);
+    final splashBaseModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
@@ -37,15 +60,16 @@ class ViewAllCommentsScreen extends ConsumerWidget {
         child: Row(
           children: [
             Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(50)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(color: kYellow),
+              ),
               width: screenUtil.setHeight(40),
               height: screenUtil.setHeight(40),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: const NetImage(
-                  uri:
-                      "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg",
+                child: NetImage(
+                  uri: splashBaseModel.user!.profile_image,
                 ),
               ),
             ),
@@ -68,16 +92,23 @@ class ViewAllCommentsScreen extends ConsumerWidget {
                     hintStyle: const TextStyle(
                       fontSize: 16,
                     ),
-                    suffixIcon: Padding(
-                        padding: EdgeInsets.only(
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        print("---------------------");
+                        baseModel.createComment(context, widget.postModel.id);
+                      },
+                      child: Padding(
+                          padding: EdgeInsets.only(
                             right: screenUtil.setWidth(10),
-                            top: screenUtil.setHeight(12)),
-                        child: TextUtil.secondaryText(
-                          text: "Post",
-                          color: kCategoryText,
-                          size: 14,
-                          fontWeight: FontWeight.bold,
-                        )),
+                            top: screenUtil.setHeight(12),
+                          ),
+                          child: TextUtil.secondaryText(
+                            text: "Post",
+                            color: kCategoryText,
+                            size: 14,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
                     enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       borderSide: BorderSide(
@@ -104,7 +135,7 @@ class ViewAllCommentsScreen extends ConsumerWidget {
           ),
           height: screenUtil.setHeight(560),
           child: ListView.builder(
-            itemCount: 12,
+            itemCount: baseModel.allComments.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Column(
@@ -132,14 +163,15 @@ class ViewAllCommentsScreen extends ConsumerWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50)),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           width: screenUtil.setHeight(40),
                           height: screenUtil.setHeight(40),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
-                            child: const NetImage(
-                              uri:
-                                  "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg",
+                            child: NetImage(
+                              uri: baseModel
+                                  .allComments[index].user.profile_image,
                             ),
                           ),
                         ),
@@ -158,13 +190,14 @@ class ViewAllCommentsScreen extends ConsumerWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       TextUtil.secondaryText(
-                                        text: "michaa",
+                                        text: baseModel
+                                            .allComments[index].user.user_name,
                                         color: kBlack,
                                         size: 12,
                                         fontWeight: FontWeight.w600,
                                       ),
                                       TextUtil.secondaryText(
-                                        text: "Amazing🤩",
+                                        text: baseModel.allComments[index].text,
                                         color: kBlack,
                                         size: 12,
                                       ),
@@ -183,7 +216,9 @@ class ViewAllCommentsScreen extends ConsumerWidget {
                               Row(
                                 children: [
                                   TextUtil.secondaryText(
-                                    text: "3d",
+                                    text: timeago.format(DateTime.parse(
+                                        baseModel
+                                            .allComments[index].created_at)),
                                     color: kBlack,
                                     size: 10,
                                   ),

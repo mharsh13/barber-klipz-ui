@@ -35,7 +35,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
 
   void getDetails(
       AccountSettingsBaseModel baseModel, UserBaseModel userBaseModel) {
-    baseModel.initialize(userBaseModel);
+    if (userBaseModel.user != null) {
+      baseModel.initialize(userBaseModel);
+    }
     _loader = false;
   }
 
@@ -82,7 +84,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       body: _loader
           ? const Center(
               child: CircularProgressIndicator(
-                color: kPrimary,
+                color: kYellow,
               ),
             )
           : GestureDetector(

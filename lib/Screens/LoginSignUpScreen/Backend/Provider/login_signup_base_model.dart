@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
 import 'package:barber_klipz_ui/Screens/RegeneratePasswordScreen/regenerate_password_screen.dart';

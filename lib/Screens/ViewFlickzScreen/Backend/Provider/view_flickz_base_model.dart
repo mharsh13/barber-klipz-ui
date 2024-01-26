@@ -11,7 +11,11 @@ class ViewFlickzBaseModel extends ChangeNotifier {
 
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
+  final bool _isFavourite = true;
+  final TextEditingController _enterComment = TextEditingController();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
+  bool get isFavourite => _isFavourite;
+  TextEditingController get enterComment => _enterComment;
 }

@@ -44,7 +44,7 @@ class ButtonUtil {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: screenUtil.setWidth(151),
+        width: screenUtil.setWidth(150),
         height: screenUtil.setHeight(40),
         decoration: decoration ??
             BoxDecoration(

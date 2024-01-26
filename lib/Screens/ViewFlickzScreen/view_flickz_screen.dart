@@ -29,7 +29,7 @@ class _ViewFlickzScreenState extends ConsumerState<ViewFlickzScreen> {
 
   void initialize() {
     _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
-      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
     ))
       ..initialize().then((_) {
         isLoading = false;
@@ -97,9 +97,10 @@ class _ViewFlickzScreenState extends ConsumerState<ViewFlickzScreen> {
                 await _videoPlayerController!.dispose();
                 isLoading = true;
                 setState(() {});
-                _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
-                    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"))
-                  ..initialize().then((_) {
+                _videoPlayerController = VideoPlayerController.networkUrl(
+                  Uri.parse(
+                      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"),
+                )..initialize().then((_) {
                     isLoading = false;
                     setState(() {});
                   });

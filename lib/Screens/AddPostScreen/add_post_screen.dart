@@ -1,18 +1,12 @@
 import 'dart:io';
 
 import 'package:barber_klipz_ui/Resources/color_const.dart';
+import 'package:barber_klipz_ui/Screens/AddPostScreen/Backend/Provider/add_post_base_model.dart';
 import 'package:barber_klipz_ui/Screens/AddPostScreen/add_caption_screen.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:photofilters/filters/filters.dart';
-import 'package:photofilters/filters/preset_filters.dart';
-import 'package:photofilters/widgets/photo_filter.dart';
-import 'package:image/image.dart' as img;
-// ignore: depend_on_referenced_packages
-import 'package:path/path.dart';
 
 class AddPostScreen extends ConsumerStatefulWidget {
   const AddPostScreen({super.key});
@@ -21,46 +15,10 @@ class AddPostScreen extends ConsumerStatefulWidget {
 }
 
 class _AddPostScreenState extends ConsumerState<AddPostScreen> {
-  String? fileName;
-  List<Filter> filters = presetFiltersList;
-  final picker = ImagePicker();
-  File? selectedImage;
-  Future getImage(context) async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      selectedImage = File(pickedFile.path);
-      fileName = basename(selectedImage!.path);
-      var image = img.decodeImage(await selectedImage!.readAsBytes());
-      image = img.copyResize(image!, width: 600);
-      var imageFile = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PhotoFilterSelector(
-            appBarColor: kBlack2,
-            title: TextUtil.secondaryText(
-              text: "Filter",
-              color: kGold,
-              size: 18,
-              fontWeight: FontWeight.w600,
-            ),
-            image: image!,
-            filters: presetFiltersList,
-            filename: fileName!,
-            loader: const Center(child: CircularProgressIndicator()),
-            fit: BoxFit.contain,
-          ),
-        ),
-      );
-      if (imageFile != null && imageFile.containsKey('image_filtered')) {
-        setState(() {
-          selectedImage = imageFile['image_filtered'];
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final baseModel = ref.watch(addPostBaseModel);
+    final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlack2,
@@ -70,7 +28,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
         title: TextUtil.secondaryText(
           text: "Post",
           color: kGold,
-          size: 18,
+          size: screenUtil.setSp(18),
           fontWeight: FontWeight.w600,
         ),
         actions: [
@@ -79,7 +37,7 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
               NavigatorUtil.push(context, screen: const AddCaptionScreen());
             },
             child: Padding(
-              padding: const EdgeInsets.only(right: 15),
+              padding: EdgeInsets.only(right: screenUtil.setWidth(15)),
               child: TextUtil.secondaryText(
                 text: "Next",
                 color: kWhite,
@@ -92,16 +50,16 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
       ),
       body: Center(
         child: Container(
-          child: selectedImage == null
+          child: baseModel.selectedImage == null
               ? const Center(
                   child: Text('No image selected.'),
                 )
-              : Image.file(File(selectedImage!.path)),
+              : Image.file(File(baseModel.selectedImage!.path)),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kYellow,
-        onPressed: () => getImage(context),
+        onPressed: () => baseModel.getImage(context),
         tooltip: 'Pick Image',
         child: const Icon(
           Icons.add_a_photo,
