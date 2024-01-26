@@ -28,7 +28,11 @@ class NetImage extends StatelessWidget {
       placeholder: (context, url) =>
           const BlurHash(hash: "L5H2EC=PM+yV0g-mq.wG9c010J}I"),
       errorWidget: (context, url, error) => Container(
-        color: kPrimary,
+        color: kWhite,
+        child: const Icon(
+          Icons.camera_alt,
+          color: kGold,
+        ),
       ),
     );
   }

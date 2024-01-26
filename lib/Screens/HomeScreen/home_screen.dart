@@ -16,6 +16,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
+import '../SplashScreen/Backend/Provider/splash_base_model.dart';
 import '../ViewAllCommentsScreen/view_all_comments_screen.dart';
 import 'image_source.dart';
 
@@ -42,6 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final baseModel = ref.watch(homeScreenBaseModel);
     final viewCommentsBaseModel = ref.watch(viewAllCommentsBaseModel);
+    final splashBaseModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return SafeArea(
       child: Scaffold(
@@ -102,7 +104,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ],
         ),
-        body: baseModel.loader == true
+        body: baseModel.loader
             ? const Center(
                 child: CircularProgressIndicator(
                   color: kYellow,
@@ -165,8 +167,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         borderRadius: BorderRadius.circular(50),
                                         child: NetImage(
                                           fit: BoxFit.cover,
-                                          uri: baseModel
-                                              .allPosts[0].user.profile_image,
+                                          uri: splashBaseModel
+                                                  .user?.profile_image ??
+                                              '',
                                         ),
                                       ),
                                     ),
@@ -216,8 +219,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Row(
                                 children: [
                                   Container(
-                                    height: screenUtil.setHeight(45),
-                                    width: screenUtil.setHeight(45),
+                                    height: screenUtil.setHeight(30),
+                                    width: screenUtil.setHeight(30),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(

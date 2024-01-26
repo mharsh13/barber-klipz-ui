@@ -1,11 +1,10 @@
-import 'package:barber_klipz_ui/Providers/user_base_model.dart';
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/Backend/Provider/account_settings_base_model.dart';
 import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/button_util.dart';
 import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../../Resources/color_const.dart';
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
@@ -28,15 +27,15 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
   @override
   void initState() {
     final baseModel = ref.read(accountSettingsBaseModel);
-    final userBase = ref.read(userBaseModel);
+    final userBase = ref.read(splashScreenBaseModel);
     getDetails(baseModel, userBase);
     super.initState();
   }
 
   void getDetails(
-      AccountSettingsBaseModel baseModel, UserBaseModel userBaseModel) {
+      AccountSettingsBaseModel baseModel, SplashScreenBaseModel userBaseModel) {
     if (userBaseModel.user != null) {
-      baseModel.initialize(userBaseModel);
+      baseModel.initialize(userBaseModel.user!);
     }
     _loader = false;
   }
@@ -46,7 +45,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(accountSettingsBaseModel);
-    final userBase = ref.watch(userBaseModel);
+    final userBase = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
@@ -65,8 +64,8 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
           Padding(
             padding: EdgeInsets.only(right: screenUtil.setWidth(8)),
             child: GestureDetector(
-              onTap: () {
-                baseModel.updateProfile(
+              onTap: () async {
+                await baseModel.updateProfile(
                   context,
                   userBase,
                 );

@@ -152,14 +152,16 @@ class ApiHelper {
         } else {
           res = response.data as Map<String, dynamic>;
           if (res!["message"].runtimeType == [].runtimeType) {
-            ToastUtil(context).showErrorToastNotification(res!["message"][0]);
+            throw ToastUtil(context)
+                .showErrorToastNotification(res!["message"][0]);
           } else {
-            ToastUtil(context).showErrorToastNotification(res!["message"]);
+            throw ToastUtil(context)
+                .showErrorToastNotification(res!["message"]);
           }
         }
       });
     } catch (e) {
-      ToastUtil(context).showErrorToastNotification("Something went wrong");
+      rethrow;
     }
     return res;
   }
