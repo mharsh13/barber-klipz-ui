@@ -5,6 +5,7 @@ import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_cha
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/story_creator_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Provider/view_all_comments_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
@@ -53,66 +54,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             fontWeight: FontWeight.w600,
           ),
           centerTitle: true,
+          leadingWidth: screenUtil.setWidth(100),
           leading: Row(
             children: [
-              SizedBox(
-                width: screenUtil.setWidth(5),
-              ),
-              Flexible(
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.movie_creation_outlined,
-                    color: kWhite,
-                  ),
-                  onPressed: () {
-                    NavigatorUtil.push(
-                      context,
-                      screen: const ViewFlickzScreen(),
-                    );
-                  },
+              IconButton(
+                icon: const Icon(
+                  Icons.movie_creation_outlined,
+                  color: kWhite,
                 ),
+                onPressed: () {
+                  NavigatorUtil.push(
+                    context,
+                    screen: const ViewFlickzScreen(),
+                  );
+                },
               ),
-              SizedBox(
-                width: screenUtil.setWidth(45),
-              ),
-              Flexible(
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.chat_outlined,
-                    color: kWhite,
-                  ),
-                  onPressed: () {
-                    NavigatorUtil.push(
-                      context,
-                      screen: const AudioVideoChatRoomScreen(),
-                    );
-                  },
+              IconButton(
+                icon: const Icon(
+                  Icons.chat_outlined,
+                  color: kWhite,
                 ),
+                onPressed: () {
+                  NavigatorUtil.push(
+                    context,
+                    screen: const AudioVideoChatRoomScreen(),
+                  );
+                },
               ),
             ],
           ),
           actions: [
-            Flexible(
-              child: IconButton(
-                icon: const Icon(
-                  Icons.cut_outlined,
-                  color: kWhite,
-                ),
-                onPressed: () {
-                  NavigatorUtil.push(context,
-                      screen: const FadedPointsScreen());
-                },
-              ),
-            ),
-            Flexible(
-              child: IconButton(
-                icon: const Icon(Icons.email_outlined),
+            IconButton(
+              icon: const Icon(
+                Icons.cut_outlined,
                 color: kWhite,
-                onPressed: () {
-                  NavigatorUtil.push(context,
-                      screen: const AudioVideoChatRoomScreen());
-                },
               ),
+              onPressed: () {
+                NavigatorUtil.push(context, screen: const FadedPointsScreen());
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.email_outlined),
+              color: kWhite,
+              onPressed: () {
+                NavigatorUtil.push(context, screen: const InboxScreen());
+              },
             ),
           ],
         ),
