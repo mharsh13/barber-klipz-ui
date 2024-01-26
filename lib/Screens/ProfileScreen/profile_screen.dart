@@ -35,8 +35,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     super.initState();
   }
 
-  void getPosts(ProfileBaseModel baseModel) {
-    baseModel.getAllUserPosts(context);
+  void getPosts(ProfileBaseModel baseModel) async {
+    await baseModel.getAllUserPosts(context);
   }
 
   @override
@@ -252,7 +252,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   Column(
                     children: [
                       TextUtil.secondaryText(
-                        text: "0",
+                        text: baseModel.allPosts.length.toString(),
                         color: kBlack,
                         size: 15,
                         fontWeight: FontWeight.bold,

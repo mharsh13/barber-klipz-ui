@@ -312,7 +312,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         baseModel.allPosts[index],
                                       );
                                     },
-                                    child: baseModel.islike
+                                    child: baseModel.allPosts[index].liked
                                         ? const Icon(Icons.thumb_up_alt_rounded)
                                         : const Icon(
                                             Icons.thumb_up_alt_outlined),
