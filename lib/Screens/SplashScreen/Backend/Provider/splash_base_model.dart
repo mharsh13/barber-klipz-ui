@@ -26,6 +26,11 @@ class SplashScreenBaseModel extends ChangeNotifier {
   ApiHelper get apiHelper => _apiHelper;
   UserModel? get user => _user;
 
+  void updateDetails(Map<String, dynamic> value) {
+    _user = UserModel.fromMap(value);
+    notifyListeners();
+  }
+
   Future<bool> getMe(BuildContext context) async {
     bool isLoggedIn = false;
     try {

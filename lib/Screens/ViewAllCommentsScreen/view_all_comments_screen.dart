@@ -77,7 +77,7 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
               width: screenUtil.setWidth(5),
             ),
             SizedBox(
-              width: screenUtil.setWidth(292),
+              width: screenUtil.setWidth(280),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
                 child: TextFormField(

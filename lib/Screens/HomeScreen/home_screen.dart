@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Resources/image_const.dart';
@@ -5,16 +7,19 @@ import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_cha
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/story_creator_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Provider/view_all_comments_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:story_maker/story_maker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
+import '../SplashScreen/Backend/Provider/splash_base_model.dart';
 import '../ViewAllCommentsScreen/view_all_comments_screen.dart';
 import 'image_source.dart';
 
@@ -41,6 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final baseModel = ref.watch(homeScreenBaseModel);
     final viewCommentsBaseModel = ref.watch(viewAllCommentsBaseModel);
+    final splashBaseModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return SafeArea(
       child: Scaffold(
@@ -53,70 +59,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             fontWeight: FontWeight.w600,
           ),
           centerTitle: true,
+          leadingWidth: screenUtil.setWidth(100),
           leading: Row(
             children: [
-              SizedBox(
-                width: screenUtil.setWidth(5),
-              ),
-              Flexible(
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.movie_creation_outlined,
-                    color: kWhite,
-                  ),
-                  onPressed: () {
-                    NavigatorUtil.push(
-                      context,
-                      screen: const ViewFlickzScreen(),
-                    );
-                  },
+              IconButton(
+                icon: const Icon(
+                  Icons.movie_creation_outlined,
+                  color: kWhite,
                 ),
+                onPressed: () {
+                  NavigatorUtil.push(
+                    context,
+                    screen: const ViewFlickzScreen(),
+                  );
+                },
               ),
-              SizedBox(
-                width: screenUtil.setWidth(45),
-              ),
-              Flexible(
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.chat_outlined,
-                    color: kWhite,
-                  ),
-                  onPressed: () {
-                    NavigatorUtil.push(
-                      context,
-                      screen: const AudioVideoChatRoomScreen(),
-                    );
-                  },
+              IconButton(
+                icon: const Icon(
+                  Icons.chat_outlined,
+                  color: kWhite,
                 ),
+                onPressed: () {
+                  NavigatorUtil.push(
+                    context,
+                    screen: const AudioVideoChatRoomScreen(),
+                  );
+                },
               ),
             ],
           ),
           actions: [
-            Flexible(
-              child: IconButton(
-                icon: const Icon(
-                  Icons.cut_outlined,
-                  color: kWhite,
-                ),
-                onPressed: () {
-                  NavigatorUtil.push(context,
-                      screen: const FadedPointsScreen());
-                },
-              ),
-            ),
-            Flexible(
-              child: IconButton(
-                icon: const Icon(Icons.email_outlined),
+            IconButton(
+              icon: const Icon(
+                Icons.cut_outlined,
                 color: kWhite,
-                onPressed: () {
-                  NavigatorUtil.push(context,
-                      screen: const AudioVideoChatRoomScreen());
-                },
               ),
+              onPressed: () {
+                NavigatorUtil.push(context, screen: const FadedPointsScreen());
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.email_outlined),
+              color: kWhite,
+              onPressed: () {
+                NavigatorUtil.push(context, screen: const InboxScreen());
+              },
             ),
           ],
         ),
-        body: baseModel.loader == true
+        body: baseModel.loader
             ? const Center(
                 child: CircularProgressIndicator(
                   color: kYellow,
@@ -145,10 +136,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       screenUtil: screenUtil,
                                       gallery: baseModel.selectGalleryImage,
                                     ).then(
-                                      (value) => NavigatorUtil.push(
-                                        context,
-                                        screen: const StoryCreatorScreen(),
-                                      ),
+                                      (value) async {
+                                        final File editedFile =
+                                            await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => StoryMaker(
+                                              filePath:
+                                                  baseModel.storyImage!.path,
+                                            ),
+                                          ),
+                                        );
+                                        //add to story api call
+                                        print(editedFile.path);
+                                      },
                                     );
                                   },
                                   child: badges.Badge(
@@ -179,8 +179,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         borderRadius: BorderRadius.circular(50),
                                         child: NetImage(
                                           fit: BoxFit.cover,
-                                          uri: baseModel
-                                              .allPosts[0].user.profile_image,
+                                          uri: splashBaseModel
+                                                  .user?.profile_image ??
+                                              '',
                                         ),
                                       ),
                                     ),
@@ -230,8 +231,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Row(
                                 children: [
                                   Container(
-                                    height: screenUtil.setHeight(45),
-                                    width: screenUtil.setHeight(45),
+                                    height: screenUtil.setHeight(30),
+                                    width: screenUtil.setHeight(30),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
@@ -323,7 +324,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         baseModel.allPosts[index],
                                       );
                                     },
-                                    child: baseModel.islike
+                                    child: baseModel.allPosts[index].liked
                                         ? const Icon(Icons.thumb_up_alt_rounded)
                                         : const Icon(
                                             Icons.thumb_up_alt_outlined),
@@ -443,7 +444,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   );
                                 },
                                 child: TextUtil.secondaryText(
-                                  text: "View all 10 comments",
+                                  text:
+                                      "View all ${baseModel.allPosts[index].comments_count} comments",
                                   color: kTextSubTitle,
                                   size: 12,
                                 ),
