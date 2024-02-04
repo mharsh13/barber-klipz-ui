@@ -36,6 +36,11 @@ class ProfileBaseModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setLoader(bool loader) {
+    _loader = loader;
+    notifyListeners();
+  }
+
   //API functions
 
   //gets the list of all the user posts

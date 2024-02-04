@@ -1,4 +1,3 @@
-import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Model/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -39,30 +38,27 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
     String postId,
   ) async {
     try {
-      Loader.show(
-        context,
-        progressIndicator: const CircularProgressIndicator(
-          color: kYellow,
-        ),
-      );
+      _loader = true;
+      notifyListeners();
       Map<String, dynamic> formData = {
         "postId": postId,
         "text": _enterComment.text,
       };
       await _apiHelper
           .postData(context: context, data: formData, url: "comment/create")
-          .then((value) {
+          .then((value) async {
         Loader.hide();
         if (value != null) {
-          print(value);
-          _allComments.add(CommentModel.fromMap(value["data"]));
+          // _allComments.add(CommentModel.fromMap(value["data"]));
+          await getAllComments(context, postId);
           _enterComment.clear();
         }
+        _loader = false;
       });
       notifyListeners();
     } catch (e) {
       print(e);
-      Loader.hide();
+      _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
@@ -71,6 +67,7 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
   Future<void> getAllComments(BuildContext context, String commentId) async {
     try {
       _loader = true;
+      notifyListeners();
       await _apiHelper
           .getData(context: context, url: "comment/get-all/$commentId")
           .then((value) {
@@ -86,6 +83,58 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> likeAndUnlikeComment(
+      BuildContext context, CommentModel commentModel) async {
+    try {
+      await _apiHelper
+          .postData(
+              context: context,
+              data: {},
+              url: "comment/toggle-like/${commentModel.id}")
+          .then((value) {
+        if (value != null) {
+          if (value["message"] == "Comment liked successfully") {
+            commentModel.liked = true;
+            commentModel.likes_count++;
+
+            ToastUtil(context)
+                .showSuccessToastNotification("Comment liked successfully");
+          } else if (value["message"] == "Comment disliked successfully") {
+            commentModel.liked = false;
+            commentModel.likes_count--;
+            ToastUtil(context)
+                .showSuccessToastNotification("Comment disliked successfully");
+          }
+        }
+        notifyListeners();
+      });
+    } catch (e) {
+      notifyListeners();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> deleteComment(BuildContext context, String commentId) async {
+    try {
+      _loader = true;
+      _allComments.removeWhere((element) => element.id == commentId);
+      notifyListeners();
+      await _apiHelper
+          .deleteData(context: context, url: "comment/delete/$commentId")
+          .then((value) async {
+        ToastUtil(context)
+            .showSuccessToastNotification("Comment deleted successfully");
+      });
+
+      _loader = false;
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      notifyListeners();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
