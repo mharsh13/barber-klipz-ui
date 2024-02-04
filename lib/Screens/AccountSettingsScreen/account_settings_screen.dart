@@ -9,7 +9,7 @@ import '../../Resources/color_const.dart';
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';
 import 'Components/account_section.dart';
-import 'Components/category_section.dart';
+// import 'Components/category_section.dart';
 import 'Components/edit_profile_section.dart';
 import 'Components/help_section.dart';
 import 'Components/month_statistics.dart';
@@ -99,7 +99,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                       baseModel,
                       context,
                     ),
-                    category(screenUtil),
+                    // category(screenUtil),
                     paymentProfile(screenUtil),
                     monthStatistics(screenUtil),
                     accountSection(context, screenUtil),

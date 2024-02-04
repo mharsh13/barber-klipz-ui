@@ -30,7 +30,7 @@ class NetImage extends StatelessWidget {
       errorWidget: (context, url, error) => Container(
         color: kWhite,
         child: const Icon(
-          Icons.camera_alt,
+          Icons.account_circle,
           color: kGold,
         ),
       ),

@@ -386,54 +386,54 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               SizedBox(
                                 height: screenUtil.setHeight(8),
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: screenUtil.setHeight(20),
-                                    width: screenUtil.setHeight(20),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: screenUtil.setWidth(1),
-                                          color: kGold),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Image.asset(
-                                        ImageConst.appLogo,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: screenUtil.setWidth(12),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      TextUtil.secondaryText(
-                                        text: "sm0602",
-                                        color: kTextBody,
-                                        size: 11,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      SizedBox(
-                                        height: screenUtil.setHeight(2),
-                                      ),
-                                      TextUtil.secondaryText(
-                                        text: "😍😍",
-                                        color: kTextBody,
-                                        size: 10,
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: screenUtil.setHeight(5),
-                              ),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.start,
+                              //   children: [
+                              //     Container(
+                              //       height: screenUtil.setHeight(20),
+                              //       width: screenUtil.setHeight(20),
+                              //       decoration: BoxDecoration(
+                              //         shape: BoxShape.circle,
+                              //         border: Border.all(
+                              //             width: screenUtil.setWidth(1),
+                              //             color: kGold),
+                              //       ),
+                              //       child: ClipRRect(
+                              //         borderRadius: BorderRadius.circular(50),
+                              //         child: Image.asset(
+                              //           ImageConst.appLogo,
+                              //           fit: BoxFit.cover,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     SizedBox(
+                              //       width: screenUtil.setWidth(12),
+                              //     ),
+                              //     Column(
+                              //       crossAxisAlignment:
+                              //           CrossAxisAlignment.start,
+                              //       children: [
+                              //         TextUtil.secondaryText(
+                              //           text: "sm0602",
+                              //           color: kTextBody,
+                              //           size: 11,
+                              //           fontWeight: FontWeight.w500,
+                              //         ),
+                              //         SizedBox(
+                              //           height: screenUtil.setHeight(2),
+                              //         ),
+                              //         TextUtil.secondaryText(
+                              //           text: "😍😍",
+                              //           color: kTextBody,
+                              //           size: 10,
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ],
+                              // ),
+                              // SizedBox(
+                              //   height: screenUtil.setHeight(5),
+                              // ),
                               GestureDetector(
                                 onTap: () {
                                   NavigatorUtil.push(

@@ -26,8 +26,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   void initState() {
     final baseModel = ref.read(profileBaseModel);
     final splashBaseModel = ref.read(splashScreenBaseModel);
-    splashBaseModel.getMe(context);
-    getPosts(baseModel);
+    getPosts(baseModel, splashBaseModel);
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -35,8 +34,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     super.initState();
   }
 
-  void getPosts(ProfileBaseModel baseModel) async {
-    await baseModel.getAllUserPosts(context);
+  void getPosts(
+      ProfileBaseModel baseModel, SplashScreenBaseModel splashBaseModel) async {
+    baseModel.setLoader(true);
+    splashBaseModel.getMe(context).then((value) async {
+      await baseModel.getAllUserPosts(context);
+      baseModel.setLoader(false);
+    });
   }
 
   @override
@@ -108,310 +112,316 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: screenUtil.setHeight(150),
-              child: Stack(
+      body: baseModel.loader
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: kYellow,
+              ),
+            )
+          : SingleChildScrollView(
+              child: Column(
                 children: [
                   SizedBox(
-                      width: screenUtil.screenWidth,
-                      height: screenUtil.setHeight(120),
-                      child: NetImage(
-                        uri: splashBaseModel.user!.cover_image,
-                        fit: BoxFit.cover,
-                      )),
-                  Positioned(
-                    bottom: 0.5,
-                    left: 145,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50)),
-                      width: screenUtil.setHeight(80),
-                      height: screenUtil.setHeight(80),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: NetImage(
-                            fit: BoxFit.cover,
-                            uri: splashBaseModel.user!.profile_image,
-                          )),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: screenUtil.setWidth(12)),
-              child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.more_horiz),
-                    onPressed: () {
-                      showAdaptiveActionSheet(
-                        context: context,
-                        isDismissible: true,
-                        title: Container(
-                          height: 6,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: kTextSubTitle,
-                            borderRadius: BorderRadius.circular(6),
+                    height: screenUtil.setHeight(150),
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                            width: screenUtil.screenWidth,
+                            height: screenUtil.setHeight(120),
+                            child: NetImage(
+                              uri: splashBaseModel.user!.cover_image,
+                              fit: BoxFit.cover,
+                            )),
+                        Positioned(
+                          bottom: 0.5,
+                          left: 145,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50)),
+                            width: screenUtil.setHeight(80),
+                            height: screenUtil.setHeight(80),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: NetImage(
+                                  fit: BoxFit.cover,
+                                  uri: splashBaseModel.user!.profile_image,
+                                )),
                           ),
                         ),
-                        androidBorderRadius: 30,
-                        actions: <BottomSheetAction>[
-                          BottomSheetAction(
-                              title: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.facebook,
-                                    size: 28,
-                                  ),
-                                  SizedBox(
-                                    width: screenUtil.setWidth(7),
-                                  ),
-                                  TextUtil.secondaryText(
-                                    text: "Invite to Barber Klipz",
-                                    color: kBlack,
-                                    size: 15,
-                                    fontWeight: FontWeight.w500,
-                                  )
-                                ],
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: screenUtil.setWidth(12)),
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: IconButton(
+                          icon: const Icon(Icons.more_horiz),
+                          onPressed: () {
+                            showAdaptiveActionSheet(
+                              context: context,
+                              isDismissible: true,
+                              title: Container(
+                                height: 6,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: kTextSubTitle,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
                               ),
-                              onPressed: (context) {}),
-                          BottomSheetAction(
-                              title: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.share,
-                                    size: 28,
-                                  ),
-                                  SizedBox(
-                                    width: screenUtil.setWidth(7),
-                                  ),
-                                  TextUtil.secondaryText(
-                                    text: "Share Profile",
-                                    color: kBlack,
-                                    size: 15,
-                                    fontWeight: FontWeight.w500,
-                                  )
-                                ],
-                              ),
-                              onPressed: (context) {}),
-                          BottomSheetAction(
-                              title: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.list,
-                                    size: 28,
-                                  ),
-                                  SizedBox(
-                                    width: screenUtil.setWidth(7),
-                                  ),
-                                  TextUtil.secondaryText(
-                                    text: "Add to my Linktree",
-                                    color: kBlack,
-                                    size: 15,
-                                    fontWeight: FontWeight.w500,
-                                  )
-                                ],
-                              ),
-                              onPressed: (context) {}),
-                          BottomSheetAction(
-                              title: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.block,
-                                    size: 28,
-                                  ),
-                                  SizedBox(
-                                    width: screenUtil.setWidth(7),
-                                  ),
-                                  TextUtil.secondaryText(
-                                    text: "Blocked Users",
-                                    color: kBlack,
-                                    size: 15,
-                                    fontWeight: FontWeight.w500,
-                                  )
-                                ],
-                              ),
-                              onPressed: (context) {}),
-                        ],
-                      );
+                              androidBorderRadius: 30,
+                              actions: <BottomSheetAction>[
+                                BottomSheetAction(
+                                    title: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.facebook,
+                                          size: 28,
+                                        ),
+                                        SizedBox(
+                                          width: screenUtil.setWidth(7),
+                                        ),
+                                        TextUtil.secondaryText(
+                                          text: "Invite to Barber Klipz",
+                                          color: kBlack,
+                                          size: 15,
+                                          fontWeight: FontWeight.w500,
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: (context) {}),
+                                BottomSheetAction(
+                                    title: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.share,
+                                          size: 28,
+                                        ),
+                                        SizedBox(
+                                          width: screenUtil.setWidth(7),
+                                        ),
+                                        TextUtil.secondaryText(
+                                          text: "Share Profile",
+                                          color: kBlack,
+                                          size: 15,
+                                          fontWeight: FontWeight.w500,
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: (context) {}),
+                                BottomSheetAction(
+                                    title: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.list,
+                                          size: 28,
+                                        ),
+                                        SizedBox(
+                                          width: screenUtil.setWidth(7),
+                                        ),
+                                        TextUtil.secondaryText(
+                                          text: "Add to my Linktree",
+                                          color: kBlack,
+                                          size: 15,
+                                          fontWeight: FontWeight.w500,
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: (context) {}),
+                                BottomSheetAction(
+                                    title: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.block,
+                                          size: 28,
+                                        ),
+                                        SizedBox(
+                                          width: screenUtil.setWidth(7),
+                                        ),
+                                        TextUtil.secondaryText(
+                                          text: "Blocked Users",
+                                          color: kBlack,
+                                          size: 15,
+                                          fontWeight: FontWeight.w500,
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: (context) {}),
+                              ],
+                            );
+                          },
+                        )),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenUtil.setWidth(35)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            TextUtil.secondaryText(
+                              text: baseModel.allPosts.length.toString(),
+                              color: kBlack,
+                              size: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            TextUtil.secondaryText(
+                              text: "Posts",
+                              color: kTextSubTitle,
+                              size: 12,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            TextUtil.secondaryText(
+                              text: "0",
+                              color: kBlack,
+                              size: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            TextUtil.secondaryText(
+                              text: "Followers",
+                              color: kTextSubTitle,
+                              size: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            TextUtil.secondaryText(
+                              text: "0",
+                              color: kBlack,
+                              size: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            TextUtil.secondaryText(
+                              text: "Following",
+                              color: kTextSubTitle,
+                              size: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            TextUtil.secondaryText(
+                              text: "0",
+                              color: kBlack,
+                              size: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            TextUtil.secondaryText(
+                              text: "Level",
+                              color: kTextSubTitle,
+                              size: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenUtil.setHeight(25),
+                  ),
+                  TabBar(
+                    onTap: (int value) {
+                      baseModel.setValue(value);
                     },
-                  )),
-            ),
-            Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: screenUtil.setWidth(35)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      TextUtil.secondaryText(
-                        text: baseModel.allPosts.length.toString(),
-                        color: kBlack,
-                        size: 15,
-                        fontWeight: FontWeight.bold,
+                    dividerColor: kGrey,
+                    padding: EdgeInsets.only(bottom: screenUtil.setHeight(1)),
+                    indicatorColor: kGold,
+                    controller: _tabController,
+                    tabs: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: screenUtil.setHeight(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.grid_on,
+                              color: kLicorice,
+                            ),
+                            SizedBox(
+                              width: screenUtil.setWidth(5),
+                            ),
+                            TextUtil.secondaryText(
+                              text: 'Post',
+                              color: kLicorice,
+                              size: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ],
+                        ),
                       ),
-                      TextUtil.secondaryText(
-                        text: "Posts",
-                        color: kTextSubTitle,
-                        size: 12,
-                        fontWeight: FontWeight.w500,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      TextUtil.secondaryText(
-                        text: "0",
-                        color: kBlack,
-                        size: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      TextUtil.secondaryText(
-                        text: "Followers",
-                        color: kTextSubTitle,
-                        size: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      TextUtil.secondaryText(
-                        text: "0",
-                        color: kBlack,
-                        size: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      TextUtil.secondaryText(
-                        text: "Following",
-                        color: kTextSubTitle,
-                        size: 12,
-                        fontWeight: FontWeight.w500,
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: screenUtil.setHeight(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.movie_creation_outlined,
+                              color: kLicorice,
+                            ),
+                            SizedBox(
+                              width: screenUtil.setWidth(5),
+                            ),
+                            TextUtil.secondaryText(
+                              text: 'Flickz',
+                              color: kLicorice,
+                              size: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      TextUtil.secondaryText(
-                        text: "0",
-                        color: kBlack,
-                        size: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      TextUtil.secondaryText(
-                        text: "Level",
-                        color: kTextSubTitle,
-                        size: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  )
+                  baseModel.currentValue == 0
+                      ? postsComponent(screenUtil, baseModel)
+                      : Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenUtil.setHeight(20)),
+                          child: Column(children: [
+                            Icon(
+                              Icons.video_collection_outlined,
+                              color: kHintText,
+                              size: screenUtil.setSp(80),
+                            ),
+                            SizedBox(
+                              height: screenUtil.setHeight(10),
+                            ),
+                            TextUtil.secondaryText(
+                              text: "Your content has values!",
+                              color: kBlack,
+                              size: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(
+                              height: screenUtil.setHeight(10),
+                            ),
+                            TextUtil.secondaryText(
+                              text:
+                                  "Create your first piece of content\nand start making money.",
+                              color: kBlack,
+                              size: 14,
+                              fontWeight: FontWeight.w400,
+                              textAlign: TextAlign.center,
+                            )
+                          ]),
+                        )
                 ],
               ),
             ),
-            SizedBox(
-              height: screenUtil.setHeight(25),
-            ),
-            TabBar(
-              onTap: (int value) {
-                baseModel.setValue(value);
-              },
-              dividerColor: kGrey,
-              padding: EdgeInsets.only(bottom: screenUtil.setHeight(1)),
-              indicatorColor: kGold,
-              controller: _tabController,
-              tabs: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: screenUtil.setHeight(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.grid_on,
-                        color: kLicorice,
-                      ),
-                      SizedBox(
-                        width: screenUtil.setWidth(5),
-                      ),
-                      TextUtil.secondaryText(
-                        text: 'Post',
-                        color: kLicorice,
-                        size: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: screenUtil.setHeight(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.movie_creation_outlined,
-                        color: kLicorice,
-                      ),
-                      SizedBox(
-                        width: screenUtil.setWidth(5),
-                      ),
-                      TextUtil.secondaryText(
-                        text: 'Flickz',
-                        color: kLicorice,
-                        size: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            baseModel.currentValue == 0
-                ? postsComponent(screenUtil, baseModel)
-                : Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: screenUtil.setHeight(20)),
-                    child: Column(children: [
-                      Icon(
-                        Icons.video_collection_outlined,
-                        color: kHintText,
-                        size: screenUtil.setSp(80),
-                      ),
-                      SizedBox(
-                        height: screenUtil.setHeight(10),
-                      ),
-                      TextUtil.secondaryText(
-                        text: "Your content has values!",
-                        color: kBlack,
-                        size: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      SizedBox(
-                        height: screenUtil.setHeight(10),
-                      ),
-                      TextUtil.secondaryText(
-                        text:
-                            "Create your first piece of content\nand start making money.",
-                        color: kBlack,
-                        size: 14,
-                        fontWeight: FontWeight.w400,
-                        textAlign: TextAlign.center,
-                      )
-                    ]),
-                  )
-          ],
-        ),
-      ),
     );
   }
 }
