@@ -160,7 +160,10 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
                                   icon: Icons.reply,
                                 ),
                                 SlidableAction(
-                                  onPressed: (context) {},
+                                  onPressed: (context) async {
+                                    await baseModel.deleteComment(context,
+                                        baseModel.allComments[index].id);
+                                  },
                                   backgroundColor: kTextSubTitle,
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,

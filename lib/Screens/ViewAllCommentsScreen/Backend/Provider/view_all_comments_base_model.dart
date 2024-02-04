@@ -117,4 +117,25 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
+
+  Future<void> deleteComment(BuildContext context, String commentId) async {
+    try {
+      _loader = true;
+      _allComments.removeWhere((element) => element.id == commentId);
+      notifyListeners();
+      await _apiHelper
+          .deleteData(context: context, url: "comment/delete/$commentId")
+          .then((value) async {
+        ToastUtil(context)
+            .showSuccessToastNotification("Comment deleted successfully");
+      });
+
+      _loader = false;
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      notifyListeners();
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
 }
