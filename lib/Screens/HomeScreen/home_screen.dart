@@ -332,7 +332,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   SizedBox(
                                     width: screenUtil.setWidth(15),
                                   ),
-                                  const Icon(Icons.message),
+                                  GestureDetector(
+                                    onTap: () {
+                                      NavigatorUtil.push(
+                                        context,
+                                        screen: ViewAllCommentsScreen(
+                                          postModel: baseModel.allPosts[index],
+                                        ),
+                                      );
+                                    },
+                                    child: const Icon(Icons.message),
+                                  ),
                                   SizedBox(
                                     width: screenUtil.setWidth(15),
                                   ),
@@ -434,22 +444,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               // SizedBox(
                               //   height: screenUtil.setHeight(5),
                               // ),
-                              GestureDetector(
-                                onTap: () {
-                                  NavigatorUtil.push(
-                                    context,
-                                    screen: ViewAllCommentsScreen(
-                                      postModel: baseModel.allPosts[index],
-                                    ),
-                                  );
-                                },
-                                child: TextUtil.secondaryText(
-                                  text:
-                                      "View all ${baseModel.allPosts[index].comments_count} comments",
-                                  color: kTextSubTitle,
-                                  size: 12,
-                                ),
-                              )
+                              baseModel.allPosts[index].comments_count > 0
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        NavigatorUtil.push(
+                                          context,
+                                          screen: ViewAllCommentsScreen(
+                                            postModel:
+                                                baseModel.allPosts[index],
+                                          ),
+                                        );
+                                      },
+                                      child: TextUtil.secondaryText(
+                                        text:
+                                            "View all ${baseModel.allPosts[index].comments_count} comments",
+                                        color: kTextSubTitle,
+                                        size: 12,
+                                      ),
+                                    )
+                                  : Container()
                             ],
                           ),
                         );

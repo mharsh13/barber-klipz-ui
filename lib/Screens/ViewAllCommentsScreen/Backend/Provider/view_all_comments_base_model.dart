@@ -39,30 +39,27 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
     String postId,
   ) async {
     try {
-      Loader.show(
-        context,
-        progressIndicator: const CircularProgressIndicator(
-          color: kYellow,
-        ),
-      );
+      _loader = true;
+      notifyListeners();
       Map<String, dynamic> formData = {
         "postId": postId,
         "text": _enterComment.text,
       };
       await _apiHelper
           .postData(context: context, data: formData, url: "comment/create")
-          .then((value) {
+          .then((value) async {
         Loader.hide();
         if (value != null) {
-          print(value);
-          _allComments.add(CommentModel.fromMap(value["data"]));
+          // _allComments.add(CommentModel.fromMap(value["data"]));
+          await getAllComments(context, postId);
           _enterComment.clear();
         }
+        _loader = false;
       });
       notifyListeners();
     } catch (e) {
       print(e);
-      Loader.hide();
+      _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
@@ -71,6 +68,7 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
   Future<void> getAllComments(BuildContext context, String commentId) async {
     try {
       _loader = true;
+      notifyListeners();
       await _apiHelper
           .getData(context: context, url: "comment/get-all/$commentId")
           .then((value) {

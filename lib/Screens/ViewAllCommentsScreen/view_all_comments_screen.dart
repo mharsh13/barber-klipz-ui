@@ -51,12 +51,12 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
         ),
         leadingWidth: screenUtil.setWidth(25),
       ),
-      bottomNavigationBar: Container(
+      bottomSheet: Container(
         padding: EdgeInsets.symmetric(
           horizontal: screenUtil.setWidth(10),
           vertical: screenUtil.setHeight(10),
         ),
-        width: screenUtil.screenWidth,
+        color: kWhite,
         child: Row(
           children: [
             Container(
@@ -76,8 +76,7 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
             SizedBox(
               width: screenUtil.setWidth(5),
             ),
-            SizedBox(
-              width: screenUtil.setWidth(280),
+            Expanded(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
                 child: TextFormField(
@@ -93,9 +92,9 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
                       fontSize: 16,
                     ),
                     suffixIcon: GestureDetector(
-                      onTap: () {
-                        print("---------------------");
-                        baseModel.createComment(context, widget.postModel.id);
+                      onTap: () async {
+                        await baseModel.createComment(
+                            context, widget.postModel.id);
                       },
                       child: Padding(
                           padding: EdgeInsets.only(
@@ -128,137 +127,157 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(
-            top: screenUtil.setHeight(8),
-          ),
-          height: screenUtil.setHeight(560),
-          child: ListView.builder(
-            itemCount: baseModel.allComments.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Slidable(
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        SlidableAction(
-                          flex: 2,
-                          onPressed: (context) {},
-                          backgroundColor: kTextSubTitle,
-                          foregroundColor: Colors.white,
-                          icon: Icons.reply,
-                        ),
-                        SlidableAction(
-                          onPressed: (context) {},
-                          backgroundColor: kTextSubTitle,
-                          foregroundColor: Colors.white,
-                          icon: Icons.info_outline,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          width: screenUtil.setHeight(40),
-                          height: screenUtil.setHeight(40),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: NetImage(
-                              uri: baseModel
-                                  .allComments[index].user.profile_image,
+      body: baseModel.loader
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: kYellow,
+              ),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: screenUtil.setHeight(8),
+                ),
+                height: screenUtil.setHeight(560),
+                child: ListView.builder(
+                  itemCount: baseModel.allComments.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenUtil.setWidth(20),
+                      ),
+                      child: Column(
+                        children: [
+                          Slidable(
+                            endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {},
+                                  backgroundColor: kTextSubTitle,
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.reply,
+                                ),
+                                SlidableAction(
+                                  onPressed: (context) {},
+                                  backgroundColor: kTextSubTitle,
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: screenUtil.setWidth(10),
-                        ),
-                        SizedBox(
-                          width: screenUtil.screenWidth - 65,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Column(
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  width: screenUtil.setHeight(40),
+                                  height: screenUtil.setHeight(40),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: NetImage(
+                                      uri: baseModel.allComments[index].user
+                                          .profile_image,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: screenUtil.setWidth(10),
+                                ),
+                                SizedBox(
+                                  width: screenUtil.screenWidth - 100,
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      TextUtil.secondaryText(
-                                        text: baseModel
-                                            .allComments[index].user.user_name,
-                                        color: kBlack,
-                                        size: 12,
-                                        fontWeight: FontWeight.w600,
+                                      Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              TextUtil.secondaryText(
+                                                text: baseModel
+                                                    .allComments[index]
+                                                    .user
+                                                    .user_name,
+                                                color: kBlack,
+                                                size: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              TextUtil.secondaryText(
+                                                text: baseModel
+                                                    .allComments[index].text,
+                                                color: kBlack,
+                                                size: 12,
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: Icon(
+                                              baseModel.allComments[index].liked
+                                                  ? Icons.favorite
+                                                  : Icons
+                                                      .favorite_border_outlined,
+                                              color: baseModel
+                                                      .allComments[index].liked
+                                                  ? kError
+                                                  : kBlack,
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      TextUtil.secondaryText(
-                                        text: baseModel.allComments[index].text,
-                                        color: kBlack,
-                                        size: 12,
+                                      Row(
+                                        children: [
+                                          TextUtil.secondaryText(
+                                            text: timeago.format(DateTime.parse(
+                                                baseModel.allComments[index]
+                                                    .created_at)),
+                                            color: kBlack,
+                                            size: 10,
+                                          ),
+                                          SizedBox(
+                                            width: screenUtil.setWidth(7),
+                                          ),
+                                          TextUtil.secondaryText(
+                                            text: "0 Loves",
+                                            color: kBlack,
+                                            size: 10,
+                                          ),
+                                          SizedBox(
+                                            width: screenUtil.setWidth(7),
+                                          ),
+                                          TextUtil.secondaryText(
+                                            text: "Reply",
+                                            color: kTextSubTitle,
+                                            size: 10,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                  const Spacer(),
-                                  Icon(
-                                    baseModel.isFavourtie
-                                        ? Icons.favorite
-                                        : Icons.favorite_border_outlined,
-                                    color:
-                                        baseModel.isFavourtie ? kError : kBlack,
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  TextUtil.secondaryText(
-                                    text: timeago.format(DateTime.parse(
-                                        baseModel
-                                            .allComments[index].created_at)),
-                                    color: kBlack,
-                                    size: 10,
-                                  ),
-                                  SizedBox(
-                                    width: screenUtil.setWidth(7),
-                                  ),
-                                  TextUtil.secondaryText(
-                                    text: "0 Loves",
-                                    color: kBlack,
-                                    size: 10,
-                                  ),
-                                  SizedBox(
-                                    width: screenUtil.setWidth(7),
-                                  ),
-                                  TextUtil.secondaryText(
-                                    text: "Reply",
-                                    color: kTextSubTitle,
-                                    size: 10,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ],
-                              ),
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: screenUtil.setHeight(5),
-                  ),
-                  const Divider(
-                    color: kGrey,
-                  )
-                ],
-              );
-            },
-          ),
-        ),
-      ),
+                          SizedBox(
+                            height: screenUtil.setHeight(5),
+                          ),
+                          const Divider(
+                            color: kGrey,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
     );
   }
 }
