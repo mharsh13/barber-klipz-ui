@@ -1,4 +1,3 @@
-import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Model/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -84,6 +83,37 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> likeAndUnlikeComment(
+      BuildContext context, CommentModel commentModel) async {
+    try {
+      await _apiHelper
+          .postData(
+              context: context,
+              data: {},
+              url: "comment/toggle-like/${commentModel.id}")
+          .then((value) {
+        if (value != null) {
+          if (value["message"] == "Comment liked successfully") {
+            commentModel.liked = true;
+            commentModel.likes_count++;
+
+            ToastUtil(context)
+                .showSuccessToastNotification("Comment liked successfully");
+          } else if (value["message"] == "Comment disliked successfully") {
+            commentModel.liked = false;
+            commentModel.likes_count--;
+            ToastUtil(context)
+                .showSuccessToastNotification("Comment disliked successfully");
+          }
+        }
+        notifyListeners();
+      });
+    } catch (e) {
+      notifyListeners();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }

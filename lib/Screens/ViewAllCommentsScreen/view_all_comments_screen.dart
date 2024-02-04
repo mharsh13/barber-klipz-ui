@@ -217,7 +217,11 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
                                           ),
                                           const Spacer(),
                                           IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              baseModel.likeAndUnlikeComment(
+                                                  context,
+                                                  baseModel.allComments[index]);
+                                            },
                                             icon: Icon(
                                               baseModel.allComments[index].liked
                                                   ? Icons.favorite
@@ -244,7 +248,8 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
                                             width: screenUtil.setWidth(7),
                                           ),
                                           TextUtil.secondaryText(
-                                            text: "0 Loves",
+                                            text:
+                                                "${baseModel.allComments[index].likes_count} Loves",
                                             color: kBlack,
                                             size: 10,
                                           ),
