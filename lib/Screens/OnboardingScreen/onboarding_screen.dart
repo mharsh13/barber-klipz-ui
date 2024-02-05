@@ -32,7 +32,7 @@ class OnboardingScreen extends ConsumerWidget {
                 height: screenUtil.setHeight(40),
               ),
               TextUtil.secondaryText(
-                text: "Barber Klips",
+                text: "Barber Klipz",
                 color: kGold,
                 size: 25,
                 fontWeight: FontWeight.bold,
