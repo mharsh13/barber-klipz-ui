@@ -67,7 +67,7 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
   Future<void> getAllComments(BuildContext context, String postId) async {
     try {
       _loader = true;
-      notifyListeners();
+
       await _apiHelper
           .getData(context: context, url: "comment/get-all/$postId")
           .then((value) {

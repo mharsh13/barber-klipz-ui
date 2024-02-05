@@ -69,7 +69,9 @@ class _ViewAllCommentsScreenState extends ConsumerState<ViewAllCommentsScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: NetImage(
-                  uri: splashBaseModel.user!.profile_image,
+                  uri: splashBaseModel.user != null
+                      ? splashBaseModel.user!.profile_image
+                      : "",
                 ),
               ),
             ),

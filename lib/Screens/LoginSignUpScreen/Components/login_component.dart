@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:barber_klipz_ui/Utils/validator_util.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,8 @@ import '../../../Utils/button_util.dart';
 import '../Backend/Provider/login_signup_base_model.dart';
 import 'forget_password_dialog_box.dart';
 
-Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
+Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel,
+    SplashScreenBaseModel splashScreenBaseModel) {
   return Form(
     key: baseModel.loginFormKey,
     child: Padding(
@@ -87,7 +89,7 @@ Form loginComponent(BuildContext context, LoginSignUpBaseModel baseModel) {
             text: "Log In",
             onPressed: () {
               if (baseModel.loginFormKey.currentState!.validate()) {
-                baseModel.login(context);
+                baseModel.login(context, splashScreenBaseModel);
               }
             },
             screenUtil: baseModel.screenUtil,

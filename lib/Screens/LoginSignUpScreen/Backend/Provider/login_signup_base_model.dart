@@ -3,6 +3,7 @@
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
 import 'package:barber_klipz_ui/Screens/RegeneratePasswordScreen/regenerate_password_screen.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/shared_preference_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -111,7 +112,8 @@ class LoginSignUpBaseModel extends ChangeNotifier {
     }
   }
 
-  Future<void> verifyEmail(BuildContext context) async {
+  Future<void> verifyEmail(
+      BuildContext context, SplashScreenBaseModel splashScreenBaseModel) async {
     try {
       Loader.show(
         context,
@@ -125,18 +127,17 @@ class LoginSignUpBaseModel extends ChangeNotifier {
       };
       await _apiHelper
           .putData(context: context, data: formData, url: "auth/verifyEmail")
-          .then((value) {
+          .then((value) async {
         Loader.hide();
         if (value != null) {
           if (value["token"] != null) {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Sign up successfull");
-
-            NavigatorUtil.pushAndRemoveUntil(
-              context,
-              screen: const BottomNavigationBarScreen(),
-            );
+            await splashScreenBaseModel.getMe(context).then((value) => {
+                  NavigatorUtil.pushAndRemoveUntil(context,
+                      screen: const BottomNavigationBarScreen())
+                });
           }
         }
       });
@@ -147,7 +148,8 @@ class LoginSignUpBaseModel extends ChangeNotifier {
     }
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> login(
+      BuildContext context, SplashScreenBaseModel splashScreenBaseModel) async {
     try {
       Loader.show(
         context,
@@ -163,15 +165,17 @@ class LoginSignUpBaseModel extends ChangeNotifier {
 
       await _apiHelper
           .postData(context: context, data: formData, url: "auth/login")
-          .then((value) {
+          .then((value) async {
         Loader.hide();
         if (value != null) {
           if (value["token"] != null) {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Logged In Successfully");
-            NavigatorUtil.pushAndRemoveUntil(context,
-                screen: const BottomNavigationBarScreen());
+            await splashScreenBaseModel.getMe(context).then((value) => {
+                  NavigatorUtil.pushAndRemoveUntil(context,
+                      screen: const BottomNavigationBarScreen())
+                });
           }
         }
       });
