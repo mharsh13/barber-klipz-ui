@@ -7,6 +7,7 @@ import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_cha
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/story_creator_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/HomeScreen/story_view_screen.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Provider/view_all_comments_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
@@ -131,7 +132,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         itemBuilder: (context, index) {
                           return index == 0
                               ? GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    NavigatorUtil.push(
+                                      context,
+                                      screen: StoryViewScreen(
+                                        user: splashBaseModel.user!,
+                                      ),
+                                    );
+                                  },
                                   child: badges.Badge(
                                     position: badges.BadgePosition.bottomEnd(
                                       bottom: -1,
@@ -195,26 +203,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                   ),
                                 )
-                              : Container(
-                                  height: screenUtil.setHeight(50),
-                                  width: screenUtil.setHeight(50),
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: screenUtil.setWidth(8),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      width: screenUtil.setWidth(1),
-                                      color: kGold,
+                              : GestureDetector(
+                                  onTap: () {
+                                    NavigatorUtil.push(
+                                      context,
+                                      screen: StoryViewScreen(
+                                        user: baseModel
+                                            .allUsersWithStories[index - 1],
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: screenUtil.setHeight(50),
+                                    width: screenUtil.setHeight(50),
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: screenUtil.setWidth(8),
                                     ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: NetImage(
-                                      fit: BoxFit.cover,
-                                      uri: baseModel
-                                          .allUsersWithStories[index - 1]
-                                          .profile_image,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        width: screenUtil.setWidth(1),
+                                        color: kGold,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: NetImage(
+                                        fit: BoxFit.cover,
+                                        uri: baseModel
+                                            .allUsersWithStories[index - 1]
+                                            .profile_image,
+                                      ),
                                     ),
                                   ),
                                 );
