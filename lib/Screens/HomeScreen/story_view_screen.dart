@@ -83,7 +83,7 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.favorite_outline,
                     ),
                   )
@@ -94,21 +94,15 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
         children: [
           StoryView(
             controller: baseModel.controller,
-            storyItems: [
-              StoryItem.pageImage(
-                url:
-                    "https://fastly.picsum.photos/id/378/200/300.jpg?hmac=j3b_pCH-0kwk0RstB5_LzJ2hw4H53kPLf6v5M-D3FaI",
-                controller: baseModel.controller,
-                duration: const Duration(seconds: 15),
-              ),
-              StoryItem.pageImage(
-                url:
-                    "https://fastly.picsum.photos/id/378/200/300.jpg?hmac=j3b_pCH-0kwk0RstB5_LzJ2hw4H53kPLf6v5M-D3FaI",
-                controller: baseModel.controller,
-                duration: const Duration(seconds: 15),
-              ),
-              // Add more StoryItem widgets as needed
-            ],
+            storyItems: baseModel.allStories
+                .map(
+                  (e) => StoryItem.pageImage(
+                    url: e.media_url,
+                    controller: baseModel.controller,
+                    duration: const Duration(seconds: 15),
+                  ),
+                )
+                .toList(),
             onComplete: () {
               Navigator.of(context).pop();
               // Navigate to the next screen or perform any other action upon completion

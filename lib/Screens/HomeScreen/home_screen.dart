@@ -132,14 +132,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         itemBuilder: (context, index) {
                           return index == 0
                               ? GestureDetector(
-                                  onTap: () {
-                                    NavigatorUtil.push(
-                                      context,
-                                      screen: StoryViewScreen(
-                                        user: splashBaseModel.user!,
-                                        isMine: true,
-                                      ),
-                                    );
+                                  onTap: () async {
+                                    baseModel
+                                        .getAllStories(
+                                            context, splashBaseModel.user!.id)
+                                        .then((value) {
+                                      NavigatorUtil.push(
+                                        context,
+                                        screen: StoryViewScreen(
+                                          user: splashBaseModel.user!,
+                                          isMine: true,
+                                        ),
+                                      );
+                                    });
                                   },
                                   child: badges.Badge(
                                     position: badges.BadgePosition.bottomEnd(
@@ -206,14 +211,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 )
                               : GestureDetector(
                                   onTap: () {
-                                    NavigatorUtil.push(
-                                      context,
-                                      screen: StoryViewScreen(
-                                        user: baseModel
-                                            .allUsersWithStories[index - 1],
-                                        isMine: false,
-                                      ),
-                                    );
+                                    baseModel
+                                        .getAllStories(
+                                            context,
+                                            baseModel
+                                                .allUsersWithStories[index - 1]
+                                                .id)
+                                        .then((value) {
+                                      NavigatorUtil.push(
+                                        context,
+                                        screen: StoryViewScreen(
+                                          user: baseModel
+                                              .allUsersWithStories[index - 1],
+                                          isMine: false,
+                                        ),
+                                      );
+                                    });
                                   },
                                   child: Container(
                                     height: screenUtil.setHeight(50),

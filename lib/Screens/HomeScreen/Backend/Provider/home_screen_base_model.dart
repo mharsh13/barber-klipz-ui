@@ -24,6 +24,7 @@ import '../../../../Utils/text_util.dart';
 import '../../../../Utils/toast_util.dart';
 
 import '../Model/post_model.dart';
+import '../Model/story_model.dart';
 
 final homeScreenBaseModel =
     ChangeNotifierProvider((ref) => HomeScreenBaseModel(ref));
@@ -41,6 +42,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
   final ApiHelper _apiHelper = ApiHelper();
   final List<PostModel> _allPosts = [];
   final List<UserModel> _allUsersWithStories = [];
+  final List<StoryModel> _allStories = [];
   bool _loader = false;
   bool _isLike = false;
   final TextEditingController _replyStory = TextEditingController();
@@ -53,6 +55,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
   ApiHelper get apiHelper => _apiHelper;
   List<PostModel> get allPosts => _allPosts;
   List<UserModel> get allUsersWithStories => _allUsersWithStories;
+  List<StoryModel> get allStories => _allStories;
   bool get loader => _loader;
   bool get islike => _isLike;
   StoryController get controller => _controller;
@@ -170,13 +173,40 @@ class HomeScreenBaseModel extends ChangeNotifier {
     }
   }
 
-  Future<void> getAllUsersWithStories(BuildContext context) async {
+  Future<void> getAllStories(BuildContext context, String id) async {
     try {
       _loader = true;
       await _apiHelper
-          .getData(context: context, url: "story/get-all/users")
+          .getData(context: context, url: "story/get-user-stories/$id")
           .then((value) {
         _loader = false;
+        _allStories.clear();
+        if (value != null) {
+          List data = value["data"];
+          for (Map<String, dynamic> story in data) {
+            _allStories.add(StoryModel.fromMap(story));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> getAllUsersWithStories(BuildContext context) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      await _apiHelper
+          .getData(context: context, url: "story/get-all/users")
+          .then((value) {
+        Loader.hide();
         _allUsersWithStories.clear();
         if (value != null) {
           List data = value["data"];
@@ -189,7 +219,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print(e);
-      _loader = false;
+      Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
