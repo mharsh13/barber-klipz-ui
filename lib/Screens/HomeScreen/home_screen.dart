@@ -34,18 +34,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     final baseModel = ref.read(homeScreenBaseModel);
-    getPosts(baseModel);
+    getData(baseModel);
     super.initState();
   }
 
-  void getPosts(HomeScreenBaseModel baseModel) {
-    baseModel.getAllPosts(context);
+  void getData(HomeScreenBaseModel baseModel) async {
+    await baseModel.getAllPosts(context).then((value) async {
+      await baseModel.getAllUsersWithStories(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(homeScreenBaseModel);
-    final viewCommentsBaseModel = ref.watch(viewAllCommentsBaseModel);
     final splashBaseModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return SafeArea(
@@ -121,36 +122,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     // ignore: sized_box_for_whitespace
                     Container(
+                      alignment: Alignment.centerLeft,
                       height: screenUtil.setHeight(50),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 20,
+                        itemCount: baseModel.allUsersWithStories.length + 1,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return index == 0
                               ? GestureDetector(
-                                  onTap: () async {
-                                    imageSource(
-                                      title: "Story",
-                                      context: context,
-                                      screenUtil: screenUtil,
-                                      gallery: baseModel.selectGalleryImage,
-                                    ).then(
-                                      (value) async {
-                                        final File editedFile =
-                                            await Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) => StoryMaker(
-                                              filePath:
-                                                  baseModel.storyImage!.path,
-                                            ),
-                                          ),
-                                        );
-                                        //add to story api call
-                                        print(editedFile.path);
-                                      },
-                                    );
-                                  },
+                                  onTap: () {},
                                   child: badges.Badge(
                                     position: badges.BadgePosition.bottomEnd(
                                       bottom: -1,
@@ -160,7 +141,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     badgeStyle: const badges.BadgeStyle(
                                       badgeColor: kYellow,
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      baseModel.setStoryImageNull();
+                                      imageSource(
+                                        title: "Story",
+                                        context: context,
+                                        screenUtil: screenUtil,
+                                        gallery: baseModel.selectGalleryImage,
+                                      ).then(
+                                        (value) async {
+                                          if (baseModel.storyImage != null) {
+                                            await Navigator.of(context)
+                                                .push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StoryMaker(
+                                                  filePath: baseModel
+                                                      .storyImage!.path,
+                                                ),
+                                              ),
+                                            )
+                                                .then((value) async {
+                                              await baseModel.createStory(
+                                                  context, value);
+                                            });
+                                          }
+                                        },
+                                      );
+                                    },
                                     badgeContent: const Icon(Icons.add,
                                         color: Colors.white, size: 10),
                                     child: Container(
@@ -202,10 +210,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
-                                    child: const NetImage(
+                                    child: NetImage(
                                       fit: BoxFit.cover,
-                                      uri:
-                                          "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
+                                      uri: baseModel
+                                          .allUsersWithStories[index - 1]
+                                          .profile_image,
                                     ),
                                   ),
                                 );

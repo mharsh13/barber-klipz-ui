@@ -1,7 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
-
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Models/user_model.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,16 +10,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 // ignore: depend_on_referenced_packages
-import 'package:path/path.dart';
+import "package:http_parser/http_parser.dart";
 import 'package:image/image.dart' as img;
 import 'package:photofilters/photofilters.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart';
 
 import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
 import '../../../../Utils/navigator_util.dart';
 import '../../../../Utils/text_util.dart';
 import '../../../../Utils/toast_util.dart';
-import '../../story_creator_screen.dart';
+
 import '../Model/post_model.dart';
 
 final homeScreenBaseModel =
@@ -35,6 +38,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
   File? _storyImage;
   final ApiHelper _apiHelper = ApiHelper();
   final List<PostModel> _allPosts = [];
+  final List<UserModel> _allUsersWithStories = [];
   bool _loader = false;
   bool _isLike = false;
 
@@ -45,8 +49,14 @@ class HomeScreenBaseModel extends ChangeNotifier {
   File? get storyImage => _storyImage;
   ApiHelper get apiHelper => _apiHelper;
   List<PostModel> get allPosts => _allPosts;
+  List<UserModel> get allUsersWithStories => _allUsersWithStories;
   bool get loader => _loader;
   bool get islike => _isLike;
+
+  void setStoryImageNull() async {
+    _storyImage = null;
+    notifyListeners();
+  }
 
   //selects profile picture of user from gallery
   Future<void> selectGalleryImage() async {
@@ -71,12 +81,12 @@ class HomeScreenBaseModel extends ChangeNotifier {
     }
   }
 
-  void setCameraImage(BuildContext context, File value) {
-    _storyImage = value;
-    if (_storyImage!.path.contains('.jpg') ||
-        _storyImage!.path.contains('.jpeg') ||
-        _storyImage!.path.contains('.png')) {
-      NavigatorUtil.push(context, screen: const StoryCreatorScreen());
+  void setCameraImage(BuildContext context, XFile value) {
+    if (value.path.contains('.jpg') ||
+        value.path.contains('.jpeg') ||
+        value.path.contains('.png')) {
+      _storyImage = File(value.path);
+      notifyListeners();
     }
   }
 
@@ -151,6 +161,67 @@ class HomeScreenBaseModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> getAllUsersWithStories(BuildContext context) async {
+    try {
+      _loader = true;
+      await _apiHelper
+          .getData(context: context, url: "story/get-all/users")
+          .then((value) {
+        _loader = false;
+        _allUsersWithStories.clear();
+        if (value != null) {
+          List data = value["data"];
+          for (Map<String, dynamic> user in data) {
+            print(user);
+            _allUsersWithStories.add(UserModel.fromMap(user));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<void> createStory(BuildContext context, File file) async {
+    try {
+      Loader.show(
+        context,
+        progressIndicator: const CircularProgressIndicator(
+          color: kYellow,
+        ),
+      );
+      notifyListeners();
+      String fileName = file.path.split('/').last;
+      FormData formData = FormData.fromMap({
+        "media_type": "IMAGE",
+        "media": await MultipartFile.fromFile(
+          file.path,
+          filename: fileName,
+          contentType: MediaType(
+            "image",
+            'png,jpg,jpeg',
+          ),
+        ),
+      });
+      await _apiHelper
+          .postData(context: context, data: formData, url: "story/create")
+          .then((value) {
+        Loader.hide();
+        if (value != null) {
+          ToastUtil(context)
+              .showSuccessToastNotification("Story created successfully");
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
