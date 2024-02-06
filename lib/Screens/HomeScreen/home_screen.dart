@@ -137,6 +137,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       context,
                                       screen: StoryViewScreen(
                                         user: splashBaseModel.user!,
+                                        isMine: true,
                                       ),
                                     );
                                   },
@@ -210,6 +211,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       screen: StoryViewScreen(
                                         user: baseModel
                                             .allUsersWithStories[index - 1],
+                                        isMine: false,
                                       ),
                                     );
                                   },

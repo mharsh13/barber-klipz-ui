@@ -10,9 +10,9 @@ import 'package:story_view/story_view.dart';
 import '../../Utils/text_util.dart';
 
 class StoryViewScreen extends ConsumerStatefulWidget {
-  const StoryViewScreen({super.key, required this.user});
-
+  const StoryViewScreen({super.key, required this.user, required this.isMine});
   final UserModel user;
+  final bool isMine;
 
   @override
   ConsumerState<StoryViewScreen> createState() => _StoryViewScreenState();
@@ -24,6 +24,72 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
     final baseModel = ref.watch(homeScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
+      bottomSheet: widget.isMine
+          ? null
+          : Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenUtil.setWidth(10),
+                vertical: screenUtil.setHeight(10),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7),
+                      child: TextFormField(
+                        maxLines: 3,
+                        minLines: 1,
+                        controller: baseModel.replyStory,
+                        cursorColor: kBlack,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(
+                              top: 13, bottom: 13, left: 10),
+                          hintText: "Type a message",
+                          hintStyle: const TextStyle(
+                            fontSize: 16,
+                          ),
+                          suffixIcon: GestureDetector(
+                            onTap: () async {},
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                right: screenUtil.setWidth(10),
+                                top: screenUtil.setHeight(12),
+                              ),
+                              child: TextUtil.secondaryText(
+                                text: "Send",
+                                color: kCategoryText,
+                                size: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite_outline,
+                    ),
+                  )
+                ],
+              ),
+            ),
       body: Stack(
         children: [
           StoryView(

@@ -43,6 +43,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
   final List<UserModel> _allUsersWithStories = [];
   bool _loader = false;
   bool _isLike = false;
+  final TextEditingController _replyStory = TextEditingController();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
@@ -55,6 +56,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
   bool get loader => _loader;
   bool get islike => _isLike;
   StoryController get controller => _controller;
+  TextEditingController get replyStory => _replyStory;
 
   void setStoryImageNull() async {
     _storyImage = null;
