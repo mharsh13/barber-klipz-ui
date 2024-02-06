@@ -147,7 +147,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 child: NetImage(
                                   fit: BoxFit.cover,
                                   uri: splashBaseModel.user != null
-                                      ? splashBaseModel.user!.cover_image
+                                      ? splashBaseModel.user!.profile_image
                                       : "",
                                 )),
                           ),
