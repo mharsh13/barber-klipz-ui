@@ -1,5 +1,7 @@
+import 'package:barber_klipz_ui/Providers/chat_base_model.dart';
 import 'package:barber_klipz_ui/Screens/DirectMessageScreen/Backend/Provider/direct_message_base_model.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Models/user_model.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +23,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(directMessageBaseModel);
+    final splashModel = ref.watch(splashScreenBaseModel);
+    final chatModel = ref.watch(chatBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
@@ -86,9 +90,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     height: screenUtil.setHeight(30),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: const NetImage(
-                        uri:
-                            "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg",
+                      child: NetImage(
+                        uri: widget.user.profile_image,
                       ),
                     ),
                   ),
@@ -133,7 +136,15 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               borderRadius: BorderRadius.circular(7),
               child: TextField(
                 onSubmitted: (value) {
+                  print('--------------------------------------');
                   print(value);
+                  print('--------------------------------------');
+                  chatModel.emitMessage(
+                    value,
+                    splashModel.user!.id,
+                    widget.user.id,
+                    context,
+                  );
                 },
                 textInputAction: TextInputAction.send,
                 controller: baseModel.enterMessage,

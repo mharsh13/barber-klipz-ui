@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/Utils/toast_util.dart';
 import 'package:barber_klipz_ui/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,9 +19,31 @@ class ChatBaseModel extends ChangeNotifier {
 
   //functions
 
-  Socket socket = io(Global.baseURL);
+  static final Socket socket = io(Global.baseURL, <String, dynamic>{
+    'autoConnect': false,
+    'transports': ['websocket'],
+  });
 
   void connectSocket() {
     socket.connect();
+    socket.onConnect((_) {
+      print('------------------------------------------');
+      print('Connection established');
+      print('------------------------------------------');
+    });
+  }
+
+  void emitMessage(String message, String senderId, String receiverId,
+      BuildContext context) {
+    Map payload = {
+      'message': message,
+      'senderId': senderId,
+      'receiverId': receiverId,
+    };
+    try {
+      socket.emit('message', payload);
+    } catch (e) {
+      ToastUtil(context).showErrorToastNotification('Error');
+    }
   }
 }
