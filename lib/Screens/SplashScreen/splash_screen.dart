@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/Providers/chat_base_model.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/OnboardingScreen/onboarding_screen.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
@@ -20,12 +21,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     final baseModel = ref.read(splashScreenBaseModel);
+    final chatModel = ref.read(chatBaseModel);
+    execute(baseModel).then((value) {
+      chatModel.connectSocket();
+    });
     super.initState();
-
-    execute(baseModel);
   }
 
-  execute(SplashScreenBaseModel baseModel) async {
+  Future<void> execute(SplashScreenBaseModel baseModel) async {
     SharedPreferenceUtil.getJwt().then((value) async {
       if (value == "") {
         Navigator.of(context).pushReplacement(
