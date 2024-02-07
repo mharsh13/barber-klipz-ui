@@ -2,10 +2,11 @@ import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Models/user_model.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
+import 'package:flutter_story_view/flutter_story_view.dart';
+import 'package:flutter_story_view/models/story_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:story_view/story_view.dart';
 
 import '../../Utils/text_util.dart';
 
@@ -19,6 +20,13 @@ class StoryViewScreen extends ConsumerStatefulWidget {
 }
 
 class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
+  @override
+  void initState() {
+    final baseModel = ref.read(homeScreenBaseModel);
+    baseModel.setIndex(0);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(homeScreenBaseModel);
@@ -92,25 +100,23 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
             ),
       body: Stack(
         children: [
-          StoryView(
-            controller: baseModel.controller,
+          FlutterStoryView(
+            // controller: baseModel.controller,
+            onPageChanged: (index) {
+              baseModel.setIndex(index);
+            },
             storyItems: baseModel.allStories
                 .map(
-                  (e) => StoryItem.pageImage(
+                  (e) => StoryItem(
                     url: e.media_url,
-                    controller: baseModel.controller,
-                    duration: const Duration(seconds: 15),
+                    type: StoryItemType.image,
+                    duration: 15,
                   ),
                 )
                 .toList(),
             onComplete: () {
               Navigator.of(context).pop();
               // Navigate to the next screen or perform any other action upon completion
-            },
-            onVerticalSwipeComplete: (direction) {
-              if (direction == Direction.down) {
-                Navigator.pop(context); // Navigate back when swiped down
-              }
             },
           ),
           Positioned(
@@ -121,9 +127,11 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
               padding: EdgeInsets.only(right: screenUtil.setWidth(30)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: screenUtil.setHeight(25),
@@ -139,62 +147,81 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
                           ),
                         ),
                       ),
-                      TextUtil.secondaryText(
-                        text: widget.user.user_name,
-                        color: kWhite,
-                        size: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextUtil.secondaryText(
+                            text: widget.user.user_name,
+                            color: kWhite,
+                            size: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          TextUtil.secondaryText(
+                            text: timeago.format(DateTime.parse(baseModel
+                                .allStories[baseModel.currentPage].created_at)),
+                            color: kGrey,
+                            size: 10,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.favorite,
-                        color: kError,
-                      ),
-                      SizedBox(
-                        width: screenUtil.setWidth(4),
-                      ),
-                      TextUtil.secondaryText(
-                        text: '0',
-                        color: kWhite,
-                        size: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      SizedBox(
-                        width: screenUtil.setWidth(20),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenUtil.setHeight(10),
-                          vertical: screenUtil.setWidth(2),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Row(
+                  !widget.isMine
+                      ? Container()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
-                              Icons.remove_red_eye_sharp,
-                              color: kWhite,
+                              Icons.favorite,
+                              color: kError,
                             ),
                             SizedBox(
                               width: screenUtil.setWidth(4),
                             ),
                             TextUtil.secondaryText(
-                              text: '0',
+                              text: baseModel
+                                  .allStories[baseModel.currentPage].likes_count
+                                  .toString(),
                               color: kWhite,
                               size: 12,
                               fontWeight: FontWeight.w400,
                             ),
+                            SizedBox(
+                              width: screenUtil.setWidth(20),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenUtil.setHeight(10),
+                                vertical: screenUtil.setWidth(2),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.remove_red_eye_sharp,
+                                    color: kWhite,
+                                  ),
+                                  SizedBox(
+                                    width: screenUtil.setWidth(4),
+                                  ),
+                                  TextUtil.secondaryText(
+                                    text: baseModel
+                                        .allStories[baseModel.currentPage]
+                                        .views_count
+                                        .toString(),
+                                    color: kWhite,
+                                    size: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),

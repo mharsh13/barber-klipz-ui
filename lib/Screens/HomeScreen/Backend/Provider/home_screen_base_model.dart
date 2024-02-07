@@ -15,7 +15,6 @@ import 'package:image/image.dart' as img;
 import 'package:photofilters/photofilters.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
-import 'package:story_view/story_view.dart';
 
 import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
@@ -36,7 +35,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
   final ImagePicker _imagePicker = ImagePicker();
-  final StoryController _controller = StoryController();
+
   String? _imagePath;
   File? _storyImage;
   final ApiHelper _apiHelper = ApiHelper();
@@ -46,6 +45,7 @@ class HomeScreenBaseModel extends ChangeNotifier {
   bool _loader = false;
   bool _isLike = false;
   final TextEditingController _replyStory = TextEditingController();
+  int _currentPage = 0;
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
@@ -58,11 +58,17 @@ class HomeScreenBaseModel extends ChangeNotifier {
   List<StoryModel> get allStories => _allStories;
   bool get loader => _loader;
   bool get islike => _isLike;
-  StoryController get controller => _controller;
+  int get currentPage => _currentPage;
+
   TextEditingController get replyStory => _replyStory;
 
   void setStoryImageNull() async {
     _storyImage = null;
+    notifyListeners();
+  }
+
+  void setIndex(int index) {
+    _currentPage = index;
     notifyListeners();
   }
 

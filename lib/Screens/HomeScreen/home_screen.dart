@@ -133,6 +133,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           return index == 0
                               ? GestureDetector(
                                   onTap: () async {
+                                    // baseModel.setIndex(0);
                                     baseModel
                                         .getAllStories(
                                             context, splashBaseModel.user!.id)
@@ -211,6 +212,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 )
                               : GestureDetector(
                                   onTap: () {
+                                    // baseModel.setIndex(0);
                                     baseModel
                                         .getAllStories(
                                             context,
