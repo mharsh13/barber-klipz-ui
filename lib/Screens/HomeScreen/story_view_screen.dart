@@ -24,6 +24,7 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
   void initState() {
     final baseModel = ref.read(homeScreenBaseModel);
     baseModel.setIndex(0);
+    baseModel.viewStory(context, baseModel.allStories[baseModel.currentPage]);
     super.initState();
   }
 
@@ -90,11 +91,20 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_outline,
-                    ),
-                  )
+                    onPressed: () {
+                      baseModel.likeAndUnlikeStory(
+                          context, baseModel.allStories[baseModel.currentPage]);
+                    },
+                    icon: baseModel.allStories[baseModel.currentPage].liked
+                        ? const Icon(
+                            Icons.favorite,
+                            color: kError,
+                          )
+                        : const Icon(
+                            Icons.favorite_border,
+                            color: kError,
+                          ),
+                  ),
                 ],
               ),
             ),
@@ -104,6 +114,7 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
             // controller: baseModel.controller,
             onPageChanged: (index) {
               baseModel.setIndex(index);
+              baseModel.viewStory(context, baseModel.allStories[index]);
             },
             storyItems: baseModel.allStories
                 .map(

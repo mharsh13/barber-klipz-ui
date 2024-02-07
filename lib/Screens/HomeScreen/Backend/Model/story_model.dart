@@ -8,6 +8,7 @@ class StoryModel {
   int likes_count;
   int loves_count;
   int views_count;
+  bool liked;
   String created_at;
   String updated_at;
   StoryModel({
@@ -17,6 +18,7 @@ class StoryModel {
     required this.likes_count,
     required this.loves_count,
     required this.views_count,
+    required this.liked,
     required this.created_at,
     required this.updated_at,
   });
@@ -29,6 +31,7 @@ class StoryModel {
       'likes_count': likes_count,
       'loves_count': loves_count,
       'views_count': views_count,
+      'liked': liked,
       'created_at': created_at,
       'updated_at': updated_at,
     };
@@ -42,6 +45,7 @@ class StoryModel {
       likes_count: map['likes_count'] as int,
       loves_count: map['loves_count'] as int,
       views_count: map['views_count'] as int,
+      liked: map['liked'] as bool,
       created_at: map['created_at'] as String,
       updated_at: map['updated_at'] as String,
     );

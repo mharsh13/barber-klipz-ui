@@ -312,27 +312,20 @@ class HomeScreenBaseModel extends ChangeNotifier {
   Future<void> likeAndUnlikeStory(
       BuildContext context, StoryModel storyModel) async {
     try {
-      Loader.show(
-        context,
-        progressIndicator: const CircularProgressIndicator(
-          color: kPrimary,
-        ),
-      );
       await _apiHelper
           .postData(
               context: context,
               data: {},
               url: "story/toggle-like/${storyModel.id}")
           .then((value) {
-        Loader.hide();
         if (value != null) {
           if (value["message"] == "Story liked successfully") {
-            // storyModel.liked = true;
+            storyModel.liked = true;
             storyModel.likes_count++;
             ToastUtil(context)
                 .showSuccessToastNotification("Story liked successfully");
           } else if (value["message"] == "Story disliked successfully") {
-            // storyModel.liked = false;
+            storyModel.liked = false;
             storyModel.likes_count--;
             ToastUtil(context)
                 .showSuccessToastNotification("Story disliked successfully");
@@ -341,7 +334,6 @@ class HomeScreenBaseModel extends ChangeNotifier {
         notifyListeners();
       });
     } catch (e) {
-      Loader.hide();
       notifyListeners();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
@@ -349,12 +341,6 @@ class HomeScreenBaseModel extends ChangeNotifier {
 
   Future<void> viewStory(BuildContext context, StoryModel storyModel) async {
     try {
-      Loader.show(
-        context,
-        progressIndicator: const CircularProgressIndicator(
-          color: kPrimary,
-        ),
-      );
       await _apiHelper
           .postData(
               context: context,
@@ -364,7 +350,6 @@ class HomeScreenBaseModel extends ChangeNotifier {
         if (value != null && value['data'] != null) {}
       });
     } catch (e) {
-      Loader.hide();
       notifyListeners();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
