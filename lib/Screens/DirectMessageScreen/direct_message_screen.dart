@@ -1,4 +1,5 @@
 import 'package:barber_klipz_ui/Screens/DirectMessageScreen/Backend/Provider/direct_message_base_model.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +9,8 @@ import '../../Utils/net_image.dart';
 import '../../Utils/text_util.dart';
 
 class DirectMessageScreen extends ConsumerStatefulWidget {
-  const DirectMessageScreen({super.key});
+  const DirectMessageScreen({super.key, required this.user});
+  final UserModel user;
 
   @override
   ConsumerState<DirectMessageScreen> createState() =>
@@ -35,9 +37,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               height: screenUtil.setHeight(30),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: const NetImage(
-                  uri:
-                      "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg",
+                child: NetImage(
+                  uri: widget.user.profile_image,
                 ),
               ),
             ),
@@ -45,7 +46,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               width: screenUtil.setWidth(10),
             ),
             TextUtil.secondaryText(
-              text: "mharsh13",
+              text: widget.user.user_name,
               color: kGold,
               size: 14,
               fontWeight: FontWeight.w500,
@@ -130,9 +131,11 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
             width: screenUtil.screenWidth,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(7),
-              child: TextFormField(
-                maxLines: 3,
-                minLines: 1,
+              child: TextField(
+                onSubmitted: (value) {
+                  print(value);
+                },
+                textInputAction: TextInputAction.send,
                 controller: baseModel.enterMessage,
                 cursorColor: kBlack,
                 decoration: InputDecoration(

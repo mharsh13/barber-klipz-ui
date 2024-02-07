@@ -54,8 +54,8 @@ Column allRequests(ScreenUtil screenUtil) {
             children: [
               GestureDetector(
                 onTap: () {
-                  NavigatorUtil.push(context,
-                      screen: const DirectMessageScreen());
+                  // NavigatorUtil.push(context,
+                  //     screen: const DirectMessageScreen());
                 },
                 child: Container(
                   margin:

@@ -1,4 +1,6 @@
+import 'package:barber_klipz_ui/Screens/DirectMessageScreen/direct_message_screen.dart';
 import 'package:barber_klipz_ui/Screens/NewMessageScreen/Backend/Provider/new_message_base_model.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -105,69 +107,82 @@ class _NewMessageScreenState extends ConsumerState<NewMessageScreen> {
                     itemCount: baseModel.users.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: screenUtil.setWidth(10),
+                      return GestureDetector(
+                        onTap: () {
+                          NavigatorUtil.push(
+                            context,
+                            screen: DirectMessageScreen(
+                              user: baseModel.users[index],
                             ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50)),
-                                  width: screenUtil.setHeight(40),
-                                  height: screenUtil.setHeight(40),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: NetImage(
-                                      uri: baseModel.users[index].profile_image,
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: screenUtil.setWidth(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    width: screenUtil.setHeight(40),
+                                    height: screenUtil.setHeight(40),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: NetImage(
+                                        uri: baseModel
+                                            .users[index].profile_image,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: screenUtil.setWidth(8),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextUtil.secondaryText(
-                                      text: baseModel.users[index].user_name,
-                                      color: kBlack,
-                                      size: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    SizedBox(
-                                      height: screenUtil.setHeight(2),
-                                    ),
-                                    TextUtil.secondaryText(
-                                      text:
-                                          "${baseModel.users[index].first_name ?? ''} ${baseModel.users[index].last_name ?? ''}",
-                                      color: kTextSubTitle,
-                                      size: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                // Checkbox(
-                                //   checkColor: Colors.white,
-                                //   value: baseModel.isChecked,
-                                //   shape: const CircleBorder(),
-                                //   onChanged: (bool? value) {
-                                //     baseModel.checkUser(value);
-                                //   },
-                                // )
-                              ],
+                                  SizedBox(
+                                    width: screenUtil.setWidth(8),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextUtil.secondaryText(
+                                        text: baseModel.users[index].user_name,
+                                        color: kBlack,
+                                        size: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: screenUtil.setHeight(2),
+                                      ),
+                                      TextUtil.secondaryText(
+                                        text:
+                                            "${baseModel.users[index].first_name ?? ''} ${baseModel.users[index].last_name ?? ''}",
+                                        color: kTextSubTitle,
+                                        size: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  // Checkbox(
+                                  //   checkColor: Colors.white,
+                                  //   value: baseModel.isChecked,
+                                  //   shape: const CircleBorder(),
+                                  //   onChanged: (bool? value) {
+                                  //     baseModel.checkUser(value);
+                                  //   },
+                                  // )
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: screenUtil.setHeight(2),
-                          ),
-                          const Divider(
-                            color: kTextSubTitle,
-                          )
-                        ],
+                            SizedBox(
+                              height: screenUtil.setHeight(2),
+                            ),
+                            const Divider(
+                              color: kTextSubTitle,
+                            )
+                          ],
+                        ),
                       );
                     },
                   )
