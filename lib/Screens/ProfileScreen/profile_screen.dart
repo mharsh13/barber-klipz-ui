@@ -129,7 +129,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             width: screenUtil.screenWidth,
                             height: screenUtil.setHeight(120),
                             child: NetImage(
-                              uri: splashBaseModel.user!.cover_image,
+                              uri: splashBaseModel.user != null
+                                  ? splashBaseModel.user!.cover_image
+                                  : "",
                               fit: BoxFit.cover,
                             )),
                         Positioned(
@@ -144,7 +146,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 borderRadius: BorderRadius.circular(50),
                                 child: NetImage(
                                   fit: BoxFit.cover,
-                                  uri: splashBaseModel.user!.profile_image,
+                                  uri: splashBaseModel.user != null
+                                      ? splashBaseModel.user!.profile_image
+                                      : "",
                                 )),
                           ),
                         ),

@@ -25,6 +25,8 @@ class _InboxScreenState extends ConsumerState<InboxScreen>
       length: 2,
       vsync: this,
     );
+    final baseModel = ref.read(inboxBaseModel);
+    baseModel.getAllInbox(context);
     super.initState();
   }
 
@@ -118,7 +120,7 @@ class _InboxScreenState extends ConsumerState<InboxScreen>
                 ],
               ),
               baseModel.currentValue == 0
-                  ? allRequests(screenUtil)
+                  ? allRequests(screenUtil, baseModel)
                   : Container(
                       margin: EdgeInsets.symmetric(
                         vertical: screenUtil.setHeight(200),

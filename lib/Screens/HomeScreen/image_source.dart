@@ -66,7 +66,7 @@ Future<void> imageSource({
                           NavigatorUtil.push(
                             context,
                             screen: const CameraPage(),
-                          ).then((value) => Navigator.of(context).pop());
+                          );
                         },
                         icon: const Icon(Icons.camera_alt_rounded),
                         color: kBlack,

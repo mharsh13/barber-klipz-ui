@@ -64,12 +64,12 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
   }
 
   //gets the list of all the comments of a post
-  Future<void> getAllComments(BuildContext context, String commentId) async {
+  Future<void> getAllComments(BuildContext context, String postId) async {
     try {
       _loader = true;
-      notifyListeners();
+
       await _apiHelper
-          .getData(context: context, url: "comment/get-all/$commentId")
+          .getData(context: context, url: "comment/get-all/$postId")
           .then((value) {
         _loader = false;
         _allComments.clear();

@@ -7,6 +7,7 @@ import 'package:barber_klipz_ui/Screens/AudioVideoChatRoomScreen/audio_video_cha
 import 'package:barber_klipz_ui/Screens/FadedPointsScreen/faded_points_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/story_creator_screen.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/HomeScreen/story_view_screen.dart';
 import 'package:barber_klipz_ui/Screens/InboxScreen/inbox_screen.dart';
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Provider/view_all_comments_base_model.dart';
 import 'package:barber_klipz_ui/Screens/ViewFlickzScreen/view_flickz_screen.dart';
@@ -34,18 +35,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     final baseModel = ref.read(homeScreenBaseModel);
-    getPosts(baseModel);
+    getData(baseModel);
     super.initState();
   }
 
-  void getPosts(HomeScreenBaseModel baseModel) {
-    baseModel.getAllPosts(context);
+  void getData(HomeScreenBaseModel baseModel) async {
+    await baseModel.getAllPosts(context).then((value) async {
+      await baseModel.getAllUsersWithStories(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(homeScreenBaseModel);
-    final viewCommentsBaseModel = ref.watch(viewAllCommentsBaseModel);
     final splashBaseModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return SafeArea(
@@ -121,35 +123,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     // ignore: sized_box_for_whitespace
                     Container(
+                      alignment: Alignment.centerLeft,
                       height: screenUtil.setHeight(50),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 20,
+                        itemCount: baseModel.allUsersWithStories.length + 1,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return index == 0
                               ? GestureDetector(
                                   onTap: () async {
-                                    imageSource(
-                                      title: "Story",
-                                      context: context,
-                                      screenUtil: screenUtil,
-                                      gallery: baseModel.selectGalleryImage,
-                                    ).then(
-                                      (value) async {
-                                        final File editedFile =
-                                            await Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) => StoryMaker(
-                                              filePath:
-                                                  baseModel.storyImage!.path,
-                                            ),
-                                          ),
-                                        );
-                                        //add to story api call
-                                        print(editedFile.path);
-                                      },
-                                    );
+                                    // baseModel.setIndex(0);
+                                    baseModel
+                                        .getAllStories(
+                                            context, splashBaseModel.user!.id)
+                                        .then((value) {
+                                      NavigatorUtil.push(
+                                        context,
+                                        screen: StoryViewScreen(
+                                          user: splashBaseModel.user!,
+                                          isMine: true,
+                                        ),
+                                      );
+                                    });
                                   },
                                   child: badges.Badge(
                                     position: badges.BadgePosition.bottomEnd(
@@ -160,7 +156,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     badgeStyle: const badges.BadgeStyle(
                                       badgeColor: kYellow,
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      baseModel.setStoryImageNull();
+                                      imageSource(
+                                        title: "Story",
+                                        context: context,
+                                        screenUtil: screenUtil,
+                                        gallery: baseModel.selectGalleryImage,
+                                      ).then(
+                                        (value) async {
+                                          if (baseModel.storyImage != null) {
+                                            await Navigator.of(context)
+                                                .push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StoryMaker(
+                                                  filePath: baseModel
+                                                      .storyImage!.path,
+                                                ),
+                                              ),
+                                            )
+                                                .then((value) async {
+                                              await baseModel.createStory(
+                                                  context, value);
+                                            });
+                                          }
+                                        },
+                                      );
+                                    },
                                     badgeContent: const Icon(Icons.add,
                                         color: Colors.white, size: 10),
                                     child: Container(
@@ -187,25 +210,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                   ),
                                 )
-                              : Container(
-                                  height: screenUtil.setHeight(50),
-                                  width: screenUtil.setHeight(50),
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: screenUtil.setWidth(8),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      width: screenUtil.setWidth(1),
-                                      color: kGold,
+                              : GestureDetector(
+                                  onTap: () {
+                                    // baseModel.setIndex(0);
+                                    baseModel
+                                        .getAllStories(
+                                            context,
+                                            baseModel
+                                                .allUsersWithStories[index - 1]
+                                                .id)
+                                        .then((value) {
+                                      NavigatorUtil.push(
+                                        context,
+                                        screen: StoryViewScreen(
+                                          user: baseModel
+                                              .allUsersWithStories[index - 1],
+                                          isMine: false,
+                                        ),
+                                      );
+                                    });
+                                  },
+                                  child: Container(
+                                    height: screenUtil.setHeight(50),
+                                    width: screenUtil.setHeight(50),
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: screenUtil.setWidth(8),
                                     ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: const NetImage(
-                                      fit: BoxFit.cover,
-                                      uri:
-                                          "https://th.bing.com/th/id/OIG.gq_uOPPdJc81e_v0XAei",
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        width: screenUtil.setWidth(1),
+                                        color: kGold,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: NetImage(
+                                        fit: BoxFit.cover,
+                                        uri: baseModel
+                                            .allUsersWithStories[index - 1]
+                                            .profile_image,
+                                      ),
                                     ),
                                   ),
                                 );

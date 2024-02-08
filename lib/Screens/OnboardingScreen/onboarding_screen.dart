@@ -5,7 +5,6 @@ import 'package:barber_klipz_ui/Utils/gradient_background.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../../Resources/color_const.dart';
 import '../../Utils/navigator_util.dart';
 import '../LoginSignUpScreen/Backend/Provider/login_signup_base_model.dart';
@@ -32,7 +31,7 @@ class OnboardingScreen extends ConsumerWidget {
                 height: screenUtil.setHeight(40),
               ),
               TextUtil.secondaryText(
-                text: "Barber Klips",
+                text: "Barber Klipz",
                 color: kGold,
                 size: 25,
                 fontWeight: FontWeight.bold,

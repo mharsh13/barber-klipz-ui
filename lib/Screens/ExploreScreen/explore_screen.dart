@@ -1,4 +1,5 @@
 import 'package:barber_klipz_ui/Screens/ExploreScreen/Backend/Provider/explore_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/ExploreScreen/Components/user_list.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -109,7 +110,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                         child: TextUtil.secondaryText(
                           text: 'Top Competitions',
                           color: kBlack,
-                          size: 14,
+                          size: 10,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -125,7 +126,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                         child: TextUtil.secondaryText(
                           text: 'Barbers',
                           color: kBlack,
-                          size: 14,
+                          size: 10,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -141,7 +142,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                         child: TextUtil.secondaryText(
                           text: 'Multiplayer',
                           color: kBlack,
-                          size: 14,
+                          size: 10,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -149,10 +150,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen>
                   ),
                 ],
               ),
-              baseModel.currentValue == 0
+              _tabController.index == 0
                   ? Container()
-                  : baseModel.currentValue == 1
-                      ? Container()
+                  : _tabController.index == 1
+                      ? const UserList()
                       : Container(),
             ],
           ),
