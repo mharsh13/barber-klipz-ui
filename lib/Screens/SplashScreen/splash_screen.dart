@@ -29,7 +29,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final baseModel = ref.read(splashScreenBaseModel);
     final chatModel = ref.read(chatBaseModel);
     execute(baseModel).then((value) {
-      chatModel.connectSocket();
+      // chatModel.connectSocket();
     });
     super.initState();
   }
