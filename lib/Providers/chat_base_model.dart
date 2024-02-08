@@ -19,7 +19,7 @@ class ChatBaseModel extends ChangeNotifier {
 
   //functions
 
-  static final Socket socket = io(Global.baseURL, <String, dynamic>{
+  final Socket socket = io(Global.baseURL, <String, dynamic>{
     'autoConnect': false,
     'transports': ['websocket'],
   });
