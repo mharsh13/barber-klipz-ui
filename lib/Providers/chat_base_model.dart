@@ -31,6 +31,9 @@ class ChatBaseModel extends ChangeNotifier {
       print('Connection established');
       print('------------------------------------------');
     });
+    socket.onDisconnect((_) => print('Connection Disconnection'));
+    socket.onConnectError((err) => print(err));
+    socket.onError((err) => print(err));
   }
 
   void emitMessage(String message, String senderId, String receiverId,
@@ -39,6 +42,7 @@ class ChatBaseModel extends ChangeNotifier {
       'message': message,
       'senderId': senderId,
       'receiverId': receiverId,
+      'messageType': 'TEXT'
     };
     try {
       socket.emit('message', payload);

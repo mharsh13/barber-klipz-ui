@@ -29,19 +29,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final baseModel = ref.read(splashScreenBaseModel);
     final chatModel = ref.read(chatBaseModel);
     execute(baseModel).then((value) {
-      // initSocket();
+      chatModel.connectSocket();
     });
     super.initState();
-  }
-
-  initSocket() {
-    socket.connect();
-    socket.onConnect((_) {
-      print('Connection established');
-    });
-    socket.onDisconnect((_) => print('Connection Disconnection'));
-    socket.onConnectError((err) => print(err));
-    socket.onError((err) => print(err));
   }
 
   Future<void> execute(SplashScreenBaseModel baseModel) async {

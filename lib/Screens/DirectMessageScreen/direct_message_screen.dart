@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:barber_klipz_ui/Providers/chat_base_model.dart';
 import 'package:barber_klipz_ui/Screens/DirectMessageScreen/Backend/Provider/direct_message_base_model.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Models/user_model.dart';
@@ -11,8 +13,14 @@ import '../../Utils/net_image.dart';
 import '../../Utils/text_util.dart';
 
 class DirectMessageScreen extends ConsumerStatefulWidget {
-  const DirectMessageScreen({super.key, required this.user});
-  final UserModel user;
+  const DirectMessageScreen(
+      {super.key,
+      required this.id,
+      required this.profile_image,
+      required this.user_name});
+  final String id;
+  final String profile_image;
+  final String user_name;
 
   @override
   ConsumerState<DirectMessageScreen> createState() =>
@@ -42,7 +50,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: NetImage(
-                  uri: widget.user.profile_image,
+                  uri: widget.profile_image,
                 ),
               ),
             ),
@@ -50,7 +58,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               width: screenUtil.setWidth(10),
             ),
             TextUtil.secondaryText(
-              text: widget.user.user_name,
+              text: widget.user_name,
               color: kGold,
               size: 14,
               fontWeight: FontWeight.w500,
@@ -91,7 +99,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: NetImage(
-                        uri: widget.user.profile_image,
+                        uri: widget.profile_image,
                       ),
                     ),
                   ),
@@ -142,9 +150,10 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   chatModel.emitMessage(
                     value,
                     splashModel.user!.id,
-                    widget.user.id,
+                    widget.id,
                     context,
                   );
+                  baseModel.enterMessage.clear();
                 },
                 textInputAction: TextInputAction.send,
                 controller: baseModel.enterMessage,

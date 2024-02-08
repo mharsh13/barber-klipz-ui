@@ -112,7 +112,10 @@ class _NewMessageScreenState extends ConsumerState<NewMessageScreen> {
                           NavigatorUtil.push(
                             context,
                             screen: DirectMessageScreen(
-                              user: baseModel.users[index],
+                              id: baseModel.users[index].id,
+                              profile_image:
+                                  baseModel.users[index].profile_image ?? '',
+                              user_name: baseModel.users[index].user_name,
                             ),
                           );
                         },
