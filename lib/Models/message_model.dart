@@ -66,7 +66,7 @@ class MessageModel {
 class MessageUser {
   String id;
   String user_name;
-  String profile_image;
+  String? profile_image;
   MessageUser({
     required this.id,
     required this.user_name,
@@ -85,7 +85,8 @@ class MessageUser {
     return MessageUser(
       id: map['id'] as String,
       user_name: map['user_name'] as String,
-      profile_image: map['profile_image'] as String,
+      profile_image:
+          map['profile_image'] != null ? map['profile_image'] as String : null,
     );
   }
 

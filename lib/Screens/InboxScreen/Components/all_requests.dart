@@ -66,7 +66,7 @@ Widget allRequests(ScreenUtil screenUtil, InboxBaseModel inboxBaseModel) {
                       screen: DirectMessageScreen(
                         id: inboxBaseModel.inboxList[index].id,
                         profile_image:
-                            inboxBaseModel.inboxList[index].profile_image,
+                            inboxBaseModel.inboxList[index].profile_image ?? '',
                         user_name: inboxBaseModel.inboxList[index].user_name,
                       ),
                     );

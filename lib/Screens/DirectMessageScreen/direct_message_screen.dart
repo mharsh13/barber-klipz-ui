@@ -35,7 +35,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     final chatModel = ref.read(chatBaseModel);
     final splashModel = ref.read(splashScreenBaseModel);
 
-    chatModel.socket.on('message', (data) {
+    chatModel.socket!.on('message', (data) {
       print('--------------------------');
       print(data);
       print('--------------------------');
