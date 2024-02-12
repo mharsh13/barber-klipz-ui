@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:barber_klipz_ui/Providers/chat_base_model.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/bottom_navigation_bar_screen.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/otp_screen.dart';
 import 'package:barber_klipz_ui/Screens/RegeneratePasswordScreen/regenerate_password_screen.dart';
@@ -113,7 +114,9 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   }
 
   Future<void> verifyEmail(
-      BuildContext context, SplashScreenBaseModel splashScreenBaseModel) async {
+      BuildContext context,
+      SplashScreenBaseModel splashScreenBaseModel,
+      ChatBaseModel chatModel) async {
     try {
       Loader.show(
         context,
@@ -134,6 +137,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Sign up successfull");
+            chatModel.connectSocket(value["token"]);
             await splashScreenBaseModel.getMe(context).then((value) => {
                   NavigatorUtil.pushAndRemoveUntil(context,
                       screen: const BottomNavigationBarScreen())
@@ -149,7 +153,9 @@ class LoginSignUpBaseModel extends ChangeNotifier {
   }
 
   Future<void> login(
-      BuildContext context, SplashScreenBaseModel splashScreenBaseModel) async {
+      BuildContext context,
+      SplashScreenBaseModel splashScreenBaseModel,
+      ChatBaseModel chatModel) async {
     try {
       Loader.show(
         context,
@@ -172,10 +178,11 @@ class LoginSignUpBaseModel extends ChangeNotifier {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
                 .showSuccessToastNotification("Logged In Successfully");
-            await splashScreenBaseModel.getMe(context).then((value) => {
-                  NavigatorUtil.pushAndRemoveUntil(context,
-                      screen: const BottomNavigationBarScreen())
-                });
+            chatModel.connectSocket(value["token"]);
+            await splashScreenBaseModel.getMe(context).then((value) {
+              NavigatorUtil.pushAndRemoveUntil(context,
+                  screen: const BottomNavigationBarScreen());
+            });
           }
         }
       });

@@ -42,6 +42,7 @@ class ChatBaseModel extends ChangeNotifier {
 
   void emitMessage(String message, String senderId, String receiverId,
       BuildContext context) {
+    print('HERE');
     Map payload = {
       'message': message,
       'senderId': senderId,
@@ -51,6 +52,7 @@ class ChatBaseModel extends ChangeNotifier {
     try {
       socket!.emit('message', payload);
     } catch (e) {
+      print(e);
       ToastUtil(context).showErrorToastNotification('Error');
     }
   }

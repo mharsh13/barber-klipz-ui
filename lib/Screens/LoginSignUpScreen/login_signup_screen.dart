@@ -1,3 +1,4 @@
+import 'package:barber_klipz_ui/Providers/chat_base_model.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/gradient_background.dart';
@@ -35,6 +36,7 @@ class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
   Widget build(BuildContext context) {
     final baseModel = ref.watch(loginSignUpBaseModel);
     final splashModel = ref.watch(splashScreenBaseModel);
+    final chatModel = ref.watch(chatBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       backgroundColor: kSecondaryInactive,
@@ -100,7 +102,7 @@ class _LoginSignupScreenState extends ConsumerState<LoginSignupScreen>
               ),
               baseModel.currentValue == 0
                   ? signUpComponent(context, baseModel)
-                  : loginComponent(context, baseModel, splashModel)
+                  : loginComponent(context, baseModel, splashModel, chatModel)
             ]),
           ),
         ),
