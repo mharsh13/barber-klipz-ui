@@ -35,6 +35,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     final baseModel = ref.read(homeScreenBaseModel);
+    final splashModel = ref.read(splashScreenBaseModel);
+    if (splashModel.user == null) {
+      splashModel.getMe(context);
+    }
     getData(baseModel);
     super.initState();
   }
