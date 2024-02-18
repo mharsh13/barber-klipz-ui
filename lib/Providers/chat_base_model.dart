@@ -19,25 +19,30 @@ class ChatBaseModel extends ChangeNotifier {
 
   //functions
 
-  final Socket socket = io(Global.baseURL, <String, dynamic>{
-    'autoConnect': false,
-    'transports': ['websocket'],
-  });
+  Socket? socket;
 
-  void connectSocket() {
-    socket.connect();
-    socket.onConnect((_) {
-      print('------------------------------------------');
-      print('Connection established');
-      print('------------------------------------------');
-    });
-    socket.onDisconnect((_) => print('Connection Disconnection'));
-    socket.onConnectError((err) => print(err));
-    socket.onError((err) => print(err));
+  void connectSocket(String value) {
+    socket = io(
+      Global.baseURL,
+      OptionBuilder().setTransports(['websocket']).setAuth(
+          {'authorization': value}).build(),
+    );
+    if (socket != null) {
+      socket!.connect();
+      socket!.onConnect((_) {
+        print('------------------------------------------');
+        print('Connection established');
+        print('------------------------------------------');
+      });
+      socket!.onDisconnect((_) => print('Connection Disconnection'));
+      socket!.onConnectError((err) => print(err));
+      socket!.onError((err) => print(err));
+    }
   }
 
   void emitMessage(String message, String senderId, String receiverId,
       BuildContext context) {
+    print('HERE');
     Map payload = {
       'message': message,
       'senderId': senderId,
@@ -45,8 +50,9 @@ class ChatBaseModel extends ChangeNotifier {
       'messageType': 'TEXT'
     };
     try {
-      socket.emit('message', payload);
+      socket!.emit('message', payload);
     } catch (e) {
+      print(e);
       ToastUtil(context).showErrorToastNotification('Error');
     }
   }

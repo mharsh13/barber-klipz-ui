@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:barber_klipz_ui/Providers/chat_base_model.dart';
 import 'package:barber_klipz_ui/Screens/LoginSignUpScreen/Backend/Provider/login_signup_base_model.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:flutter/gestures.dart';
@@ -65,6 +66,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   Widget build(BuildContext context) {
     final baseModel = ref.watch(loginSignUpBaseModel);
     final splashModel = ref.watch(splashScreenBaseModel);
+    final chatModel = ref.watch(chatBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
@@ -206,7 +208,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 onPressed: () {
                   widget.forgotPassword
                       ? baseModel.verifyForgotPassword(context)
-                      : baseModel.verifyEmail(context, splashModel);
+                      : baseModel.verifyEmail(context, splashModel, chatModel);
                 },
                 screenUtil: screenUtil,
               ),

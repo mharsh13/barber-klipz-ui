@@ -35,19 +35,19 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     final chatModel = ref.read(chatBaseModel);
     final splashModel = ref.read(splashScreenBaseModel);
 
-    chatModel.socket.on('message', (data) {
+    chatModel.socket!.on('message', (data) {
       print('--------------------------');
-      print(data);
-      print('--------------------------');
+      print(data['message']);
+      print('-----------HERE---------------');
       baseModel.addMessage(
         MessageModel(
-          id: data.id,
-          senderId: data.senderId,
-          receiverId: data.receiverId,
-          message: data.message,
-          messageType: data.messageType,
-          createdAt: data.createdAt,
-          seen: data.seen,
+          id: data['id'],
+          senderId: data['senderId'],
+          receiverId: data['receiverId'],
+          message: data['message'],
+          messageType: data['messageType'],
+          createdAt: data['createdAt'],
+          seen: data['seen'],
           receiver: MessageUser(
             id: splashModel.user!.id,
             user_name: splashModel.user!.user_name,
@@ -84,6 +84,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
           borderRadius: BorderRadius.circular(7),
           child: TextField(
             onSubmitted: (value) {
+              print('---yaha pe');
               chatModel.emitMessage(
                 value,
                 splashModel.user!.id,
