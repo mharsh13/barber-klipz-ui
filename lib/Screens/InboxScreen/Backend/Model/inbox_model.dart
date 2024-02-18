@@ -6,7 +6,7 @@ import 'package:barber_klipz_ui/Models/message_model.dart';
 class InboxModel {
   String id;
   String user_name;
-  String profile_image;
+  String? profile_image;
   MessageModel lastMessage;
   InboxModel({
     required this.id,
@@ -28,7 +28,8 @@ class InboxModel {
     return InboxModel(
       id: map['id'] as String,
       user_name: map['user_name'] as String,
-      profile_image: map['profile_image'] as String,
+      profile_image:
+          map['profile_image'] != null ? map['profile_image'] as String : null,
       lastMessage:
           MessageModel.fromMap(map['lastMessage'] as Map<String, dynamic>),
     );
