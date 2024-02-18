@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,6 +21,7 @@ class BarberProfileBaseModel extends ChangeNotifier {
   int _currentValue = 0;
   bool _loader = false;
   final ApiHelper _apiHelper = ApiHelper();
+  UserModel? _userData;
   final List<UserPostModel> _allPosts = [];
 
   //getters
@@ -28,6 +30,7 @@ class BarberProfileBaseModel extends ChangeNotifier {
   bool get loader => _loader;
   ApiHelper get apiHelper => _apiHelper;
   List<UserPostModel> get allPosts => _allPosts;
+  UserModel? get userData => _userData;
 
   //functions
 
@@ -57,6 +60,49 @@ class BarberProfileBaseModel extends ChangeNotifier {
           List data = value["data"];
           for (Map<String, dynamic> post in data) {
             _allPosts.add(UserPostModel.fromMap(post));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  //gets user data
+  Future<void> getUserDetail(BuildContext context, String userId) async {
+    try {
+      _loader = true;
+      await _apiHelper
+          .getData(context: context, url: "user/get/$userId")
+          .then((value) {
+        _loader = false;
+        if (value != null) {
+          _userData = UserModel.fromMap(value['data']);
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  //gets user data
+  Future<void> toggleFollow(BuildContext context, String userId) async {
+    try {
+      _loader = true;
+      await _apiHelper.postData(
+          context: context,
+          url: "user/toggle-follow/$userId",
+          data: {}).then((value) {
+        _loader = false;
+        if (value != null) {
+          if (value['message'] == 'User unfollowed successfully') {
+            _userData!.isFollowing = false;
+          } else {
+            _userData!.isFollowing = true;
           }
         }
       });

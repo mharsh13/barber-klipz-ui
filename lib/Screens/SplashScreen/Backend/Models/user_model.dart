@@ -15,6 +15,7 @@ class UserModel {
   String? bio;
   String? website;
   String? birthday;
+  bool? isFollowing;
   bool email_verified;
   String created_at;
   String updated_at;
@@ -31,6 +32,7 @@ class UserModel {
     required this.bio,
     required this.website,
     required this.birthday,
+    this.isFollowing,
     required this.email_verified,
     required this.created_at,
     required this.updated_at,
@@ -49,6 +51,7 @@ class UserModel {
       'bio': bio,
       'website': website,
       'birthday': birthday,
+      'isFollowing': isFollowing,
       'email_verified': email_verified,
       'created_at': created_at,
       'updated_at': updated_at,
@@ -71,6 +74,8 @@ class UserModel {
       bio: map['bio'] != null ? map['bio'] as String : null,
       website: map['website'] != null ? map['website'] as String : null,
       birthday: map['birthday'] != null ? map['birthday'] as String : null,
+      isFollowing:
+          map['isFollowing'] != null ? map['isFollowing'] as bool : null,
       email_verified: map['email_verified'] as bool,
       created_at: map['created_at'] as String,
       updated_at: map['updated_at'] as String,
