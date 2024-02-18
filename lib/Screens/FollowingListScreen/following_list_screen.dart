@@ -1,4 +1,4 @@
-import 'package:barber_klipz_ui/Screens/FollowersListScreen/Backend/Provider/follower_list_base_model.dart';
+import 'package:barber_klipz_ui/Screens/FollowingListScreen/Backend/Provider/following_list_base_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -6,23 +6,32 @@ import '../../Resources/color_const.dart';
 import '../../Utils/net_image.dart';
 import '../../Utils/text_util.dart';
 
-class FollowersListScreen extends ConsumerWidget {
-  const FollowersListScreen({super.key});
+class FollowingListScreen extends ConsumerWidget {
+  const FollowingListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final baseModel = ref.watch(followerListBaseModel);
+    final baseModel = ref.watch(followingListBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlack2,
         title: TextUtil.secondaryText(
-          text: "Followers",
+          text: "Following",
           color: kGold,
           size: 18,
           fontWeight: FontWeight.w600,
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.add_box_outlined,
+              color: kWhite,
+            ),
+            onPressed: () {},
+          )
+        ],
         leading: const BackButton(
           color: kWhite,
         ),
@@ -82,6 +91,14 @@ class FollowersListScreen extends ConsumerWidget {
                           ],
                         ),
                         const Spacer(),
+                        // Checkbox(
+                        //   checkColor: Colors.white,
+                        //   value: baseModel.isChecked,
+                        //   shape: const CircleBorder(),
+                        //   onChanged: (bool? value) {
+                        //     baseModel.checkUser(value);
+                        //   },
+                        // )
                       ],
                     ),
                   ),
