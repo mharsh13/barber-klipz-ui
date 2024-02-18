@@ -142,13 +142,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         .getAllStories(
                                             context, splashBaseModel.user!.id)
                                         .then((value) {
-                                      NavigatorUtil.push(
-                                        context,
-                                        screen: StoryViewScreen(
-                                          user: splashBaseModel.user!,
-                                          isMine: true,
-                                        ),
-                                      );
+                                      if (value.isNotEmpty) {
+                                        NavigatorUtil.push(
+                                          context,
+                                          screen: StoryViewScreen(
+                                            user: splashBaseModel.user!,
+                                            isMine: true,
+                                          ),
+                                        );
+                                      }
                                     });
                                   },
                                   child: badges.Badge(

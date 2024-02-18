@@ -338,7 +338,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: NetImage(
-                uri: widget.profile_image,
+                uri: message.sender?.profile_image ?? '',
               ),
             ),
           ),
