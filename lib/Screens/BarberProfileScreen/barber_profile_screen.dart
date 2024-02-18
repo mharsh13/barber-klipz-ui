@@ -32,7 +32,7 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
   @override
   void initState() {
     final baseModel = ref.read(barberProfileBaseModel);
-    final splashBaseModel = ref.read(splashScreenBaseModel);
+    getPosts(baseModel);
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -40,10 +40,14 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
     super.initState();
   }
 
+  void getPosts(BarberProfileBaseModel baseModel) async {
+    baseModel.setLoader(true);
+    await baseModel.getAllUserPosts(context, widget.user.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(barberProfileBaseModel);
-    final splashBaseModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
@@ -269,7 +273,7 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                         Column(
                           children: [
                             TextUtil.secondaryText(
-                              text: "1",
+                              text: baseModel.allPosts.length.toString(),
                               color: kBlack,
                               size: 15,
                               fontWeight: FontWeight.bold,
