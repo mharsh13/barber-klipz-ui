@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../Helpers/api_helpers.dart';
+import '../../../../Utils/toast_util.dart';
+import '../../../ProfileScreen/Backend/Models/user_post_model.dart';
 
 final barberProfileBaseModel =
     ChangeNotifierProvider((ref) => BarberProfileBaseModel(ref));
@@ -18,12 +20,14 @@ class BarberProfileBaseModel extends ChangeNotifier {
   int _currentValue = 0;
   bool _loader = false;
   final ApiHelper _apiHelper = ApiHelper();
+  final List<UserPostModel> _allPosts = [];
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   int get currentValue => _currentValue;
   bool get loader => _loader;
   ApiHelper get apiHelper => _apiHelper;
+  List<UserPostModel> get allPosts => _allPosts;
 
   //functions
 
@@ -39,4 +43,27 @@ class BarberProfileBaseModel extends ChangeNotifier {
   }
 
   //API functions
+
+  //gets the list of all the user posts
+  Future<void> getAllUserPosts(BuildContext context, String userId) async {
+    try {
+      _loader = true;
+      await _apiHelper
+          .getData(context: context, url: "post/get-all/$userId")
+          .then((value) {
+        _loader = false;
+        _allPosts.clear();
+        if (value != null) {
+          List data = value["data"];
+          for (Map<String, dynamic> post in data) {
+            _allPosts.add(UserPostModel.fromMap(post));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
 }
