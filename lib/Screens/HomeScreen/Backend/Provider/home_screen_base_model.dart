@@ -179,7 +179,8 @@ class HomeScreenBaseModel extends ChangeNotifier {
     }
   }
 
-  Future<void> getAllStories(BuildContext context, String id) async {
+  Future<List<StoryModel>> getAllStories(
+      BuildContext context, String id) async {
     try {
       _loader = true;
       await _apiHelper
@@ -195,9 +196,11 @@ class HomeScreenBaseModel extends ChangeNotifier {
         }
       });
       notifyListeners();
+      return _allStories;
     } catch (e) {
       _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
+      return [];
     }
   }
 

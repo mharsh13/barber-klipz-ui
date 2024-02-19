@@ -46,7 +46,7 @@ class _UserListState extends ConsumerState<UserList> {
                       onTap: () {
                         NavigatorUtil.push(context,
                             screen: BarberProfileScreen(
-                              user: baseModel.users[index],
+                              userId: baseModel.users[index].id,
                             ));
                       },
                       child: Container(

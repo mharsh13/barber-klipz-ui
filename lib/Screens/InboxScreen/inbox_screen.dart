@@ -1,4 +1,5 @@
 import 'package:barber_klipz_ui/Screens/NewMessageScreen/new_message_screen.dart';
+import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/text_util.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,13 @@ class _InboxScreenState extends ConsumerState<InboxScreen>
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(inboxBaseModel);
+    final splashModel = ref.watch(splashScreenBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: kBlack2,
           title: TextUtil.secondaryText(
-            text: "sm0602",
+            text: splashModel.user!.user_name,
             color: kGold,
             size: 18,
             fontWeight: FontWeight.w600,

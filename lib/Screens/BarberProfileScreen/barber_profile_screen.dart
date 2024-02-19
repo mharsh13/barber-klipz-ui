@@ -15,10 +15,10 @@ import '../../Utils/text_util.dart';
 import 'Backend/Components/post_component.dart';
 
 class BarberProfileScreen extends ConsumerStatefulWidget {
-  final UserModel user;
+  final String userId;
   const BarberProfileScreen({
     Key? key,
-    required this.user,
+    required this.userId,
   }) : super(key: key);
 
   @override
@@ -32,7 +32,9 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
   @override
   void initState() {
     final baseModel = ref.read(barberProfileBaseModel);
-    getPosts(baseModel);
+    baseModel.getUserDetail(context, widget.userId).then((value) {
+      getPosts(baseModel);
+    });
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -42,44 +44,51 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
 
   void getPosts(BarberProfileBaseModel baseModel) async {
     baseModel.setLoader(true);
-    await baseModel.getAllUserPosts(context, widget.user.id);
+    await baseModel.getAllUserPosts(context, widget.userId);
   }
 
   @override
   Widget build(BuildContext context) {
     final baseModel = ref.watch(barberProfileBaseModel);
+    final user = baseModel.userData;
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kBlack2,
-        title: TextUtil.secondaryText(
-          text: widget.user.user_name,
-          color: kGold,
-          size: 18,
-          fontWeight: FontWeight.w600,
-        ),
+        title: baseModel.loader
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: kYellow,
+                ),
+              )
+            : TextUtil.secondaryText(
+                text: user != null ? user.user_name : "",
+                color: kGold,
+                size: 18,
+                fontWeight: FontWeight.w600,
+              ),
         centerTitle: true,
         leading: const BackButton(
           color: kWhite,
         ),
-        actions: [
-          Flexible(
-            child: IconButton(
-              icon: const Icon(
-                Icons.favorite_border,
-                color: kWhite,
-              ),
-              onPressed: () {},
-            ),
-          ),
-          Flexible(
-            child: IconButton(
-              icon: const Icon(Icons.star_border_outlined),
-              color: kWhite,
-              onPressed: () {},
-            ),
-          ),
-        ],
+        // actions: [
+        //   Flexible(
+        //     child: IconButton(
+        //       icon: const Icon(
+        //         Icons.favorite_border,
+        //         color: kWhite,
+        //       ),
+        //       onPressed: () {},
+        //     ),
+        //   ),
+        //   Flexible(
+        //     child: IconButton(
+        //       icon: const Icon(Icons.star_border_outlined),
+        //       color: kWhite,
+        //       onPressed: () {},
+        //     ),
+        //   ),
+        // ],
       ),
       body: baseModel.loader
           ? const Center(
@@ -98,7 +107,7 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                             width: screenUtil.screenWidth,
                             height: screenUtil.setHeight(120),
                             child: NetImage(
-                              uri: widget.user.cover_image ?? "",
+                              uri: user!.cover_image ?? "",
                               fit: BoxFit.cover,
                             )),
                         Positioned(
@@ -114,7 +123,7 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                                 borderRadius: BorderRadius.circular(50),
                                 child: NetImage(
                                   fit: BoxFit.cover,
-                                  uri: widget.user.profile_image ?? "",
+                                  uri: user.profile_image ?? "",
                                 )),
                           ),
                         ),
@@ -129,10 +138,10 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                         Row(
                           children: [
                             TextUtil.secondaryText(
-                              text: widget.user.first_name == null ||
-                                      widget.user.last_name == null
+                              text: user.first_name == null ||
+                                      user.last_name == null
                                   ? ""
-                                  : "${widget.user.first_name} ${widget.user.last_name}",
+                                  : "${user.first_name} ${user.last_name}",
                               color: kBlack,
                               size: 15,
                               fontWeight: FontWeight.w500,
@@ -240,12 +249,12 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                             ),
                           ],
                         ),
-                        TextUtil.secondaryText(
-                          text: "Dancer, Artist, Entrepreneur",
-                          color: kTextSubTitle.withOpacity(0.8),
-                          size: 11,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        // TextUtil.secondaryText(
+                        //   text: "Dancer, Artist, Entrepreneur",
+                        //   color: kTextSubTitle.withOpacity(0.8),
+                        //   size: 11,
+                        //   fontWeight: FontWeight.w500,
+                        // ),
                         SizedBox(
                           height: screenUtil.setHeight(2),
                         ),
@@ -254,7 +263,7 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                             maxWidth: screenUtil.setWidth(290),
                           ),
                           child: TextUtil.secondaryText(
-                            text: widget.user.bio ?? "",
+                            text: user.bio ?? "",
                             color: kBlack,
                             size: 11,
                             fontWeight: FontWeight.w500,
@@ -356,9 +365,13 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          baseModel.toggleFollow(context, widget.userId);
+                        },
                         child: Container(
-                          width: screenUtil.setWidth(85),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenUtil.setWidth(20),
+                          ),
                           height: screenUtil.setHeight(28),
                           decoration: BoxDecoration(
                             border: Border.all(color: kYellow),
@@ -368,7 +381,9 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                           ),
                           child: Center(
                             child: TextUtil.secondaryText(
-                              text: "Follow",
+                              text: user.isFollowing == true
+                                  ? "Following"
+                                  : 'Follow',
                               color: kBlack,
                               size: 12,
                               fontWeight: FontWeight.w600,
@@ -376,30 +391,30 @@ class _ProfileScreenState extends ConsumerState<BarberProfileScreen>
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: screenUtil.setWidth(10),
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: screenUtil.setWidth(85),
-                          height: screenUtil.setHeight(28),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: kYellow),
-                            borderRadius: BorderRadius.circular(
-                              screenUtil.setSp(100),
-                            ),
-                          ),
-                          child: Center(
-                            child: TextUtil.secondaryText(
-                              text: "Subscribe",
-                              color: kBlack,
-                              size: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // SizedBox(
+                      //   width: screenUtil.setWidth(10),
+                      // ),
+                      // GestureDetector(
+                      //   onTap: () {},
+                      //   child: Container(
+                      //     width: screenUtil.setWidth(85),
+                      //     height: screenUtil.setHeight(28),
+                      //     decoration: BoxDecoration(
+                      //       border: Border.all(color: kYellow),
+                      //       borderRadius: BorderRadius.circular(
+                      //         screenUtil.setSp(100),
+                      //       ),
+                      //     ),
+                      //     child: Center(
+                      //       child: TextUtil.secondaryText(
+                      //         text: "Subscribe",
+                      //         color: kBlack,
+                      //         size: 12,
+                      //         fontWeight: FontWeight.w600,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
