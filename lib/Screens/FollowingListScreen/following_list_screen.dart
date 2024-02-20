@@ -6,11 +6,28 @@ import '../../Resources/color_const.dart';
 import '../../Utils/net_image.dart';
 import '../../Utils/text_util.dart';
 
-class FollowingListScreen extends ConsumerWidget {
-  const FollowingListScreen({super.key});
+class FollowingListScreen extends ConsumerStatefulWidget {
+  final String userId;
+  const FollowingListScreen({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FollowingListScreen> createState() =>
+      _FollowingListScreenState();
+}
+
+class _FollowingListScreenState extends ConsumerState<FollowingListScreen> {
+  @override
+  void initState() {
+    final baseModel = ref.read(followingListBaseModel);
+    baseModel.getAllFollowingList(context, widget.userId);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final baseModel = ref.watch(followingListBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
@@ -42,7 +59,7 @@ class FollowingListScreen extends ConsumerWidget {
         ),
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: 15,
+          itemCount: baseModel.followingList.length,
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -61,9 +78,8 @@ class FollowingListScreen extends ConsumerWidget {
                           height: screenUtil.setHeight(40),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
-                            child: const NetImage(
-                              uri:
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS75ebrwvgVW5Ks_oLfCbG8Httf3_9g-Ynl_Q&usqp=CAU",
+                            child: NetImage(
+                              uri: baseModel.followingList[index].profile_image,
                             ),
                           ),
                         ),
@@ -74,7 +90,7 @@ class FollowingListScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextUtil.secondaryText(
-                              text: "George",
+                              text: baseModel.followingList[index].user_name,
                               color: kBlack,
                               size: 14,
                               fontWeight: FontWeight.w500,
@@ -83,7 +99,13 @@ class FollowingListScreen extends ConsumerWidget {
                               height: screenUtil.setHeight(2),
                             ),
                             TextUtil.secondaryText(
-                              text: "George",
+                              text: baseModel.followingList[index].first_name ==
+                                          null ||
+                                      baseModel
+                                              .followingList[index].last_name ==
+                                          null
+                                  ? ""
+                                  : "${baseModel.followingList[index].first_name} ${baseModel.followingList[index].last_name}",
                               color: kTextSubTitle,
                               size: 12,
                               fontWeight: FontWeight.w500,
@@ -91,14 +113,6 @@ class FollowingListScreen extends ConsumerWidget {
                           ],
                         ),
                         const Spacer(),
-                        // Checkbox(
-                        //   checkColor: Colors.white,
-                        //   value: baseModel.isChecked,
-                        //   shape: const CircleBorder(),
-                        //   onChanged: (bool? value) {
-                        //     baseModel.checkUser(value);
-                        //   },
-                        // )
                       ],
                     ),
                   ),
