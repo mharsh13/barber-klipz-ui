@@ -1,4 +1,6 @@
+import 'package:barber_klipz_ui/Screens/ProfilePostsScreen/profile_posts_screen.dart';
 import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,9 +52,14 @@ Widget postsComponent(ScreenUtil screenUtil, ProfileBaseModel baseModel) {
             // mainAxisExtent: screenUtil.setHeight(136),
           ),
           itemBuilder: (context, index) {
-            return NetImage(
-              uri: baseModel.allPosts[index].media_url,
-              fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                NavigatorUtil.push(context, screen: const ProfilePostScreen());
+              },
+              child: NetImage(
+                uri: baseModel.allPosts[index].media_url,
+                fit: BoxFit.cover,
+              ),
             );
             // NetImage(
             //   uri: mediaList[index].mediaType == "IMAGE"
