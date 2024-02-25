@@ -6,11 +6,28 @@ import '../../Resources/color_const.dart';
 import '../../Utils/net_image.dart';
 import '../../Utils/text_util.dart';
 
-class FollowersListScreen extends ConsumerWidget {
-  const FollowersListScreen({super.key});
+class FollowersListScreen extends ConsumerStatefulWidget {
+  final String userId;
+  const FollowersListScreen({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FollowersListScreen> createState() =>
+      _FollowersListScreenState();
+}
+
+class _FollowersListScreenState extends ConsumerState<FollowersListScreen> {
+  @override
+  void initState() {
+    final baseModel = ref.read(followerListBaseModel);
+    baseModel.getAllFollowerList(context, widget.userId);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final baseModel = ref.watch(followerListBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
@@ -33,7 +50,7 @@ class FollowersListScreen extends ConsumerWidget {
         ),
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: 15,
+          itemCount: baseModel.followerList.length,
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -47,14 +64,14 @@ class FollowersListScreen extends ConsumerWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50)),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           width: screenUtil.setHeight(40),
                           height: screenUtil.setHeight(40),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
-                            child: const NetImage(
-                              uri:
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS75ebrwvgVW5Ks_oLfCbG8Httf3_9g-Ynl_Q&usqp=CAU",
+                            child: NetImage(
+                              uri: baseModel.followerList[index].profile_image,
                             ),
                           ),
                         ),
@@ -65,7 +82,7 @@ class FollowersListScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextUtil.secondaryText(
-                              text: "George",
+                              text: baseModel.followerList[index].user_name,
                               color: kBlack,
                               size: 14,
                               fontWeight: FontWeight.w500,
@@ -74,7 +91,12 @@ class FollowersListScreen extends ConsumerWidget {
                               height: screenUtil.setHeight(2),
                             ),
                             TextUtil.secondaryText(
-                              text: "George",
+                              text: baseModel.followerList[index].first_name ==
+                                          null ||
+                                      baseModel.followerList[index].last_name ==
+                                          null
+                                  ? ""
+                                  : "${baseModel.followerList[index].first_name} ${baseModel.followerList[index].last_name}",
                               color: kTextSubTitle,
                               size: 12,
                               fontWeight: FontWeight.w500,
