@@ -2,7 +2,6 @@ import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Screens/BarberProfileScreen/Backend/Provider/barber_profile_base_model.dart';
 import 'package:barber_klipz_ui/Screens/FollowersListScreen/followers_list_screen.dart';
 import 'package:barber_klipz_ui/Screens/FollowingListScreen/following_list_screen.dart';
-import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';

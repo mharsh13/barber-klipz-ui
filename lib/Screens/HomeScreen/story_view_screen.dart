@@ -1,6 +1,8 @@
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Backend/Provider/home_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/HomeScreen/viewers_screen.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Models/user_model.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
@@ -161,11 +163,28 @@ class _StoryViewScreenState extends ConsumerState<StoryViewScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextUtil.secondaryText(
-                            text: widget.user.user_name,
-                            color: kWhite,
-                            size: 15,
-                            fontWeight: FontWeight.w600,
+                          Row(
+                            children: [
+                              TextUtil.secondaryText(
+                                text: widget.user.user_name,
+                                color: kWhite,
+                                size: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              SizedBox(
+                                width: screenUtil.screenWidth - 184,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  NavigatorUtil.push(context,
+                                      screen: const ViewersScreen());
+                                },
+                                child: const Icon(
+                                  Icons.remove_red_eye_outlined,
+                                  color: kWhite,
+                                ),
+                              )
+                            ],
                           ),
                           TextUtil.secondaryText(
                             text: timeago.format(DateTime.parse(baseModel
