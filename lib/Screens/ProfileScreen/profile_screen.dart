@@ -29,7 +29,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     final splashBaseModel = ref.read(splashScreenBaseModel);
     getPosts(baseModel, splashBaseModel);
     _tabController = TabController(
-      length: 2,
+      length: 4,
       vsync: this,
     );
     super.initState();
@@ -259,7 +259,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: screenUtil.setWidth(35)),
+                      horizontal: screenUtil.setWidth(35),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -356,83 +357,78 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         padding: EdgeInsets.only(
                           bottom: screenUtil.setHeight(10),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.grid_on,
-                              color: kLicorice,
-                            ),
-                            SizedBox(
-                              width: screenUtil.setWidth(5),
-                            ),
-                            TextUtil.secondaryText(
-                              text: 'Post',
-                              color: kLicorice,
-                              size: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ],
+                        child: const Icon(
+                          Icons.grid_on,
+                          color: kLicorice,
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                           bottom: screenUtil.setHeight(10),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.movie_creation_outlined,
-                              color: kLicorice,
-                            ),
-                            SizedBox(
-                              width: screenUtil.setWidth(5),
-                            ),
-                            TextUtil.secondaryText(
-                              text: 'Flickz',
-                              color: kLicorice,
-                              size: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ],
+                        child: const Icon(
+                          Icons.movie_creation_outlined,
+                          color: kLicorice,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: screenUtil.setHeight(10),
+                        ),
+                        child: const Icon(
+                          Icons.live_tv,
+                          color: kLicorice,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: screenUtil.setHeight(10),
+                        ),
+                        child: const Icon(
+                          Icons.star_border_outlined,
+                          color: kLicorice,
+                          size: 25,
                         ),
                       ),
                     ],
                   ),
                   baseModel.currentValue == 0
                       ? postsComponent(screenUtil, baseModel)
-                      : Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: screenUtil.setHeight(20)),
-                          child: Column(children: [
-                            Icon(
-                              Icons.video_collection_outlined,
-                              color: kHintText,
-                              size: screenUtil.setSp(80),
-                            ),
-                            SizedBox(
-                              height: screenUtil.setHeight(10),
-                            ),
-                            TextUtil.secondaryText(
-                              text: "Your content has values!",
-                              color: kBlack,
-                              size: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            SizedBox(
-                              height: screenUtil.setHeight(10),
-                            ),
-                            TextUtil.secondaryText(
-                              text:
-                                  "Create your first piece of content\nand start making money.",
-                              color: kBlack,
-                              size: 14,
-                              fontWeight: FontWeight.w400,
-                              textAlign: TextAlign.center,
+                      : baseModel.currentValue == 1 ||
+                              baseModel.currentValue == 2 ||
+                              baseModel.currentValue == 3
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenUtil.setHeight(20)),
+                              child: Column(children: [
+                                Icon(
+                                  Icons.video_collection_outlined,
+                                  color: kHintText,
+                                  size: screenUtil.setSp(80),
+                                ),
+                                SizedBox(
+                                  height: screenUtil.setHeight(10),
+                                ),
+                                TextUtil.secondaryText(
+                                  text: "Your content has values!",
+                                  color: kBlack,
+                                  size: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                SizedBox(
+                                  height: screenUtil.setHeight(10),
+                                ),
+                                TextUtil.secondaryText(
+                                  text:
+                                      "Create your first piece of content\nand start making money.",
+                                  color: kBlack,
+                                  size: 14,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center,
+                                )
+                              ]),
                             )
-                          ]),
-                        )
+                          : Container()
                 ],
               ),
             ),
