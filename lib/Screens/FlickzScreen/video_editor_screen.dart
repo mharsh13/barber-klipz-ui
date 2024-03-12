@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/Backend/Provider/bottom_navigation_bar_base_model.dart';
+import 'package:barber_klipz_ui/Screens/FlickzScreen/Backend/Provider/flickz_screen_base_model.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_editor/video_editor.dart';
@@ -11,12 +13,9 @@ import 'export_result.dart';
 import 'export_service.dart';
 
 class VideoEditor extends ConsumerStatefulWidget {
-  const VideoEditor({
-    super.key,
-    // required this.file
-  });
+  const VideoEditor({super.key, required this.file});
 
-  // final File file;
+  final File file;
 
   @override
   ConsumerState<VideoEditor> createState() => _VideoEditorState();
@@ -36,12 +35,12 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
 
   @override
   void initState() {
-    final bottomNavigationBaseModel = ref.read(bottomNavigationBarBaseModel);
+    final baseModel = ref.watch(flickzBaseModel);
     super.initState();
     _controller = VideoEditorController.file(
-      bottomNavigationBaseModel.mediaFile!,
+      widget.file,
       minDuration: const Duration(seconds: 1),
-      maxDuration: const Duration(seconds: 10),
+      // maxDuration: const Duration(seconds: 10),
     );
     _controller
         .initialize(aspectRatio: 9 / 16)
@@ -127,141 +126,139 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        backgroundColor: kWhite,
-        body: _controller.initialized
-            ? SafeArea(
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        _topNavBar(),
-                        Expanded(
-                          child: DefaultTabController(
-                            length: 2,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: TabBarView(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    children: [
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          CropGridViewer.preview(
-                                              controller: _controller),
-                                          AnimatedBuilder(
-                                            animation: _controller.video,
-                                            builder: (_, __) => AnimatedOpacity(
-                                              opacity:
-                                                  _controller.isPlaying ? 0 : 1,
-                                              duration: kThemeAnimationDuration,
-                                              child: GestureDetector(
-                                                onTap: _controller.video.play,
-                                                child: Container(
-                                                  width: 40,
-                                                  height: 40,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: const Icon(
-                                                    Icons.play_arrow,
-                                                    color: Colors.black,
-                                                  ),
+    final baseModel = ref.watch(flickzBaseModel);
+    final bottomBaseModel = ref.watch(bottomNavigationBarBaseModel);
+    final screenUtil = baseModel.screenUtil;
+    return Scaffold(
+      backgroundColor: kWhite,
+      body: _controller.initialized
+          ? SafeArea(
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      _topNavBar(baseModel, bottomBaseModel),
+                      Expanded(
+                        child: DefaultTabController(
+                          length: 2,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: TabBarView(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        CropGridViewer.preview(
+                                            controller: _controller),
+                                        AnimatedBuilder(
+                                          animation: _controller.video,
+                                          builder: (_, __) => AnimatedOpacity(
+                                            opacity:
+                                                _controller.isPlaying ? 0 : 1,
+                                            duration: kThemeAnimationDuration,
+                                            child: GestureDetector(
+                                              onTap: _controller.video.play,
+                                              child: Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.play_arrow,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      CoverViewer(controller: _controller)
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                    CoverViewer(controller: _controller)
+                                  ],
                                 ),
-                                Container(
-                                  height: 200,
-                                  margin: const EdgeInsets.only(top: 10),
-                                  child: Column(
-                                    children: [
-                                      const TabBar(
-                                        tabs: [
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: Icon(
-                                                        Icons.content_cut)),
-                                                Text('Trim')
-                                              ]),
-                                          Row(
+                              ),
+                              Container(
+                                height: 200,
+                                margin: const EdgeInsets.only(top: 10),
+                                child: Column(
+                                  children: [
+                                    const TabBar(
+                                      tabs: [
+                                        Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.all(5),
                                                   child:
-                                                      Icon(Icons.video_label)),
-                                              Text('Cover')
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Expanded(
-                                        child: TabBarView(
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
+                                                      Icon(Icons.content_cut)),
+                                              Text('Trim')
+                                            ]),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: _trimSlider(),
-                                            ),
-                                            _coverSelection(),
+                                            Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child: Icon(Icons.video_label)),
+                                            Text('Cover')
                                           ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                ValueListenableBuilder(
-                                  valueListenable: _isExporting,
-                                  builder: (_, bool export, Widget? child) =>
-                                      AnimatedSize(
-                                    duration: kThemeAnimationDuration,
-                                    child: export ? child : null,
-                                  ),
-                                  child: AlertDialog(
-                                    title: ValueListenableBuilder(
-                                      valueListenable: _exportingProgress,
-                                      builder: (_, double value, __) => Text(
-                                        "Exporting video ${(value * 100).ceil()}%",
-                                        style: const TextStyle(fontSize: 12),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: TabBarView(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: _trimSlider(),
+                                          ),
+                                          _coverSelection(),
+                                        ],
                                       ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                              ValueListenableBuilder(
+                                valueListenable: _isExporting,
+                                builder: (_, bool export, Widget? child) =>
+                                    AnimatedSize(
+                                  duration: kThemeAnimationDuration,
+                                  child: export ? child : null,
+                                ),
+                                child: AlertDialog(
+                                  title: ValueListenableBuilder(
+                                    valueListenable: _exportingProgress,
+                                    builder: (_, double value, __) => Text(
+                                      "Exporting video ${(value * 100).ceil()}%",
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              )
-            : const Center(child: CircularProgressIndicator()),
-      ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 
-  Widget _topNavBar() {
+  Widget _topNavBar(FlickzScreenBaseModel baseModel,
+      BottomNavigationBarBaseModel bottomBaseModel) {
     return SafeArea(
       child: SizedBox(
         height: height,
@@ -304,22 +301,31 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
               ),
             ),
             const VerticalDivider(endIndent: 22, indent: 22),
-            Expanded(
-              child: PopupMenuButton(
-                tooltip: 'Open export menu',
-                icon: const Icon(Icons.save),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    onTap: _exportCover,
-                    child: const Text('Export cover'),
-                  ),
-                  PopupMenuItem(
-                    onTap: _exportVideo,
-                    child: const Text('Export video'),
-                  ),
-                ],
-              ),
-            ),
+            GestureDetector(
+                onTap: () {
+                  print("-----");
+                  baseModel.createFlickz(context, bottomBaseModel);
+                },
+                child: Icon(Icons.save)),
+            // Expanded(
+            //   child: PopupMenuButton(
+            //     tooltip: 'Open export menu',
+            //     icon: const Icon(Icons.save),
+            //     itemBuilder: (context) => [
+            //       PopupMenuItem(
+            //         onTap: _exportCover,
+            //         child: const Text('Export cover'),
+            //       ),
+            //       PopupMenuItem(
+            //         onTap: _exportVideo,
+            //         child: const Text('Export video'),
+            //       ),
+            //       PopupMenuItem(
+            //         child: const Text('Post'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

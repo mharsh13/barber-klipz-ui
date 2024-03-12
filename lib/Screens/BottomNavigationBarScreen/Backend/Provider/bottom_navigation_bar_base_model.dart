@@ -128,7 +128,10 @@ class BottomNavigationBarBaseModel extends ChangeNotifier {
     if (result != null) {
       // _mediaFiles.addAll(result.paths.map((path) => File(path!)).toList());
       _mediaFile = File(result.paths[0]!);
-      NavigatorUtil.push(context, screen: VideoEditor());
+      NavigatorUtil.push(context,
+          screen: VideoEditor(
+            file: _mediaFile!,
+          ));
     } else {
       // User canceled the picker
     }
