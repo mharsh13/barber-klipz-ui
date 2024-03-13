@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/Backend/Provider/bottom_navigation_bar_base_model.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -24,14 +26,12 @@ class FlickzScreenBaseModel extends ChangeNotifier {
   final TextEditingController _enterMessage = TextEditingController();
   final ApiHelper _apiHelper = ApiHelper();
   final bool _loader = false;
-  FilePickerResult? _flickz;
   final TextEditingController _caption = TextEditingController();
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   TextEditingController get enterMessage => _enterMessage;
   bool get loader => _loader;
-  FilePickerResult? get flickz => _flickz;
   TextEditingController get caption => _caption;
 
   //methods
@@ -56,11 +56,12 @@ class FlickzScreenBaseModel extends ChangeNotifier {
     BottomNavigationBarBaseModel bottomBaseModel,
     // ProfileBaseModel profileBaseModel
   ) async {
-    if (_flickz == null || _flickz!.files.isEmpty) {
+    if (bottomBaseModel.mediaFile == null) {
       ToastUtil(context).showErrorToastNotification("Please select a video");
       return;
     }
     try {
+      print(bottomBaseModel.mediaFile);
       Loader.show(
         context,
         progressIndicator: const CircularProgressIndicator(
@@ -68,15 +69,18 @@ class FlickzScreenBaseModel extends ChangeNotifier {
         ),
       );
       notifyListeners();
+      String filename = bottomBaseModel.mediaFile!.path.split('/').last;
       FormData formData = FormData.fromMap({
         "caption": "Hiiiii",
         "media_type": "FLICKS",
-        "media": http.MultipartFile(
-          'media',
-          http.ByteStream(bottomBaseModel.mediaFile!.openRead()),
-          bottomBaseModel.mediaFile!.length() as int,
-          filename: bottomBaseModel.mediaFile!.path.split('/').last,
-        )
+        "media": await MultipartFile.fromFile(bottomBaseModel.mediaFile!.path,
+            filename: filename),
+        // http.MultipartFile(
+        //   'media',
+        //   http.ByteStream(bottomBaseModel.mediaFile!.openRead()),
+        //   bottomBaseModel.mediaFile!.length() as int,
+        //   filename: bottomBaseModel.mediaFile!.path.split('/').last,
+        // )
       });
 
       await _apiHelper

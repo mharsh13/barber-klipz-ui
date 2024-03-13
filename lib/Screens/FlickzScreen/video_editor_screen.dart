@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/Backend/Provider/bottom_navigation_bar_base_model.dart';
 import 'package:barber_klipz_ui/Screens/FlickzScreen/Backend/Provider/flickz_screen_base_model.dart';
-import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_editor/video_editor.dart';
@@ -26,27 +25,45 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
   final _isExporting = ValueNotifier<bool>(false);
   final double height = 60;
 
-  late final VideoEditorController _controller;
+  late VideoEditorController _controller;
   //  = VideoEditorController.file(
   //   widget.file,
   //   minDuration: const Duration(seconds: 1),
   //   maxDuration: const Duration(seconds: 10),
   // );
 
+  // @override
+  // void initState() {
+  //   final baseModel = ref.watch(flickzBaseModel);
+  //   super.initState();
+  //   // _controller = VideoEditorController.file(
+  //   //   widget.file,
+  //   //   minDuration: const Duration(seconds: 1),
+  //   //   maxDuration: const Duration(seconds: 10),
+  //   // );
+
+  //   _controller
+  //       .initialize(aspectRatio: 9 / 16)
+  //       .then((_) => setState(() {}))
+  //       .catchError((error) {
+  //     // handle minumum duration bigger than video duration error
+  //     Navigator.pop(context);
+  //   }, test: (e) => e is VideoMinDurationError);
+  // }
+
   @override
-  void initState() {
-    final baseModel = ref.watch(flickzBaseModel);
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _controller = VideoEditorController.file(
       widget.file,
       minDuration: const Duration(seconds: 1),
-      // maxDuration: const Duration(seconds: 10),
+      maxDuration: const Duration(seconds: 10),
     );
     _controller
         .initialize(aspectRatio: 9 / 16)
         .then((_) => setState(() {}))
         .catchError((error) {
-      // handle minumum duration bigger than video duration error
+      // handle minimum duration bigger than video duration error
       Navigator.pop(context);
     }, test: (e) => e is VideoMinDurationError);
   }
