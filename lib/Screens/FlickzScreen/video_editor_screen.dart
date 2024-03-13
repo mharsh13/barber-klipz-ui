@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_editor/video_editor.dart';
 
+import '../ProfileScreen/Backend/Provider/profile_base_model.dart';
 import 'crop_page.dart';
 import 'export_result.dart';
 import 'export_service.dart';
@@ -145,6 +146,7 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
   Widget build(BuildContext context) {
     final baseModel = ref.watch(flickzBaseModel);
     final bottomBaseModel = ref.watch(bottomNavigationBarBaseModel);
+    final profileBase = ref.watch(profileBaseModel);
     final screenUtil = baseModel.screenUtil;
     return Scaffold(
       backgroundColor: kWhite,
@@ -154,7 +156,7 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
                 children: [
                   Column(
                     children: [
-                      _topNavBar(baseModel, bottomBaseModel),
+                      _topNavBar(baseModel, bottomBaseModel, profileBase),
                       Expanded(
                         child: DefaultTabController(
                           length: 2,
@@ -274,8 +276,10 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
     );
   }
 
-  Widget _topNavBar(FlickzScreenBaseModel baseModel,
-      BottomNavigationBarBaseModel bottomBaseModel) {
+  Widget _topNavBar(
+      FlickzScreenBaseModel baseModel,
+      BottomNavigationBarBaseModel bottomBaseModel,
+      ProfileBaseModel profileBase) {
     return SafeArea(
       child: SizedBox(
         height: height,
@@ -321,7 +325,7 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
             GestureDetector(
                 onTap: () {
                   print("-----");
-                  baseModel.createFlickz(context, bottomBaseModel);
+                  baseModel.createFlickz(context, bottomBaseModel, profileBase);
                 },
                 child: Icon(Icons.save)),
             // Expanded(

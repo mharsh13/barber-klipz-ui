@@ -65,4 +65,27 @@ class ProfileBaseModel extends ChangeNotifier {
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
   }
+
+  //gets the list of all the user posts
+  Future<void> getAllUserFlickz(BuildContext context, String userId) async {
+    try {
+      _loader = true;
+      await _apiHelper
+          .getData(context: context, url: "post/flicks/get-all/$userId")
+          .then((value) {
+        _loader = false;
+        _allPosts.clear();
+        if (value != null) {
+          List data = value["data"];
+          for (Map<String, dynamic> post in data) {
+            _allPosts.add(UserPostModel.fromMap(post));
+          }
+        }
+      });
+      notifyListeners();
+    } catch (e) {
+      _loader = false;
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
 }
