@@ -37,6 +37,10 @@ class ApiHelper {
         ),
       )
           .then((response) async {
+        print("-------------------------------");
+        print(response);
+        print("-------------------------------");
+
         if (response.statusCode == 201 || response.statusCode == 200) {
           res = response.data as Map<String, dynamic>;
         } else {
@@ -47,10 +51,18 @@ class ApiHelper {
             ToastUtil(context).showErrorToastNotification(res!["message"]);
           }
         }
-      }).catchError((e) {});
+      }).catchError((e) {
+        print("-------------------------------");
+
+        print(e);
+        print("-------------------------------");
+      });
     } on DioError catch (e) {
       // ignore: avoid_print
+      print("-------------------------------");
+
       print(e);
+      print("-------------------------------");
     }
     return res;
   }

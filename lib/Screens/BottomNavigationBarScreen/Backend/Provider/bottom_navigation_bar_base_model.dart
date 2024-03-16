@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:barber_klipz_ui/Resources/color_const.dart';
+import 'package:barber_klipz_ui/Screens/FlickzScreen/video_editor_screen.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,6 +24,7 @@ class BottomNavigationBarBaseModel extends ChangeNotifier {
   //variables
   final ScreenUtil _screenUtil = ScreenUtil();
   int _currentIndex = 0;
+  File? _mediaFile;
   final _screens = const [
     HomeScreen(),
     ExploreScreen(),
@@ -104,12 +110,31 @@ class BottomNavigationBarBaseModel extends ChangeNotifier {
   ScreenUtil get screenUtil => _screenUtil;
   List<Widget> get screens => _screens;
   int get currentIndex => _currentIndex;
+  File? get mediaFile => _mediaFile;
 
   //functions
 
   //changes the index on bottom navigation bar
   void setIndex(int index) {
     _currentIndex = index;
+    notifyListeners();
+  }
+
+  //to add the media
+  Future<void> addMedia(BuildContext context) async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: false);
+
+    if (result != null) {
+      // _mediaFiles.addAll(result.paths.map((path) => File(path!)).toList());
+      _mediaFile = File(result.paths[0]!);
+      NavigatorUtil.push(context,
+          screen: VideoEditor(
+            file: _mediaFile!,
+          ));
+    } else {
+      // User canceled the picker
+    }
     notifyListeners();
   }
 }

@@ -14,6 +14,7 @@ Future<void> imageSource({
   await showModalBottomSheet(
     isScrollControlled: true,
     context: context,
+    backgroundColor: kYellow,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -56,7 +57,7 @@ Future<void> imageSource({
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: kTextSubTitle.withOpacity(0.6),
+                          color: kBlack,
                         ),
                       ),
                       child: IconButton(
@@ -64,7 +65,7 @@ Future<void> imageSource({
                           camera().then((value) => Navigator.of(context).pop());
                         },
                         icon: const Icon(Icons.camera_alt_rounded),
-                        color: kPrimary,
+                        color: kBlack,
                       ),
                     ),
                     SizedBox(
@@ -72,7 +73,7 @@ Future<void> imageSource({
                     ),
                     TextUtil.secondaryText(
                       text: "Camera",
-                      color: kTextBody,
+                      color: kBlack,
                       fontWeight: FontWeight.w500,
                       size: 10,
                     ),
@@ -88,7 +89,7 @@ Future<void> imageSource({
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: kTextSubTitle.withOpacity(0.6),
+                          color: kBlack,
                         ),
                       ),
                       child: IconButton(
@@ -97,7 +98,7 @@ Future<void> imageSource({
                               .then((value) => Navigator.of(context).pop());
                         },
                         icon: const Icon(Icons.image),
-                        color: kPrimary,
+                        color: kBlack,
                       ),
                     ),
                     SizedBox(
@@ -105,7 +106,7 @@ Future<void> imageSource({
                     ),
                     TextUtil.secondaryText(
                       text: "Gallery",
-                      color: kTextBody,
+                      color: kBlack,
                       fontWeight: FontWeight.w500,
                       size: 10,
                     ),

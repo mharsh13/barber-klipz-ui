@@ -106,16 +106,21 @@ class _BottomNavigationBarScreenState
                     )
                   ],
                 ),
-                Column(
-                  children: [
-                    const Icon(Icons.movie_creation_outlined),
-                    TextUtil.secondaryText(
-                      text: "Flickz",
-                      color: kBlack,
-                      size: 13,
-                      fontWeight: FontWeight.w500,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    baseModel.addMedia(context);
+                  },
+                  child: Column(
+                    children: [
+                      const Icon(Icons.movie_creation_outlined),
+                      TextUtil.secondaryText(
+                        text: "Flickz",
+                        color: kBlack,
+                        size: 13,
+                        fontWeight: FontWeight.w500,
+                      )
+                    ],
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
