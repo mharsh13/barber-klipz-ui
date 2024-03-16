@@ -4,6 +4,7 @@ import 'package:barber_klipz_ui/Models/message_model.dart';
 import 'package:barber_klipz_ui/Providers/chat_base_model.dart';
 import 'package:barber_klipz_ui/Screens/DirectMessageScreen/Backend/Provider/direct_message_base_model.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
+import 'package:barber_klipz_ui/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/screen_util.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -38,9 +39,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     final splashModel = ref.read(splashScreenBaseModel);
 
     chatModel.socket!.on('message', (data) {
-      print('--------------------------');
-      print(data['message']);
-      print('-----------HERE---------------');
       baseModel.addMessage(
         MessageModel(
           id: data['id'],
@@ -60,6 +58,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
             user_name: widget.user_name,
             profile_image: widget.profile_image,
           ),
+          mediaUrl: data['mediaUrl'],
         ),
       );
     });
@@ -86,13 +85,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
           borderRadius: BorderRadius.circular(7),
           child: TextField(
             onSubmitted: (value) {
-              print('---yaha pe');
-              chatModel.emitMessage(
-                value,
-                splashModel.user!.id,
-                widget.id,
-                context,
-              );
+              chatModel.emitMessage(value, splashModel.user!.id, widget.id,
+                  context, null, 'TEXT');
               baseModel.enterMessage.clear();
               baseModel.addMessage(
                 MessageModel(
@@ -149,7 +143,48 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                 screenUtil: screenUtil,
                                 camera: baseModel.selectCameraImage,
                                 gallery: baseModel.selectGalleryImage,
-                              );
+                              ).then((value) {
+                                if (baseModel.chatImage != null) {
+                                  baseModel.uploadMedia(context).then((value) {
+                                    Global.logger
+                                        .e(baseModel.enterMessage.text);
+                                    chatModel.emitMessage(
+                                      baseModel.enterMessage.text,
+                                      splashModel.user!.id,
+                                      widget.id,
+                                      context,
+                                      value,
+                                      'IMAGE',
+                                    );
+                                    baseModel.enterMessage.clear();
+                                    baseModel.addMessage(
+                                      MessageModel(
+                                        mediaUrl: value,
+                                        id: DateTime.now().toString(),
+                                        senderId: splashModel.user!.id,
+                                        receiverId: widget.id,
+                                        message: baseModel.enterMessage.text,
+                                        messageType: 'IMAGE',
+                                        createdAt: DateTime.now().toString(),
+                                        seen: false,
+                                        sender: MessageUser(
+                                          id: splashModel.user!.id,
+                                          user_name:
+                                              splashModel.user!.user_name,
+                                          profile_image:
+                                              splashModel.user!.profile_image ??
+                                                  '',
+                                        ),
+                                        receiver: MessageUser(
+                                          id: widget.id,
+                                          user_name: widget.user_name,
+                                          profile_image: widget.profile_image,
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                }
+                              });
                             },
                             child: const Icon(
                               Icons.image_outlined,
@@ -177,9 +212,9 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   color: Colors.grey,
                 ),
               ),
-              prefixIcon: const Icon(
-                Icons.camera_alt_rounded,
-              ),
+              // prefixIcon: const Icon(
+              //   Icons.camera_alt_rounded,
+              // ),
             ),
           ),
         ),
@@ -299,26 +334,32 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               horizontal: screenUtil.setWidth(15),
               vertical: screenUtil.setHeight(10),
             ),
-            child: TextUtil.secondaryText(
-              text: message.message,
-              color: kTextTitle,
-              size: 10,
-            ),
+            child: message.messageType == 'TEXT'
+                ? TextUtil.secondaryText(
+                    text: message.message,
+                    color: kTextTitle,
+                    size: 10,
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      NetImage(
+                        height: screenUtil.setHeight(200),
+                        uri: message.mediaUrl,
+                      ),
+                      SizedBox(
+                        height: screenUtil.setHeight(10),
+                      ),
+                      TextUtil.secondaryText(
+                        text: message.message,
+                        color: kTextTitle,
+                        size: 10,
+                      )
+                    ],
+                  ),
           ),
         ),
       ],
     );
   }
 }
-
-//  Align(
-//                   alignment: Alignment.bottomCenter,
-//                   child: Container(
-//                     margin: EdgeInsets.only(bottom: screenUtil.setHeight(130)),
-//                     child: TextUtil.secondaryText(
-//                       text: DateFormat('MMM d, h:mm a').format(DateTime.now()),
-//                       color: kTextSubTitle,
-//                       size: 11,
-//                     ),
-//                   ),
-//                 ),

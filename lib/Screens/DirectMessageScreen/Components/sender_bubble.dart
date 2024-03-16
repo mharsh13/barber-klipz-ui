@@ -30,11 +30,29 @@ Widget senderBubble(ScreenUtil screenUtil, MessageModel message) {
               horizontal: screenUtil.setWidth(15),
               vertical: screenUtil.setHeight(10),
             ),
-            child: TextUtil.secondaryText(
-              text: message.message,
-              color: kTextTitle,
-              size: 10,
-            ),
+            child: message.messageType == 'TEXT'
+                ? TextUtil.secondaryText(
+                    text: message.message,
+                    color: kTextTitle,
+                    size: 10,
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      NetImage(
+                        height: screenUtil.setHeight(200),
+                        uri: message.mediaUrl,
+                      ),
+                      SizedBox(
+                        height: screenUtil.setHeight(10),
+                      ),
+                      TextUtil.secondaryText(
+                        text: message.message,
+                        color: kTextTitle,
+                        size: 10,
+                      )
+                    ],
+                  ),
           ),
         ),
         SizedBox(

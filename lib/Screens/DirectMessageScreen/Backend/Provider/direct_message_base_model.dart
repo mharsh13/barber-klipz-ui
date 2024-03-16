@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously, depend_on_referenced_packages
+
 import 'dart:io';
 
 import 'package:barber_klipz_ui/Models/message_model.dart';
+import 'package:barber_klipz_ui/global.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import "package:http_parser/http_parser.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -53,6 +58,8 @@ class DirectMessageBaseModel extends ChangeNotifier {
         );
 
         _chatImage = File(croppedFile!.path);
+      } else {
+        _chatImage = null;
       }
       notifyListeners();
     } catch (e) {
@@ -75,6 +82,8 @@ class DirectMessageBaseModel extends ChangeNotifier {
         );
 
         _chatImage = File(croppedFile!.path);
+      } else {
+        _chatImage = null;
       }
       notifyListeners();
     } catch (e) {
@@ -106,6 +115,37 @@ class DirectMessageBaseModel extends ChangeNotifier {
       print(e);
       _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
+    }
+  }
+
+  Future<String> uploadMedia(BuildContext context) async {
+    try {
+      String fileName = _chatImage!.path.split('/').last;
+      String url = '';
+      FormData formData = FormData.fromMap({
+        "media_type": "IMAGE",
+        "media": await MultipartFile.fromFile(
+          chatImage!.path,
+          filename: fileName,
+          contentType: MediaType(
+            "image",
+            'png,jpg,jpeg',
+          ),
+        ),
+      });
+      await _apiHelper
+          .postData(context: context, url: "chat/upload/media", data: formData)
+          .then((value) {
+        if (value != null) {
+          url = value['data'];
+        }
+      });
+      return url;
+    } catch (e) {
+      Global.logger.e(e);
+
+      ToastUtil(context).showErrorToastNotification("Something went wrong");
+      return '';
     }
   }
 
