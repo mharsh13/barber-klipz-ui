@@ -50,14 +50,15 @@ class _PostComponentState extends ConsumerState<PostComponent> {
                     borderRadius: BorderRadius.circular(50),
                     child: NetImage(
                       fit: BoxFit.cover,
-                      uri: widget.post.user.profile_image,
+                      uri: widget.post.user?.profile_image,
                     )),
               ),
               SizedBox(
                 width: screenUtil.setWidth(12),
               ),
               TextUtil.secondaryText(
-                text: widget.post.user.user_name,
+                text:
+                    widget.post.user != null ? widget.post.user!.user_name : "",
                 color: kTextBody,
                 size: 15,
                 fontWeight: FontWeight.w500,

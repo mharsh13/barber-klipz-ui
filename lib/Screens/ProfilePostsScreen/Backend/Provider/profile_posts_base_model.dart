@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:barber_klipz_ui/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,14 +23,14 @@ class ProfilePostBaseModel extends ChangeNotifier {
   final ScreenUtil _screenUtil = ScreenUtil();
   bool _loader = false;
   final ApiHelper _apiHelper = ApiHelper();
-  final List<UserPostModel> _allPosts = [];
+  final List<PostModel> _allPosts = [];
   bool _isLike = false;
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   bool get loader => _loader;
   ApiHelper get apiHelper => _apiHelper;
-  List<UserPostModel> get allPosts => _allPosts;
+  List<PostModel> get allPosts => _allPosts;
   bool get islike => _isLike;
 
   //api functions
@@ -46,7 +47,7 @@ class ProfilePostBaseModel extends ChangeNotifier {
         if (value != null) {
           List data = value["data"];
           for (Map<String, dynamic> post in data) {
-            _allPosts.add(UserPostModel.fromMap(post));
+            _allPosts.add(PostModel.fromMap(post));
           }
         }
       });

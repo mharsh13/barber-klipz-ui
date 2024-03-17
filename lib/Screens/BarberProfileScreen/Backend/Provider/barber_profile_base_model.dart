@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../Helpers/api_helpers.dart';
 import '../../../../Utils/toast_util.dart';
+import '../../../HomeScreen/Backend/Model/post_model.dart';
 import '../../../ProfileScreen/Backend/Models/user_post_model.dart';
 
 final barberProfileBaseModel =
@@ -22,14 +23,14 @@ class BarberProfileBaseModel extends ChangeNotifier {
   bool _loader = false;
   final ApiHelper _apiHelper = ApiHelper();
   UserModel? _userData;
-  final List<UserPostModel> _allPosts = [];
+  final List<PostModel> _allPosts = [];
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   int get currentValue => _currentValue;
   bool get loader => _loader;
   ApiHelper get apiHelper => _apiHelper;
-  List<UserPostModel> get allPosts => _allPosts;
+  List<PostModel> get allPosts => _allPosts;
   UserModel? get userData => _userData;
 
   //functions
@@ -59,7 +60,7 @@ class BarberProfileBaseModel extends ChangeNotifier {
         if (value != null) {
           List data = value["data"];
           for (Map<String, dynamic> post in data) {
-            _allPosts.add(UserPostModel.fromMap(post));
+            _allPosts.add(PostModel.fromMap(post));
           }
         }
       });

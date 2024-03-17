@@ -1,15 +1,12 @@
-import 'package:barber_klipz_ui/Screens/ProfilePostsScreen/profile_posts_screen.dart';
+import 'package:barber_klipz_ui/Screens/HomeScreen/Components/flicks_view.dart';
 import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
-import 'package:barber_klipz_ui/Utils/navigator_util.dart';
-import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../Resources/color_const.dart';
 import '../../../Utils/text_util.dart';
 
-Widget postsComponent(ScreenUtil screenUtil, ProfileBaseModel baseModel) {
-  return baseModel.getAllNonFlicks().isEmpty
+Widget flicksComponent(ScreenUtil screenUtil, ProfileBaseModel baseModel) {
+  return baseModel.getAllFlicks().isEmpty
       ? Padding(
           padding: EdgeInsets.symmetric(vertical: screenUtil.setHeight(20)),
           child: Column(children: [
@@ -43,7 +40,7 @@ Widget postsComponent(ScreenUtil screenUtil, ProfileBaseModel baseModel) {
       : GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: baseModel.getAllNonFlicks().length,
+          itemCount: baseModel.getAllFlicks().length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 1,
             crossAxisCount: 3,
@@ -52,14 +49,8 @@ Widget postsComponent(ScreenUtil screenUtil, ProfileBaseModel baseModel) {
             // mainAxisExtent: screenUtil.setHeight(136),
           ),
           itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                NavigatorUtil.push(context, screen: const ProfilePostScreen());
-              },
-              child: NetImage(
-                uri: baseModel.getAllNonFlicks()[index].media_url,
-                fit: BoxFit.cover,
-              ),
+            return FlicksView(
+              mediaUrl: baseModel.getAllFlicks()[index].media_url,
             );
           },
         );

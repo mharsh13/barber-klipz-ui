@@ -2,6 +2,7 @@ import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Screens/AccountSettingsScreen/account_settings_screen.dart';
 import 'package:barber_klipz_ui/Screens/FollowingListScreen/following_list_screen.dart';
 import 'package:barber_klipz_ui/Screens/ProfileScreen/Backend/Provider/profile_base_model.dart';
+import 'package:barber_klipz_ui/Screens/ProfileScreen/Components/flicks_component.dart';
 import 'package:barber_klipz_ui/Screens/SplashScreen/Backend/Provider/splash_base_model.dart';
 import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:barber_klipz_ui/Utils/net_image.dart';
@@ -394,41 +395,42 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   ),
                   baseModel.currentValue == 0
                       ? postsComponent(screenUtil, baseModel)
-                      : baseModel.currentValue == 1 ||
-                              baseModel.currentValue == 2 ||
-                              baseModel.currentValue == 3
-                          ? Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: screenUtil.setHeight(20)),
-                              child: Column(children: [
-                                Icon(
-                                  Icons.video_collection_outlined,
-                                  color: kHintText,
-                                  size: screenUtil.setSp(80),
-                                ),
-                                SizedBox(
-                                  height: screenUtil.setHeight(10),
-                                ),
-                                TextUtil.secondaryText(
-                                  text: "Your content has values!",
-                                  color: kBlack,
-                                  size: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                SizedBox(
-                                  height: screenUtil.setHeight(10),
-                                ),
-                                TextUtil.secondaryText(
-                                  text:
-                                      "Create your first piece of content\nand start making money.",
-                                  color: kBlack,
-                                  size: 14,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center,
+                      : baseModel.currentValue == 1
+                          ? flicksComponent(screenUtil, baseModel)
+                          : baseModel.currentValue == 2 ||
+                                  baseModel.currentValue == 3
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: screenUtil.setHeight(20)),
+                                  child: Column(children: [
+                                    Icon(
+                                      Icons.video_collection_outlined,
+                                      color: kHintText,
+                                      size: screenUtil.setSp(80),
+                                    ),
+                                    SizedBox(
+                                      height: screenUtil.setHeight(10),
+                                    ),
+                                    TextUtil.secondaryText(
+                                      text: "Your content has values!",
+                                      color: kBlack,
+                                      size: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    SizedBox(
+                                      height: screenUtil.setHeight(10),
+                                    ),
+                                    TextUtil.secondaryText(
+                                      text:
+                                          "Create your first piece of content\nand start making money.",
+                                      color: kBlack,
+                                      size: 14,
+                                      fontWeight: FontWeight.w400,
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ]),
                                 )
-                              ]),
-                            )
-                          : Container()
+                              : Container()
                 ],
               ),
             ),
