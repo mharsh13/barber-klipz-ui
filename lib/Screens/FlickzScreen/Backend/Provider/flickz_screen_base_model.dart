@@ -88,13 +88,11 @@ class FlickzScreenBaseModel extends ChangeNotifier {
           .then((value) {
         Loader.hide();
         if (value != null) {
-          print("--------------");
-          print(value);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
           // Navigator.of(context).pop();
-          // Navigator.of(context).pop();
-          // Navigator.of(context).pop();
-          // ToastUtil(context)
-          //     .showSuccessToastNotification("Post created successfully");
+          ToastUtil(context)
+              .showSuccessToastNotification("Post created successfully");
           // profileBaseModel.getAllUserPosts(context);
         }
       });
