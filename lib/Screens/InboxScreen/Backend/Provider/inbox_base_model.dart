@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:barber_klipz_ui/Screens/InboxScreen/Backend/Model/inbox_model.dart';
 import 'package:barber_klipz_ui/Utils/toast_util.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +52,6 @@ class InboxBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

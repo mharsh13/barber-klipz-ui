@@ -1,11 +1,8 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/HomeScreen/Components/post_component.dart';
 import 'package:barber_klipz_ui/Screens/ProfilePostsScreen/Backend/Provider/profile_posts_base_model.dart';
-import 'package:barber_klipz_ui/Utils/net_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import '../../Utils/navigator_util.dart';
 import '../../Utils/text_util.dart';

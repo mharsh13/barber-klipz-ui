@@ -37,7 +37,6 @@ class FollowingListBaseModel extends ChangeNotifier {
         _loader = false;
         _followingList.clear();
         if (value != null) {
-          print(value);
           List data = value["data"];
           for (Map<String, dynamic> user in data) {
             _followingList.add(FollowingModel.fromMap(user));
@@ -46,7 +45,6 @@ class FollowingListBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

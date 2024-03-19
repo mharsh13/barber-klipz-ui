@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:barber_klipz_ui/Screens/ViewAllCommentsScreen/Backend/Model/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -57,7 +59,6 @@ class ViewAllComentsBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

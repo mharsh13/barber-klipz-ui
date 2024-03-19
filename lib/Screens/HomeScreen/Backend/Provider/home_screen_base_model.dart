@@ -220,14 +220,12 @@ class HomeScreenBaseModel extends ChangeNotifier {
         if (value != null) {
           List data = value["data"];
           for (Map<String, dynamic> user in data) {
-            print(user);
             _allUsersWithStories.add(UserModel.fromMap(user));
           }
         }
       });
       notifyListeners();
     } catch (e) {
-      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

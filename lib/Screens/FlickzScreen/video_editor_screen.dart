@@ -180,8 +180,9 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
                                             child: GestureDetector(
                                               onTap: _controller.video.play,
                                               child: Container(
-                                                width: 40,
-                                                height: 40,
+                                                width: screenUtil.setWidth(40),
+                                                height:
+                                                    screenUtil.setHeight(40),
                                                 decoration: const BoxDecoration(
                                                   color: Colors.white,
                                                   shape: BoxShape.circle,
@@ -324,10 +325,9 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
             const VerticalDivider(endIndent: 22, indent: 22),
             GestureDetector(
                 onTap: () {
-                  print("-----");
                   baseModel.createFlickz(context, bottomBaseModel, profileBase);
                 },
-                child: Icon(Icons.save)),
+                child: const Icon(Icons.save)),
             // Expanded(
             //   child: PopupMenuButton(
             //     tooltip: 'Open export menu',
