@@ -23,14 +23,16 @@ class _ViewFlickzScreenState extends ConsumerState<ViewFlickzScreen> {
 
   @override
   void initState() {
+    final baseModel = ref.read(viewFlickzBaseModel);
+    baseModel.getAllUserFlickz(context);
     initialize();
     super.initState();
   }
 
   void initialize() {
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
-      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
-    ))
+    final baseModel = ref.read(viewFlickzBaseModel);
+    _videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse(baseModel.allPosts[0].media_url))
       ..initialize().then((_) {
         isLoading = false;
         setState(() {});
@@ -84,7 +86,7 @@ class _ViewFlickzScreenState extends ConsumerState<ViewFlickzScreen> {
             child: Swiper(
               containerHeight: screenUtil.screenHeight,
               itemHeight: screenUtil.screenHeight,
-              itemCount: 10,
+              itemCount: baseModel.allPosts.length,
               itemBuilder: (context, i) {
                 return ReelComponent(
                   videoPlayerController: _videoPlayerController!,
@@ -98,8 +100,7 @@ class _ViewFlickzScreenState extends ConsumerState<ViewFlickzScreen> {
                 isLoading = true;
                 setState(() {});
                 _videoPlayerController = VideoPlayerController.networkUrl(
-                  Uri.parse(
-                      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"),
+                  Uri.parse(baseModel.allPosts[index].media_url),
                 )..initialize().then((_) {
                     isLoading = false;
                     setState(() {});

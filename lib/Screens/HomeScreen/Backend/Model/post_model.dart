@@ -15,7 +15,7 @@ class PostModel {
   String created_at;
   String updated_at;
   bool liked;
-  AllUserModel user;
+  AllUserModel? user;
 
   PostModel({
     required this.id,
@@ -45,7 +45,7 @@ class PostModel {
       'created_at': created_at,
       'updated_at': updated_at,
       'liked': liked,
-      'user': user.toMap(),
+      'user': user?.toMap(),
     };
   }
 
@@ -62,7 +62,9 @@ class PostModel {
       created_at: map['created_at'] as String,
       updated_at: map['updated_at'] as String,
       liked: map['liked'] as bool,
-      user: AllUserModel.fromMap(map['user'] as Map<String, dynamic>),
+      user: map['user'] != null
+          ? AllUserModel.fromMap(map['user'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -70,6 +72,75 @@ class PostModel {
 
   factory PostModel.fromJson(String source) =>
       PostModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  PostModel copyWith({
+    String? id,
+    String? caption,
+    String? media_type,
+    String? media_url,
+    int? likes_count,
+    int? loves_count,
+    String? location,
+    int? comments_count,
+    String? created_at,
+    String? updated_at,
+    bool? liked,
+    AllUserModel? user,
+  }) {
+    return PostModel(
+      id: id ?? this.id,
+      caption: caption ?? this.caption,
+      media_type: media_type ?? this.media_type,
+      media_url: media_url ?? this.media_url,
+      likes_count: likes_count ?? this.likes_count,
+      loves_count: loves_count ?? this.loves_count,
+      location: location ?? this.location,
+      comments_count: comments_count ?? this.comments_count,
+      created_at: created_at ?? this.created_at,
+      updated_at: updated_at ?? this.updated_at,
+      liked: liked ?? this.liked,
+      user: user ?? this.user,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'PostModel(id: $id, caption: $caption, media_type: $media_type, media_url: $media_url, likes_count: $likes_count, loves_count: $loves_count, location: $location, comments_count: $comments_count, created_at: $created_at, updated_at: $updated_at, liked: $liked, user: $user)';
+  }
+
+  @override
+  bool operator ==(covariant PostModel other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.caption == caption &&
+        other.media_type == media_type &&
+        other.media_url == media_url &&
+        other.likes_count == likes_count &&
+        other.loves_count == loves_count &&
+        other.location == location &&
+        other.comments_count == comments_count &&
+        other.created_at == created_at &&
+        other.updated_at == updated_at &&
+        other.liked == liked &&
+        other.user == user;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        caption.hashCode ^
+        media_type.hashCode ^
+        media_url.hashCode ^
+        likes_count.hashCode ^
+        loves_count.hashCode ^
+        location.hashCode ^
+        comments_count.hashCode ^
+        created_at.hashCode ^
+        updated_at.hashCode ^
+        liked.hashCode ^
+        user.hashCode;
+  }
 }
 
 class AllUserModel {

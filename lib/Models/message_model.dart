@@ -9,6 +9,7 @@ class MessageModel {
   String receiverId;
   String message;
   String messageType;
+  String? mediaUrl;
   String createdAt;
   bool seen;
   MessageUser? sender;
@@ -23,6 +24,7 @@ class MessageModel {
     required this.seen,
     this.sender,
     this.receiver,
+    this.mediaUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,6 +34,7 @@ class MessageModel {
       'receiverId': receiverId,
       'message': message,
       'messageType': messageType,
+      'mediaUrl': mediaUrl,
       'createdAt': createdAt,
       'seen': seen,
       'sender': sender?.toMap(),
@@ -46,6 +49,7 @@ class MessageModel {
       receiverId: map['receiverId'] as String,
       message: map['message'] as String,
       messageType: map['messageType'] as String,
+      mediaUrl: map['mediaUrl'] != null ? map['mediaUrl'] as String : null,
       createdAt: map['createdAt'] as String,
       seen: map['seen'] as bool,
       sender: map['sender'] != null

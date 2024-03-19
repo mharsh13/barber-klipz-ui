@@ -41,13 +41,13 @@ class ChatBaseModel extends ChangeNotifier {
   }
 
   void emitMessage(String message, String senderId, String receiverId,
-      BuildContext context) {
-    print('HERE');
+      BuildContext context, String? mediaUrl, String type) {
     Map payload = {
       'message': message,
       'senderId': senderId,
       'receiverId': receiverId,
-      'messageType': 'TEXT'
+      'messageType': type,
+      'mediaUrl': mediaUrl,
     };
     try {
       socket!.emit('message', payload);

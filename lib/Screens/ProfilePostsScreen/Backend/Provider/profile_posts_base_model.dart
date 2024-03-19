@@ -9,7 +9,6 @@ import '../../../../Helpers/api_helpers.dart';
 import '../../../../Resources/color_const.dart';
 import '../../../../Utils/toast_util.dart';
 import '../../../HomeScreen/Backend/Model/post_model.dart';
-import '../../../ProfileScreen/Backend/Models/user_post_model.dart';
 
 final profilePostBaseModel =
     ChangeNotifierProvider((ref) => ProfilePostBaseModel(ref));
@@ -22,14 +21,14 @@ class ProfilePostBaseModel extends ChangeNotifier {
   final ScreenUtil _screenUtil = ScreenUtil();
   bool _loader = false;
   final ApiHelper _apiHelper = ApiHelper();
-  final List<UserPostModel> _allPosts = [];
+  final List<PostModel> _allPosts = [];
   bool _isLike = false;
 
   //getters
   ScreenUtil get screenUtil => _screenUtil;
   bool get loader => _loader;
   ApiHelper get apiHelper => _apiHelper;
-  List<UserPostModel> get allPosts => _allPosts;
+  List<PostModel> get allPosts => _allPosts;
   bool get islike => _isLike;
 
   //api functions
@@ -46,7 +45,7 @@ class ProfilePostBaseModel extends ChangeNotifier {
         if (value != null) {
           List data = value["data"];
           for (Map<String, dynamic> post in data) {
-            _allPosts.add(UserPostModel.fromMap(post));
+            _allPosts.add(PostModel.fromMap(post));
           }
         }
       });
