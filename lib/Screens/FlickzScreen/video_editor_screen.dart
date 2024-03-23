@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:barber_klipz_ui/Resources/color_const.dart';
 import 'package:barber_klipz_ui/Screens/BottomNavigationBarScreen/Backend/Provider/bottom_navigation_bar_base_model.dart';
 import 'package:barber_klipz_ui/Screens/FlickzScreen/Backend/Provider/flickz_screen_base_model.dart';
+import 'package:barber_klipz_ui/Screens/FlickzScreen/add_flickz_caption_screen.dart';
+import 'package:barber_klipz_ui/Utils/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_editor/video_editor.dart';
@@ -323,11 +325,17 @@ class _VideoEditorState extends ConsumerState<VideoEditor> {
               ),
             ),
             const VerticalDivider(endIndent: 22, indent: 22),
-            GestureDetector(
-                onTap: () {
-                  baseModel.createFlickz(context, bottomBaseModel, profileBase);
+            // GestureDetector(
+            //     onTap: () {
+            //       baseModel.createFlickz(context, bottomBaseModel, profileBase);
+            //     },
+            //     child: const Icon(Icons.navigate_next_sharp)),
+            IconButton(
+                onPressed: () {
+                  NavigatorUtil.push(context,
+                      screen: const AddFlickzCaptionScreen());
                 },
-                child: const Icon(Icons.save)),
+                icon: const Icon(Icons.navigate_next_sharp))
             // Expanded(
             //   child: PopupMenuButton(
             //     tooltip: 'Open export menu',

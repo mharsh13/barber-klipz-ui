@@ -174,6 +174,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
           .then((value) async {
         Loader.hide();
         if (value != null) {
+          print(value);
           if (value["token"] != null) {
             SharedPreferenceUtil.setJwt(value["token"]);
             ToastUtil(context)
@@ -188,6 +189,7 @@ class LoginSignUpBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
+      print(e);
       Loader.hide();
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }

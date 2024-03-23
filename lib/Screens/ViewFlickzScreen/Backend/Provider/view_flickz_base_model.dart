@@ -43,6 +43,7 @@ class ViewFlickzBaseModel extends ChangeNotifier {
         _loader = false;
         _allPosts.clear();
         if (value != null) {
+          print(value);
           List data = value["data"];
           for (Map<String, dynamic> post in data) {
             _allPosts.add(PostModel.fromMap(post));
@@ -51,6 +52,7 @@ class ViewFlickzBaseModel extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
+      print(e);
       _loader = false;
       ToastUtil(context).showErrorToastNotification("Something went wrong");
     }
