@@ -29,17 +29,36 @@ class _ViewFlickzScreenState extends ConsumerState<ViewFlickzScreen> {
     super.initState();
   }
 
+  // void initialize() {
+  //   final baseModel = ref.read(viewFlickzBaseModel);
+  //   _videoPlayerController = VideoPlayerController.networkUrl(
+  //       Uri.parse(baseModel.allPosts[0].media_url))
+  //     ..initialize().then((_) {
+  //       isLoading = false;
+  //       setState(() {});
+  //     });
+  //   if (_videoPlayerController != null) {
+  //     _videoPlayerController!.play();
+  //     _videoPlayerController!.setLooping(true);
+  //   }
+  // }
+
   void initialize() {
     final baseModel = ref.read(viewFlickzBaseModel);
-    _videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse(baseModel.allPosts[0].media_url))
-      ..initialize().then((_) {
-        isLoading = false;
-        setState(() {});
-      });
-    if (_videoPlayerController != null) {
-      _videoPlayerController!.play();
-      _videoPlayerController!.setLooping(true);
+    if (baseModel.allPosts.isNotEmpty) {
+      _videoPlayerController = VideoPlayerController.networkUrl(
+          Uri.parse(baseModel.allPosts[0].media_url))
+        ..initialize().then((_) {
+          isLoading = false;
+          setState(() {});
+        });
+      if (_videoPlayerController != null) {
+        _videoPlayerController!.play();
+        _videoPlayerController!.setLooping(true);
+      }
+    } else {
+      _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"));
     }
   }
 
